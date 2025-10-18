@@ -1,0 +1,71 @@
+---
+id: list-allowed-subresource-types-for-a-resource-type
+title: "List allowed subresource types for a resource type"
+description: "List allowed subresource types for a resource type"
+sidebar_label: "List allowed subresource types for a resource type"
+hide_title: true
+hide_table_of_contents: true
+api: eJy9Vt2O2kYUfpWjo14AsfEmrSrVdw7xbmkJrMDbqN2laPAczCT2jDMzZrNFlvoQfcI+STXDT1iyVZJelAsw4/PznW/O3xYtKwzGt5jwSkj4+8+/IMlzMgauNJPW4DxAQ3mjhX3A+HaLL4lp0klj1xjfztt5gDXTrCJL2ngBITHGmtk1BihZRRijJqManVP2UBMGqOl9IzRxjK1uKEBOJteitkI51VeqYkLCQQdyxQk640kGDCxblgTOajcA6hf9AAbJLA1gMBqm4yyAyfRqcTMeZgEk02w4GKUBDMe/TIaDNIDk+noyHGev03HWxwBNvqaKYbxF62DFaKwWskAXkLWkHZbfb5Pwt7n7ugh/WMx732DrItZkaiUNGaf94uLC/TwOYvIzBpgraUla95bVdSly5t5Gb40T2X4KQC3fUm4dAK1q0lbsHHBmT6WY1uwBAxSWKvN57VPuB4rTUwHTB1bVpTvak4WtQ/854dFwnC6GWfraie+u+ly8DVDwS6UrZp+0JZvKJZ+Q9vvvMMCmEdxdze793GmbJLdic2p6qVRJTHqMmpglnjxpfLV36wik0IqKnEpT869TaQO0wvqAp3suZ83Sa7b7z3kKj4SxwMpS3RMH0yyPuey0DKyUBgaPDjHAiuxacYyxILtLwjXGGDFXl9FBOPQWou3prbaR2eExjjrSm0MlNrrEGNfW1iaOIlaL/v7u+rmqos1zbE+Ke+aycZcypyV+5MiZOVSNvwUvhMH+4XDH+NObzHMm5Ep59T13I3YPl0JXsGs011pthBFKCllAcj2EzkgVVoUVk6wgDtOXyaCLAbpgdqQ+73/bv8Bzqr21cMVyZ4ckr5WQ1oBVsMsNOPg1AdQHn+7wgbSBTnKT/bi4maXTGTyDy+H0tf+zuJ5OLoej1B0q74mVMEre/JpOF6PhIB3P0lk3uJNMctgBhl7PIYaNYOAD6fWgo3TBpPjDV70JoKJqSdoEoHQRalUSLIXkQham24ekruEdUW0+OlwJSWGhmZCOj3Q2uZkO0kUyGKSz2eJqmoyzWf9O3snN8/6L/gUwzk18J0O4SjPYpw1r7DpsjA/VENP5GpYPUDqAN4b0kEdUMVF2HV8upcoNgZCu+bESnB4I3j+zWbL7cOUIjbYlu3fUDnkbeSfRtvFW24/5WqtS5IIMdGi1Il/KsBJUcji86XoHnck+7O5X+8pZzZaiFNa7YUWhqXA3b3Llqu3Z0RM8g5wZGnIwZL1fT963p+T1erOmrpW2hzHYYbkNmen2ejEYy7SNSmFsVJCNNG3UOwKzVtqGpdgQBw8bzN6EIePSzYBdMwuabKMlMOBUeoQcrHpHMr6TACFcT2bHuPcGQuYxRG5gkrFmJ+j4+RfBg8MvFoy2grc76VfpKM3SL5N3jbRWxlbMT7L9mP9Pbe9ROR+7jaUPNqpLJrwr38i2+5Z4ix6h3yNOmyIGGJ8tGse+OA9wrYx1ytvtkhm60WXbuuP3DWm32MwD3DAt3H7heycXxj1zjFesNOdLyvbjbMfOdL/OdOH/Wl2eJOmwHki3HGxY2bh/GOA7ejhfwVo3WdfEOGkf7E7EJXxtT5Q/WVrcvDiOqas0wwDZ4ylxNhW89SeBbbc7icxVQNsecfqKcADb9h/Gvp03
+sidebar_class_name: "get api-method"
+info_path: docs/admin-api/law-firm-admin-provisioning-api-logto-managed-rbac
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"List allowed subresource types for a resource type"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/admin/resource-types/{resourceType}/subtypes"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+List allowed subresource types for a resource type
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"in":"path","name":"resourceType","required":true,"description":"Domain resource code (NOT a table name), e.g., CASE, CLIENT, ORG_UNIT, ARTICLE, INVOICE, APPOINTMENT.","schema":{"type":"string","pattern":"^[A-Z][A-Z0-9_]*$"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"OK","content":{"application/json":{"schema":{"type":"object","properties":{"data":{"type":"array","items":{"type":"object","properties":{"resourceTypeCode":{"type":"string","example":"INVOICE"},"code":{"type":"string","example":"LINE_ITEM"},"name":{"type":"string"},"idFormat":{"type":"string","enum":["int64","uuid","string"]},"isActive":{"type":"boolean"},"createdAt":{"type":"string","format":"date-time"},"updatedAt":{"type":"string","format":"date-time"}},"title":"ResourceSubtype"}}}}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

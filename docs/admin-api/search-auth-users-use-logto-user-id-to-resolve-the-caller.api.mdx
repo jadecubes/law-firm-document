@@ -1,0 +1,71 @@
+---
+id: search-auth-users-use-logto-user-id-to-resolve-the-caller
+title: "Search auth users (use logtoUserId to resolve the caller)"
+description: "Search auth users (use logtoUserId to resolve the caller)"
+sidebar_label: "Search auth users (use logtoUserId to resolve the caller)"
+hide_title: true
+hide_table_of_contents: true
+api: eJylVlFv2zYQ/isHPgyJK1tJi73ozc2cLkPWBHayYkiM4CydZTYUqZInJ6khYD9iv3C/ZDjKTt3E7VLML5bEu++Odx8/3koxlkFlV2pYVNrCP3/9DZeBfICf4BTvHsgHNU1UoLzxmh9UdrVSbwk9+WHDC5VdTdtpomr0WBGLsRhoqzL1qSH/oBJlsSKVKeNKdoJ8UqhEhXxBFapspfihluXAXttStW2y250q1OY7jomaO18hP5p+E6nGkq5sU83IT3cBastUkleJqrTVVVOp7DBRBc2xMayyw+8DB/2ZfgC2wvvu+fXBwVaQnw9aKaunUDsbKAjO64MD+Sso5F7XrJ2kMKbQGA6w1wQCXhDMtQ8MFXK+AHbgZozaQhPrDnPnITSzQJ8asgw5GhP2VaJyZ5ksCzzWtdE5Cnz6MUiM1fO9uNlHylklqvauJs+6y7BA3rZC71HKo5mq8N/euthBh+Qr3uzoum2MwZkhlbFvqN00YwdQR4sXEGdt+gd5Pde0HXXmnCG0u8LqMMxZL2mn9WNf18a5J2QqhvzddApk6rOuSFJq6uLHXNpEsWbJUMlJlQrGjxXxC1opXN5B3jZRQvDdK+wYza6lzS95Qt4Joc8XgA0vIkPXNN7quFDYU3Bm2bFbGEteKFsRL1yhMlVSzB5FjFSKImKpIPYjopxE8suNMDXeqEwtmOuQpSnWekD3WNWGBrmr0uWhare0biK078qxrXiP+xOYzUmP/Y5GKlk/HG+a8tuHi1h5becuuq/bcop3cKx9BZ3ynnu31EE7q20Jw/MT2DuVQvQrtFhSAeO3wyPZuWymq9/h4M3gQD2takTrzzEXHLJF7bTlIJXsaAebuCGBehNzo/WwN7y8+PXmcjIaT+AVHJ+Mf48vN+fjs+OT05F8dDESGjgdfvhzNL45PTkavZ+MJvvJtUVbQJcw9HqSMSw1QtxIrwd7zpdo9ecoLyGBikSFQwLOl33vDMFM20LbMuwPYFjXcEtUhy8B59pSv/SordRjNDm7HB+NboZHR6PJ5ObdePj+YjK4ttd2eTh4PTgALIqQXds+vBtdwDNqwF7o+Dd72KZcGg///jbzhMhe4osf6GLwBNPgXX8uBU1XBu+ktCdFm8Yg6aqT3jYVsMbn1K+d0bmmAHs0n1MUDZhrMgVsVvZjgL2z9bb3fzhWjjXOtNEcw2BZeiql8yF3NQV49RgJXkGOgU4KCMQxbizem+3i9XqTpq6dZxjmOQUBzLmPYb/XyyAwek6NDpyWxKmnpbslCAvnuW/0kgqIaUNYQwQKQrcAvEAGT9x4CwgFmZihHPhbstm1BejD+dnkcd9rgD7GHFIvV1jg0BlKfb5huAn4YsN0pYu2s/5ldDq6GL3MXgSwdoErjFfmeiT4Pwr31al+FB2me05rgzpGjHq2WqvflYqJqkRt6d80UQsXWFZXqxkGuvSmbeVzN72IKhY6yF1WqGyOJlCibunh2cS2RNNIAkrGn294bIa0l9g+GcNe7LIZsL44TOXF6+46vpq2iVoQFuTj3jpPYW7NW17PxhxBebxT3o0u1lXcvs6/lveIvpl07MMW9mrVWVwIldtWbdKP1FbttG3bfwHyVO3z
+sidebar_class_name: "get api-method"
+info_path: docs/admin-api/law-firm-admin-provisioning-api-logto-managed-rbac
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Search auth users (use logtoUserId to resolve the caller)"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/admin/auth-users"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Search auth users (use logtoUserId to resolve the caller)
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"in":"query","name":"logtoUserId","schema":{"type":"string"}},{"in":"query","name":"email","schema":{"type":"string","format":"email"}},{"in":"query","name":"page[number]","schema":{"type":"integer","minimum":1,"default":1}},{"in":"query","name":"page[size]","schema":{"type":"integer","minimum":1,"maximum":200,"default":50}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Results (use the first match to obtain userId for subsequent calls)","content":{"application/json":{"schema":{"type":"object","properties":{"data":{"type":"array","items":{"type":"object","properties":{"id":{"type":"string"},"logtoUserId":{"type":"string","nullable":true},"name":{"type":"string"},"email":{"type":"string","format":"email"},"emailVerified":{"type":"boolean","nullable":true},"isActive":{"type":"boolean","default":true},"createdAt":{"type":"string","format":"date-time"},"updatedAt":{"type":"string","format":"date-time"}},"title":"AuthUser"}},"meta":{"type":"object","properties":{"page":{"type":"integer"},"size":{"type":"integer"},"total":{"type":"integer"}}}}}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

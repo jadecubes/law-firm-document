@@ -1,0 +1,71 @@
+---
+id: list-law-firms
+title: "List law firms"
+description: "List law firms"
+sidebar_label: "List law firms"
+hide_title: true
+hide_table_of_contents: true
+api: eJyVVm1v2kgQ/iur+RSowaTVffE3miM9TlwTAVF1SlA0eAezjb3r7o5JKbLUH3G/8H7JaddAaEJyCV/AO88888LM490AY+YguYa+LJQW//78R4zwXpwrWziYReAoraziNSTXG/hIaMn2K15Ccj2rZxGUaLEgJusCQGlI4FtFdg0RaCwIEigxo2tdFXOyM4jApUsqEJIN8Lr0dqWZMrIQQaG0KqoCktMIJC2wyhmS07qOXiB26ge9gbbA783v973eQZDferWvxpIrjXbkPM/7Xs9/SXKpVSUr41O4xIykWITuRJAazaTZw7Asc5Wih8VfncdunuZk5l8pZYigtKYky6qJJJEPUWgt+jIVU+H+31vJA4xjq3QG9a5JRwwur7KjBpTSknNPbRHoKs9xnhMkbCuqIyiXRh+hP4KkAlV+DLkwtkCGZIs44urbiym/LqPcZGwubDY80o7n4JO1Tkn2+cX0JDJ1WBV0NEVLyG+gqCOoSvk2lzoCVuyDwgjv/WaGs4L4FbPll+TIVvg5UD+esbBhzI+Zdp/o0VaMlGOR4/1+MQripZGQQEYhJfSKATF6jYlzvO/sgI7saicelc0hgSVz6ZI4xlJ16TsWZU7d1BTx6hTqAz2a+N1qSjxUpX3OnmYnC/55HkAQbX+c7/r855dp6KbSCxPcHzodRFA0unhpzUo5ZbTSmehfDsXJyA9Qp0AdFGH8sX/Wggh8MU1PTrsfuj143KnA1llg6nlIy9IozU6wEc0kPYhvJMpdTH+4JuvESf9q+sft1WQwnoh34nw4/is83F6OL86Ho4E/NCES5mLU//L3YHw7Gp4NPk8Gk1Z0o1FL0SQs2m2fsVgpFKGQdlucGJuhVj+ChrlIFOQl20XC2KxjTU5irrRUOnOtruiXpbgjKt1DwIXS1MksKu37MZhcXI3PBrf9s7PBZHL7adz/PJ10b/SNXp1233d7AqV0yY3uiE+DqdhOBla87FQulOoIbboU87UIq3rlyA5lHLSi5ftlyZl8RcIPp/XxvZ9QsvuIcz9t8SZvtmco6zgEiTdVYK1jT1bZlDqlyVWqyIkTWiwoZbUisVCUS7GztEKAk4tt2a03x0qxxLnKFYcwmGWWMv/Pu9SU5MS7fSTxTqToaCiFIw5xQ/M+HDav3Z5UZWksi36akvOEKXfQtdrtRDhGy3GuHMcZcWxpZe5IuKWx3MnViqQIaQu3pXDk/Lg5wUtkYYkrqwUKSXnIUAo2d6STGy1ER1xeTPZ1bwk6GHKILX2ryLFrgL4/zwB3AV8NjDdK1g3698FoMB28Du9FrTSOCwzv5e394Ylq/bKqeyVh+s5xmaMKNEGkNltFu4YQHSJ40LRZBEvj2Bs3mzk6urJ5Xfvj5vrilU4q598iEpIF5o4iuKP105vSCvPKJwD+AvSSy+4O9OAw8w9WNa+q61kdwZJQkg3RG08/LyUfeD25wXiWvZB/GkwhAvxVZB+JamDfXWL0+oB7s2kQUz9AdQ279MNAQT2r6/o/XvidCg==
+sidebar_class_name: "get api-method"
+info_path: docs/admin-api/law-firm-admin-provisioning-api-logto-managed-rbac
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"List law firms"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/admin/law-firms"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+List law firms
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"in":"query","name":"page[number]","schema":{"type":"integer","minimum":1,"default":1}},{"in":"query","name":"page[size]","schema":{"type":"integer","minimum":1,"maximum":200,"default":50}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Paged firms","content":{"application/json":{"schema":{"type":"object","properties":{"data":{"type":"array","items":{"type":"object","properties":{"id":{"type":"string"},"name":{"type":"string"},"slug":{"type":"string"},"address":{"type":"string","nullable":true},"phone":{"type":"string","nullable":true},"email":{"type":"string","format":"email","nullable":true},"contacts":{"type":"string","nullable":true},"logtoOrgId":{"type":"string","nullable":true},"logtoSyncedAt":{"type":"string","format":"date-time","nullable":true},"createdAt":{"type":"string","format":"date-time"},"updatedAt":{"type":"string","format":"date-time"}},"title":"LawFirm"}},"meta":{"type":"object","properties":{"page":{"type":"integer"},"size":{"type":"integer"},"total":{"type":"integer"}}}}}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

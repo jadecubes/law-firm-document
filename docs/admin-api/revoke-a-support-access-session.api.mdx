@@ -1,0 +1,71 @@
+---
+id: revoke-a-support-access-session
+title: "Revoke a support access session"
+description: "Revoke a support access session"
+sidebar_label: "Revoke a support access session"
+hide_title: true
+hide_table_of_contents: true
+api: eJyVVdtu2zgQ/ZXBPNmubPX2pDc363S9yDaBnaBYJEEwFscyG4lkScqpKwjYj9gv3C9ZkJJdJ82i7ZMuHM45PJw506CnwmF2jVNRSQX//v0PLGtjtPUwzXN2Dm8TdJzXVvodZtcNvmOybKe132B2fdveJmjIUsWerYsBUmGGhvwGE1RUMWYoBSZo+XMtLQvMvK05QZdvuCLMGvQ7E6Kct1IV2Iaclp3RyrEL669fvg0PwS630nipA8IHDSdaeVYe2wTfPhcys1ZbMLQrNQUGeR+fNUjGlDKnEJh+ciG6+Z6QXn3i3GOCxmrD1suOTq4FP0M7wYqdo+L5NcGeZOmO1sha2mGC0nPlfoy6llyKX4Rt27bTnZ2fP7e5Pb6W6+5k3xLeJuilL3kv5aK/lJg4nulY7QVv9T0DgesLiGIBgWPnQkTI6zdaYIaCS/YBKZZJhimF6kv7jeNuY9pvdGkjRYuhDO12X2S1LTHDjffGZWlKRk74C1Wm5Emuq3T7Ctujul2Gi+1UPK7egxohDfYFGb5XMQiT/uVU24o8ZvjHx8somVRrHbf34pzRA5xKW0HXRBdWb2VgLlUB04s5DM504fW4IkUFC1i8m54MMcFwmE66V5M3k5f4VNCYbbymPORhJYyWyjvwGnLL5Bn2uC4Bs8cMP3dsHQymV5e/310tZ4slvIDT+eLP+HF3sTg/nZ/Nwk8dkaiEs+nHv2aLu7P5yezDcrYcJjeKlICOMIxGgTFsJUE8yGgEA20LUvJrbCCXQMXViq1LQNtibHXJsJJKSFW44QSmxsA9s3HfANdS8biwJFXQY7Y8v1qczO6mJyez5fLu/WL64XI5uVE3avtq8nryEkgIl92oMbyfXUJfLFT7zbh28aiOyeYbWO2gDASvHNu5SLkiWQ6DXpadLrcMUnm2AT/sAykmT3KW9DBeB0HTpqSHIO1ctGkESZs6Zm3TkKy2OY+NLmUu2cGA12vOvdwyxC6F/cowAgzO+2MPfxkrJ0MrWUofYagoLBfh5l2uDTt4cUCCF5CT47kAxz7iRvHeHIs3Gj22dhhQ7sfkhqNRBs6T9WkpnU8L9qntmtltQj+WcssCIu1Dc++bE/yGPFj2tVVAEDo7MBTg9T2r7EYBjOHifHk495Mm793JdYFBn/8J3AP+dGC0jS76t9nZ7HL2c/HBUY12vqI4FPoJ9mNze9S7B2vx/MWnpiQZ80bXanrXu8ZIJxjPI0LR6TpKmGAmRfDhjXY+bGmaFTm+smXbht+fa7ZhLN8muCUraRX86LpBIV14F5itqXT8HbvDJMTBovf/IWDyPOv9vFJhWm2prMMXJnjPu262t7dtghsmwTaidwuhyIw/2vLdzA0efZgJ3R1hgvTYnJ+YcQR4llHTdBGXofDa9kAwFmLg2Lb/ATDnFJc=
+sidebar_class_name: "delete api-method"
+info_path: docs/admin-api/law-firm-admin-provisioning-api-logto-managed-rbac
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Revoke a support access session"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"delete"}
+  path={"/admin/support-access/sessions/{id}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Revoke a support access session
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"in":"path","name":"id","required":true,"schema":{"type":"string"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"204":{"description":"No Content"},"404":{"description":"Error payload","content":{"application/json":{"schema":{"type":"object","properties":{"code":{"type":"string"},"message":{"type":"string"},"details":{"type":"array","items":{"type":"object","properties":{"field":{"type":"string"},"message":{"type":"string"}}}},"requestId":{"type":"string"}},"required":["code","message"],"title":"ErrorResponse"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

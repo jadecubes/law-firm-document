@@ -1,0 +1,71 @@
+---
+id: remove-a-member-from-the-firms-logto-org
+title: "Remove a member from the firm's Logto org"
+description: "Remove a member from the firm's Logto org"
+sidebar_label: "Remove a member from the firm's Logto org"
+hide_title: true
+hide_table_of_contents: true
+api: eJy9Vs1u4zYQfpXBXBp7ZWv/Trp5U2XrIt0EdoJFkRjBWBrL3Egkl6ScdQUBfYg+YZ+kICV7ncRFN5eebJHD+b4ZfjPDBh0VFpMbnOSVkPD3n3/BuSqcgg9G5AXjIkLLWW2E22Jy0+AHJsNmUrs1JjeLdhGhJkMVOzY2GAiJCWpya4xQUsWYYEkPZ8JU0xwjNPy1FoZzTJypOUKbrbkiTBp0W+2NrTNCFti20XFfnty1ZfNCbwtvbLWSlq3ff/v6vf/J2WZGaCeUh/qk4FRJx9JhG+H7YyapMcqApm2pyDPIevukQdK6FBl5w/iL9dbNc0Jq+YUzhxFqozQbJzo6mcr5CO0IK7aWiuN7OTsSpT3YI2NoixEKx5X9b9SV4DJ/IWzbtl3e2brpscPt4bXcdJF9d7iI0AlX8i6Vs/5SguMQ02G2Z1ypDQNBxdWSDayMqsCtGVbCVD/ZXqrKFAHBrVWOCeZcsvOYQTkJxuSlHQflxMoUNm72imzjzrNf+66sFr3qzWan6dqUmODaOW2TOCYtxvyNKl3yOFNVvHmD7UGZzP2Vd/k9LJZ9nrwb7KXqv5fBCKP+z5kyFTlM8NfPVyGZQq5UON6n7ZwewJOHrmIvjdoIK5QUsoDJ5RROQlJGFUkqOIfZh8npACP0wXRJfTN+N36NT1MdvI1WlHk/LHOthHQWnILMMDmGHa6NQO8w/eKWjYWTyfXVL3fX83Q2h1dwNp39Fj7uLmcXZ9Pz1C+qgEQlnE8+/57O7s6np+mneTofRLeSZA4dYRgOPWPYCOpudziEE2UKkuKPUFo26sVgI3/xI6NKhqWQuZCFHYxhojXcM2v7HXAlJI8KQ0L6fKTzi+vZaXo3OT1N5/O7j7PJp6v5+Fbeys2b8dvxa6A8t8mtHMHH9Ap68VDt1qPahlAtk8nWsNzCgWRirkiUA58vw1aVGwYhHRuP78+ByMdPfJb0MPI6fqzHABI3dSfE2DurTcYjrUqRCbZwwqsVZ05sfBVwmcNuZxAATi76sAcvxspI01KUwgUYKgrDhb95mynNFl7tkeAVZGR5moNlF3BD8t4dJm84nNdaK+NgkmVsvcPMjcgOhsMErCPj4lJYFxfsYsMbdc9g18q4USk2nEOgDbZ3Ydl6uVlwa3Jg2NVGAoGvdM8wB6fuWSa3EmAElxfzfdy9gxEFDnHft2xn6PPzL4Y7wB82jBuRt531z+l5epX+mL3vtVpZV1EYF/2Qe0nbe1TF+ybj+JuLdUkiIIT+1fT98AYDMYy6WYoR+p6IESaHc7qvsbB8MHIXEa6Vdd5L0yzJ8rUp29Yvf63Z+CfCIsINGUFL36xuGsyF9f9zTFZUWn5GeD9A8WTWj40BYHQ8kN2Yk37Ibais/RdGeM/bR+8M/3j4P4EPMtQu2gjXTDmbEH9n4WtAu4Ozzx4LfoTsR1gnIYyQHs+OJ7MiAByl1jSdxZWvi7bdMw114jm27T9S0G3m
+sidebar_class_name: "delete api-method"
+info_path: docs/admin-api/law-firm-admin-provisioning-api-logto-managed-rbac
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Remove a member from the firm's Logto org"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"delete"}
+  path={"/admin/logto/orgs/{lawFirmId}/members/{logtoUserId}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Remove a member from the firm's Logto org
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"in":"path","name":"lawFirmId","required":true,"schema":{"type":"string"}},{"in":"path","name":"logtoUserId","required":true,"schema":{"type":"string"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"204":{"description":"No Content"},"404":{"description":"Error payload","content":{"application/json":{"schema":{"type":"object","properties":{"code":{"type":"string"},"message":{"type":"string"},"details":{"type":"array","items":{"type":"object","properties":{"field":{"type":"string"},"message":{"type":"string"}}}},"requestId":{"type":"string"}},"required":["code","message"],"title":"ErrorResponse"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

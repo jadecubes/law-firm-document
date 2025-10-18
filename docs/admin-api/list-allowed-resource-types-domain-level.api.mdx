@@ -1,0 +1,63 @@
+---
+id: list-allowed-resource-types-domain-level
+title: "List allowed resource types (domain-level)"
+description: "List allowed resource types (domain-level)"
+sidebar_label: "List allowed resource types (domain-level)"
+hide_title: true
+hide_table_of_contents: true
+api: eJyVVcFuGzcQ/ZXBnCyFq3WSogfd1u7aVatGhiQjKGzBGC1HK8a75IbkylGFBfoR/cJ+SUFKchQjbRNdJJEz84aPj2926Kl0OLzDTNZKw99//gVZUbBzcG1Je4cLgY6L1iq/xeHdDi+YLNus9Wsc3i26hUDLrjHascPhDt+cn4cvya6wqvHKaBzi5FcUWBjtWfuwS01TqYLCbvrBhZAdumLNNYVfftswDtEsP3DhUWBjTcPWqz2AJH8aRdbSFgUqz7X7/+zCSD6Jct4qXaJA/kR1U4Wly2yWYydQU/2VyE6gK0zD87j6lTq6rQOb1+PJRTZGgVej6W8ocDK9frh9N5qj2AMsOoFKXhlbk/+vOkr7H39AgW2rJIrjfsx2WeHV5rSLpTEVkw5NFpbJs8y+Wnx1gA1ccuJVzSGlbeT3pXQCvfKRtCk709piT0t3+IgXKhgr54GqyjyxBHvIgIDk4EyampROKt5w1UOBNfu1kTjEkuMtUtAbphRUmh6Tk5gceGG7YeuiQFtb4RDX3jdumKbUqMHhcgeFqdPNa+xOJD0LqttL41TYzwSEMqF+DAsUxyAUhx/HC8Rf3s8jIUqvTEw/EDOmJ7hStob987qxZqOcMlrpErKbEZyNTelNUpOmkiVML7LLcPpwmD1prwdvB+f4kspYLVlREeqwlo1R2jvwBvYXD0dcJ6A5YobFLVsHZ9nt/OeH21k+ncErCAqNfx5uppOr0TgPiyYiUQXj7P3v+fRhPLrM383yWU/ca9IS9g1Dvx86ho0iiAfp9+HM2JK0+iO+bieg5nrJ1gkwtkysqRiWSkulS9cbQNY08MjcuM+AK6U5KS0pHfjIZ5Pb6WX+kF1e5rPZw/U0ezefDe71vd68HrwZnANJ6Yb3OoHrfA4HeVDr10nr4lEdky3WsNxCFRq8dWxHMuWaVNULfAUpVRsGpT3bgB/yQMnBi5oVPSWrQGi6q+gpUDuSXRpB0l0bq3afddmYShUq6JpXK47vFFaKKwnHnV4EOJscjt37bqyCGlqqSvkIQ2VpuQw3H+3JwatnJHgFBTkeSXDsI24k7+0pef3+rG0aY/3R/M+o8Am5Xr8/BOfJ+rRSzqcl+9TyxjwyuLWxPqnUhiXEtsEdSjh2QW4O/Jo8WPat1UAguYodSvDmkfXwXgMkcDOZPZ/7UCCh2ENq+WPLzrt9YODnXwKPgN8cmO6U7PbRP+XjfJ5/W3xwycY4X1OcWPsJ8X229sUzfnYZz5982lSkIkQ0sN3B8u4wdoZxzJ6a3kLg2jgfIna7JTm+tVXXheWPLdswqxcCN2QVLYMT3YWZsWaSbKNLPvI2+EhRcBP8dUNVG8fpy8kczPLZi6/zMMDoS4t8YYmx+nE46+1J7d1uHzEP1991KA5NRDlgt+i67h8idu9O
+sidebar_class_name: "get api-method"
+info_path: docs/admin-api/law-firm-admin-provisioning-api-logto-managed-rbac
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"List allowed resource types (domain-level)"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/admin/resource-types"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+List allowed resource types (domain-level)
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"OK","content":{"application/json":{"schema":{"type":"object","properties":{"data":{"type":"array","items":{"type":"object","properties":{"code":{"type":"string","example":"CASE"},"name":{"type":"string"},"scopeType":{"type":"string","enum":["GLOBAL","FIRM","ORG_UNIT","CASE"]},"idFormat":{"type":"string","enum":["int64","uuid","string"]},"isActive":{"type":"boolean"},"createdAt":{"type":"string","format":"date-time"},"updatedAt":{"type":"string","format":"date-time"}},"title":"ResourceType"}}}}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

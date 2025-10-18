@@ -1,0 +1,96 @@
+---
+id: law-firm-admin-provisioning-api-logto-managed-rbac
+title: "Law Firm Admin Provisioning API (Logto-managed RBAC)"
+description: "Admin-facing endpoints to create Law Firms, provision Lawyers (AUTH_USERS + FIRM_USER_PROFILES + optional LAWYER_LICENSES),"
+sidebar_label: Introduction
+sidebar_position: 0
+hide_title: true
+custom_edit_url: null
+---
+
+import ApiLogo from "@theme/ApiLogo";
+import Heading from "@theme/Heading";
+import SchemaTabs from "@theme/SchemaTabs";
+import TabItem from "@theme/TabItem";
+import Export from "@theme/ApiExplorer/Export";
+
+<span
+  className={"theme-doc-version-badge badge badge--secondary"}
+  children={"Version: 1.3.0"}
+>
+</span>
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Law Firm Admin Provisioning API (Logto-managed RBAC)"}
+>
+</Heading>
+
+
+
+Admin-facing endpoints to create Law Firms, provision Lawyers (AUTH_USERS + FIRM_USER_PROFILES + optional LAWYER_LICENSES),
+and manage **RBAC via Logto** (organizations, members, org-role bindings). App keeps optional fine-grained RESOURCE_ACCESS_GRANTS.
+
+v1.2.0 adds:
+- GET /admin/auth-users (search by logtoUserId/email) to resolve internal user id.
+- GET /admin/law-firms/\{lawFirmId\}/users/\{userId\}/resource-policies (effective field policies).
+- (Optional) GET /admin/law-firms/\{lawFirmId\}/users/\{userId\}/capabilities (aggregate scopes + policies + caseId sets).
+
+v1.3.0 adds:
+- **Support Access (act-as)**: start/list/get/revoke short-lived admin support sessions that return a delegated token:
+  - POST /admin/support-access/requests
+  - GET  /admin/support-access/sessions
+  - GET  /admin/support-access/sessions/\{id\}
+  - DELETE /admin/support-access/sessions/\{id\}
+
+
+<div
+  style={{"marginBottom":"2rem"}}
+>
+  <Heading
+    id={"authentication"}
+    as={"h2"}
+    className={"openapi-tabs__heading"}
+    children={"Authentication"}
+  >
+  </Heading><SchemaTabs
+    className={"openapi-tabs__security-schemes"}
+  >
+    <TabItem
+      label={"HTTP: Bearer Auth"}
+      value={"BearerAuth"}
+    >
+      
+      
+      
+      
+      <div>
+        <table>
+          <tbody>
+            <tr>
+              <th>
+                Security Scheme Type:
+              </th><td>
+                http
+              </td>
+            </tr><tr>
+              <th>
+                HTTP Authorization Scheme:
+              </th><td>
+                bearer
+              </td>
+            </tr><tr>
+              <th>
+                Bearer format:
+              </th><td>
+                JWT
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </TabItem>
+  </SchemaTabs>
+</div>
+      

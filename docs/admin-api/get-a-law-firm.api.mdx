@@ -1,0 +1,71 @@
+---
+id: get-a-law-firm
+title: "Get a law firm"
+description: "Get a law firm"
+sidebar_label: "Get a law firm"
+hide_title: true
+hide_table_of_contents: true
+api: eJztV1Fv2zYQ/iuHe4pd2UraPunNzZTMW9YEtoNiSIzgLJ5lNhKpkpRTzxCwH7FfuF8ykLKdtFG3Fhj61CdbvOP33X063lFbdJRbTG5wJEqp4O8//4ILeoAzaUqL8wgtZ7WRboPJzRbfMBk2o9qtMLmZN/MIKzJUsmNjg4NUmGBFboURKioZEyzowYONBUZo+EMtDQtMnKk5QputuCRMtug2lXe2zkiVY+OhDdtKK8vW218eH/sfwTYzsnJSe6LLXzHCTCvHynkrVVUhM/LW+L31LtvnFHrxnjOHEVZGV2ycbAmk6Ahjn0SHwRZ13mkgIQxb+9wWoaqLghYFt+k3EVYrrTrgOzy5JFl0eS61KclhsvPo2OoFosx9XUSFzp2+NPm4Q44vuU83KmMxcv8aniDHAydL7gzRMLlvgGgirCvxbVuaCJ10nhQv2pLEpvGrr49PnpdWaow2UNGm0CT+vyrLtOgup5KtpbzbJtiRLJ6+PzKGNhihdFza/2ZdSi66y/vLtEEaf17Zuq5i2Jvb43zTZvYIOH9UO0g52R3mg+avfmj+3TV//UPz76p5yOmp2ufsgKCgB1j6/uNh3EoLTDDnkI6fnAnG5GdxXNDDwPvZeHsYog36kWzW+4FbmwITXDlX2SSOqZJD/khlVfAw02W8PsHmyQyf+rfXSvV0kh9S9jC4m8r+eRGcMNr9Odt31V/ezYIuUi112P7YV8PFAdq7xJXRa2mlVlLlMLoaw9GFHxeDkhTlLGDyZnTawwh9Mq0+J8NXw2P8XLWANlhS5nFYiUpL5Sw4De3ceLywRFDtOf3iho2Fo9H17Oe762k6mcILOBtPfgsPd1eTy7PxReoXdWCiAi5G735PJ3cX49P07TSd9qJbRUpAGzD0+z5iWEuCkEi/D0fa5KTkH+GU2AhKLhdsbATa5AOjC4aFVEKq3PaGMKoquGeu7CPhUioe5Iak8nqk08vryWl6Nzo9TafTu/PJ6O1sOrxVt2p9Mnw5PAYSwia3agDn6Qx2VUK1Ww1qG1K1TCZbwWIDYTBfWzZjEYebQc/rZdjqYs0glWPj+f0+kGL4GWZn5cWBJN7WAbWJPVhtMh5UupCZZAtHvFxy5uSaIRxF2Ft6geDocpd275u5MqpoIQvpAg3lueHcv3mb6YotvDgwwQvIyPJYgGUXeIN4r56K1+9P66rSxsEoy9h6wMwNyPb6/QSsI+PiQloX5+xiw2t9z2BX2rhBIdcsIIQNdgdh2fpys+BW5MCwq40CAsFFiFCA0/esklsFMICry+kh7x3AgEIM8a4F2dbR6/MFxz3hVzvGWyma1vun9CKdpV/n79tmpa0rKXT+3W3+WQf75KgeOonjjy6uCpIBJjSp7a673WBgxwgPbx4jTB4/E+YRrrR13nO7XZDla1M0jV/+ULPxHyLzCNdkZHuFvNmikNb/F5gsqbD8LKjDUMOjya6V9wCj7mD3o0f5wbOmovZPGOE9bz75mmnmTYQrJsEmBNHafUVV7snOZ1PUN+RD2z9PZxghfdqGP2u7Ab0zqu229Zj5EmuaQ5Ch5HyATfMPTqTGWg==
+sidebar_class_name: "get api-method"
+info_path: docs/admin-api/law-firm-admin-provisioning-api-logto-managed-rbac
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Get a law firm"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/admin/law-firms/{lawFirmId}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Get a law firm
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"in":"path","name":"lawFirmId","required":true,"schema":{"type":"string"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"OK","content":{"application/json":{"schema":{"type":"object","properties":{"id":{"type":"string"},"name":{"type":"string"},"slug":{"type":"string"},"address":{"type":"string","nullable":true},"phone":{"type":"string","nullable":true},"email":{"type":"string","format":"email","nullable":true},"contacts":{"type":"string","nullable":true},"logtoOrgId":{"type":"string","nullable":true},"logtoSyncedAt":{"type":"string","format":"date-time","nullable":true},"createdAt":{"type":"string","format":"date-time"},"updatedAt":{"type":"string","format":"date-time"}},"title":"LawFirm"}}}},"401":{"description":"Error payload","content":{"application/json":{"schema":{"type":"object","properties":{"code":{"type":"string"},"message":{"type":"string"},"details":{"type":"array","items":{"type":"object","properties":{"field":{"type":"string"},"message":{"type":"string"}}}},"requestId":{"type":"string"}},"required":["code","message"],"title":"ErrorResponse"}}}},"403":{"description":"Error payload","content":{"application/json":{"schema":{"type":"object","properties":{"code":{"type":"string"},"message":{"type":"string"},"details":{"type":"array","items":{"type":"object","properties":{"field":{"type":"string"},"message":{"type":"string"}}}},"requestId":{"type":"string"}},"required":["code","message"],"title":"ErrorResponse"}}}},"404":{"description":"Error payload","content":{"application/json":{"schema":{"type":"object","properties":{"code":{"type":"string"},"message":{"type":"string"},"details":{"type":"array","items":{"type":"object","properties":{"field":{"type":"string"},"message":{"type":"string"}}}},"requestId":{"type":"string"}},"required":["code","message"],"title":"ErrorResponse"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      
