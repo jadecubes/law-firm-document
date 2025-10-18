@@ -1,0 +1,73 @@
+---
+id: get-effective-resource-field-policies-for-a-user-in-a-firm
+title: "Get effective resource field policies for a user in a firm"
+description: "Returns the merged, client-ready field policies, by resource code and action."
+sidebar_label: "Get effective resource field policies for a user in a firm"
+hide_title: true
+hide_table_of_contents: true
+api: eJzVVt2S2jYUfpUz5wqIsDfJnXtFqHdLS7IM7DbNALMj7INR1pYcSZBQxjO96gN0+oR5ko5kwwK7ySS96EyvwNLR+dP3fUc7tDwzGE2xlxZCwuc//oY+L/lC5MIKMjhnmJJJtCitUBIjHJNda2nArggK0hmlDJJckLRdTTzdwlJQnkKpcpEIMgwWW9Bk1FonBIlKCbhMgSfOXTCT8SdelDlF0O9N4sB5gM9//gW94fCHemldptySX4x/68ejm+kMF+s0Ixt0ZshmaMjanAqS9s6SLswM58FMIkNDyVoLu8VousNXxDXp3tquMJrOqznDkmtekCVtvIFwxZXcrpCh5AVhhDn/eCl0MUiRoaYPa6EpxcjqNTE0yYoKjtEO7bZ0xsZqITOsKvakr7Uh/Z2O5s7YlEoaMm7/xcWF+zm9jutfkGGipCVp3S4vy1wk3O2G740z2T0OoRbvKbF4frXxckmJFRt6uLDTy4Sl0sDBlJSIpUjAFQVCAoel0EWADEutStIeOdEO927MU7F5mgoXmOejk0Nfz7HngbPPJBMbkmfwalGQBcyDh8Hgza/Xg37c/o54pyX4BrxWKT2+IYYk14XnznCIDK/fDN8hwxqlOK9Yffg4CNeab5GhsFSYp+68OgbI9Cj6nKEVNifPwLrcuhUjdzdbd7RiSDWbHvXeNaNe5OlZVT75imHNs/PNppiHUqYH8nmGnVIP53Ua55mOGvyMGzj7bCuGBdmVSjHCjHznHWMiDLmTojDnH7sOVibcHYhYhQ5yJtzVdKrCfZXdPUR9VnqzZ/Va5xjhytrSRGHISxE0LQoSVYSb5+hYtheKieNJ3bBjuTjcknODDWPd98IbIWv+XCpdcIsR/vz2xukACrlU/njTjiH/CK4OqLV2pNVGGKGkkBn0RgNoDVVmVbfgkmeUwvhVr++A64qpwf88eBlcPKaE89Zd8sT5IZmWSkhrwCpINDnt3Mc1DMp9TLe4JW2g1bu9+enudhKPJ/AMLgfj1/7jbjS+vhwMY7eoypo3MOy9fReP74aDfvxmEk/abCadmNcJQ6fjMoaN4OAL6XSgpXTGpfjd65FhUFCxIG0YKJ11tcoJFkKmQmamHUCvLOGeqDQPAZdCUjfTXEjXj3hyfTvux3e9fj+eTO6uxr03N5NgJmdy8zx4EVwAT1MTzWQXruIbaGDE13bV9aiBliGuk5WbSLlL8NaDKKSCi7zt+uXQlG8IhLSkXfxa4NLgzOe/gya06CCwp7ra9gFa103Z7e+OlRyNbGjxLNOUuZs3iSrJwLMHBX8GCTc0SMGQ9XF9814eN6/TmazLUmkLvSQh4xwmtstNu9OJwFiubZgLY8OMbKhpo+4JzEpp283FhlLwaYNpXBgyxgu2XXEL2j8egENKuc8wBavuSUYzCdCF0fXkUHfjoMt9DqFTRTLW1IauP18w3Af8ZsNwJ9Kqtv4xHsY38bfZO80slbEF9zO2GfNXZIG+cYyeTs9zWu8epvr/6M3VKKWlTzYscy58m7wI7xp5n6LvLjI8IBsZRsdvLQ9ut3j0aDqX+TnDlTLW+dvtFtzQrc6ryi1/WJN2b745ww3Xgi+c9k53mArj/qcYLXlu6Cvtbo2bEdyGL5W0n+fSTfMNz9fuCxne0/bk4eheg/9h4KZhlXt8rIinpH3p9aZjc2mPjj16K7pheJjJV7Gb+/x0BJ6NPO/9yZR2u9rixtG7qg4Zerq7BKvqH+hxTes=
+sidebar_class_name: "get api-method"
+info_path: docs/admin-api/law-firm-admin-provisioning-api-logto-managed-rbac
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Get effective resource field policies for a user in a firm"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/admin/law-firms/{lawFirmId}/users/{userId}/resource-policies"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Returns the merged, client-ready field policies, by resource code and action.
+Example: CASE.read → ALL; CASE.update → EXCEPT["budget.*","settlement_terms"].
+
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"in":"path","name":"lawFirmId","required":true,"schema":{"type":"string"}},{"in":"path","name":"userId","required":true,"schema":{"type":"string"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"OK","content":{"application/json":{"schema":{"type":"object","description":"Effective resource field policies for a specific user in a firm.","properties":{"resources":{"type":"object","additionalProperties":{"type":"object","description":"Actions for a given resource code (e.g., CASE, INVOICE)","additionalProperties":{"type":"object","properties":{"fieldMode":{"type":"string","enum":["ALL","ONLY","EXCEPT"]},"fields":{"type":"array","items":{"type":"string"}}},"required":["fieldMode"],"title":"ResourceActionPolicy"}}}},"example":{"resources":{"CASE":{"read":{"fieldMode":"ALL"},"update":{"fieldMode":"EXCEPT","fields":["budget.*","settlement_terms"]}}}},"title":"ResourcePoliciesResponse"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

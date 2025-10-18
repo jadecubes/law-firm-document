@@ -1,0 +1,71 @@
+---
+id: get-a-specific-member
+title: "Get a specific member"
+description: "Get a specific member"
+sidebar_label: "Get a specific member"
+hide_title: true
+hide_table_of_contents: true
+api: eJy9Vttu4zYQ/ZXBPMVe2spenvTmTZU0bXYT2AkWRWIEY2kscyORWpJy1jUE9CP6hf2SgpTsOGun2EWLPtkih3NmDmfOcI2OcovxLY6yUir4648/4ULnTsN7I7OccSrQclob6VYY367xPZNhM6rdAuPbaTMVWJGhkh0bGwykwhgrcgsUqKhkjLGgx1NpyvMMBRr+UkvDGcbO1CzQpgsuCeM1ulXlja0zUuXYNOKwLx/cjWXzg96m3thWWlm2fv/N8bH/ydimRlZOag91+SsKTLVyrJzfpaoqZEp+N/psvcl6H0LPPnPqUGBldMXGyRZgN9D9eARySbLY3xE416Ykh3FnIVDVRUGzgtskmw0V+yf3DLXJx7po4+mMyRhaoUDpuLQHacfPWirORu4fg8vI8cDJkg/hFmTdZKXSf+OlEeik8594afIPXM7YYNP49XfH7/bvLjFGG6hoVWjK/rtrTHV2gOtGYMnWUn54L2NHsvge2l9AnUsuDpfNy7CBGt8QbN3Bmmt2++W2zezJ4fSJ70DluOuW4DjktMv2GTsgsBWnci5TKNvr8d7cQmcYY84hK9+7MUbkxSUKLRFpk9tovdWEJmoP+7WnlmnQ645ZblSlNgXGuHCusnEUUSWH/JXKquBhqsto+RqbHaGa+LttidyVqy0h3g12YuG/Z8EIRffndFOdv3y6DqxJNdfheMfPBT2CDx5azbwyeimt1EqqHEZX53AUFHRQkqKcMxi/H530UKBPpmXv9fDt8Bi/5TR4G8wp9X5YZZWWyllwGlLD5Bg2uFZAtcH0iys2Fo5GN9c/399MkvEEXsHp+fhD+Li/Gl+enl8kflEHJCrgYvTpt2R8f3F+knycJJOeuFOkMmgDhn7fRwxLSe0o6PfhSJuclPw99JAV3X1bAdrkA6MLhplUmVS57Q1hVFXwwFzZJ8C5VDzIDXlhgXEyubwZnyT3o5OTZDK5PxuPPl5PhnfqTi1fD98Mj4GyzMZ3agBnyTV0xUO1WwxqG1K1TCZdwGwFOyUTBb3seb4MW10sGaRybDy+PwcyG37js6DHwdwT+qweA0i0rttCjLyz2qQ8qHQhU8kWjng+59TJJUNoVNjs9ALA0WWXdu+HsVKqaCYL6QIM5bnh3N+8TXXFFl5tkeAVpGT5PAPLLuAG8t7uktfvT+qq0sbBKE3ZeoepG5Dt9fsxWEfGRYW0LsrZRYaX+oHBLrRxg0IuOYMQNtjOhWXry82CW5ADw642CggyLkKEGTj9wCq+UwADuLqcbPPuHAwoxBB1AmVbQ8/PC4YbwO82jNYya1rrn5KL5Dr5PnsvqpW2rqQwF7pnxkv69qxjt4Li+KuLqoJk8Ba0at1p3y2GIFC0DwIMQ9miwHj3VdT1U1jeeTdMBS60dd7Lej0jyzemaBq//KVm4x9kU4FLMrKdm7drzKT1/zOM51RY3gt4OxXxaNzNgh6gOJzIZnYpP7mWVNT+CwU+8OrZq84/1f5P4B2GmmkjcMGUsQn5txa+3iu3c3bvBeDHxXZWnSXXKJCeD4lvhkLwfjCu9bq1uPYN0DTbMEND+ACb5m88Terd
+sidebar_class_name: "get api-method"
+info_path: docs/admin-api/law-firm-admin-provisioning-api-logto-managed-rbac
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Get a specific member"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/admin/logto/orgs/{lawFirmId}/members/{logtoUserId}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Get a specific member
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"in":"path","name":"lawFirmId","required":true,"schema":{"type":"string"}},{"in":"path","name":"logtoUserId","required":true,"schema":{"type":"string"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"OK","content":{"application/json":{"schema":{"type":"object","properties":{"logtoUserId":{"type":"string"},"email":{"type":"string","format":"email","nullable":true},"name":{"type":"string","nullable":true},"orgRoles":{"type":"array","items":{"type":"string"}},"joinedAt":{"type":"string","format":"date-time","nullable":true},"lastSyncedAt":{"type":"string","format":"date-time","nullable":true}},"title":"OrgMember"}}}},"404":{"description":"Error payload","content":{"application/json":{"schema":{"type":"object","properties":{"code":{"type":"string"},"message":{"type":"string"},"details":{"type":"array","items":{"type":"object","properties":{"field":{"type":"string"},"message":{"type":"string"}}}},"requestId":{"type":"string"}},"required":["code","message"],"title":"ErrorResponse"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

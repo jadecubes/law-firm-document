@@ -1,0 +1,71 @@
+---
+id: list-org-members-from-logto-locally-cached
+title: "List org members (from Logto; locally cached)"
+description: "List org members (from Logto; locally cached)"
+sidebar_label: "List org members (from Logto; locally cached)"
+hide_title: true
+hide_table_of_contents: true
+api: eJylVlFv2zYQ/iuHe4pd2Upa7EV7cjOn8+Y2ge2gGBIjOEtnmQ1FqiTl1DUE7EfsF+6XDKQsx028LsX8Ykm8+76Pd8c7btFRbjG5wUFWCAV///kXjHXuNLw1IssZ5xFaTisj3AaTmy2+ZTJsBpVbYXIzr+cRlmSoYMfGBgOhMMGS3AojVFQwJijp4UKYYpRhhIY/V8JwhokzFUdo0xUXhMkW3ab0xtYZoXKs62iH9blis3kEKynnG1UVCzZzPOIvlOOcDUZYCCWKqsDkLMKMl1RJh8nZ94Gt+Mo/AFvQl+b59enpAclPp7WPjGFbamXZepzXp6f+L2ObGlE6ob2Ey98xwlQrx8r5VSpLKVLyq/En6022z6XoxSdOHUZYGl2ycaIhyMgdWpEx5HcnHBf2v72lT/q1ZTPKjiQjQi5IyOcrES61KchhsrOIUFVS0kJyk+G6je9zz2eG2uQTLdm+YBePVYKftFCcDdx3xWXkuOdEwcd4JVk33aj0/6DUETrh/Ctemvw9+/oM8gp2L0ieL74j1VZH6Cvy+IrTjuSxpfYXPam2sbAOtMmhCPIsnCyNLprz/jNInZKUG0gpXXHWwSB9pTNMMOeg2B/qBGPynSIOBRNrk9t4uz/gdbyD9keIzbptCpWRmODKudImcUyl6PMXKkrJ/VQX8foM64M+M/UF34TlsNvs9+lh2iPq3xfBCKPdw0Wbrd8+zkIGhFrq4L7Lz5gewMuFpuVdGb0WVmglVA6DqxGchID0ClKUcwaTt4NzHw2/mSaOZ/03/VN8Gt2A1ltS6nFYZaUWyllwGlLD5BhaXhtB2XL6j5uQisH17Ne76+lwMoVXcDGavA8vd1eTy4vReOg/6sBEEsaDj38MJ3fj0fnww3Q47US3ilQGjWDodr1iWAtqMtvtwok2OSnxNTQWG7X5j3wx9IyWDAuhMqFy2+nDoCzhnrm0j4RLobiXG/IHDSbD6eX15Hx4Nzg/H06nd+8mgw+zaf9W3ar1Wf91/xQoy2xyq3rwbjiDXblQ5Va9yoatWiaTrmCxgYOuE4f+0fHxMmy1XDP4gjae3/uByPpPMCU99JY+oN9UYCCJt1VArWMPVpmUe6WWIhVs4YSXS06dWDMsBcsM2pVOIDi53G2788NcKZW0EFK4QEN5bjj3mbepLtnCqz0TvIKULI8ysOwCbwjem8PgdbvTqiy1cTBIU7YeMHU9sp1uNwHryLhYCuvinF1seK3vGexKG9eTYs0ZBNlgdxCWrS83C25FDgy7yiggyFgGhRk4fc8quVUAPbi6nO73vQPoUdAQ+/HN1tnG0MfnXwxbwhcbxluR1Y31L8PxcDZ8mb1vhKW2rqAwLHez/Ec73Tcned9oHH9xcSlJBJbQw7a7LniDQRxGzeDEMLx810sOLzttM5xHuNLWebftdkGWr42sa/+5uYP4FpkJ68dJhsmSpOUI73nz/LqzJll5aehvMd9zaS8yjw5z/2JEM7OOET4Jwv5agieT3aWtAxgdD047rtXmkLNV9BiTel5HuGLK2AQRzbov8NIdeD67B3n1+3H0bjjDCOnbqfBkCgT0o6q228Zi5iu+rvciwwnwAuv6H2wVy8Y=
+sidebar_class_name: "get api-method"
+info_path: docs/admin-api/law-firm-admin-provisioning-api-logto-managed-rbac
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"List org members (from Logto; locally cached)"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/admin/logto/orgs/{lawFirmId}/members"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+List org members (from Logto; locally cached)
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"in":"path","name":"lawFirmId","required":true,"schema":{"type":"string"}},{"in":"query","name":"page[number]","schema":{"type":"integer","minimum":1,"default":1}},{"in":"query","name":"page[size]","schema":{"type":"integer","minimum":1,"maximum":200,"default":50}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"OK","content":{"application/json":{"schema":{"type":"object","properties":{"data":{"type":"array","items":{"type":"object","properties":{"logtoUserId":{"type":"string"},"email":{"type":"string","format":"email","nullable":true},"name":{"type":"string","nullable":true},"orgRoles":{"type":"array","items":{"type":"string"}},"joinedAt":{"type":"string","format":"date-time","nullable":true},"lastSyncedAt":{"type":"string","format":"date-time","nullable":true}},"title":"OrgMember"}},"meta":{"type":"object","properties":{"page":{"type":"integer"},"size":{"type":"integer"},"total":{"type":"integer"}}}}}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

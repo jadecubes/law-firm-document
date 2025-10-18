@@ -1,0 +1,71 @@
+---
+id: sync-a-firms-logto-organization-and-memberships-into-local-mirrors
+title: "Sync a firm's Logto organization and memberships into local mirrors"
+description: "Sync a firm's Logto organization and memberships into local mirrors"
+sidebar_label: "Sync a firm's Logto organization and memberships into local mirrors"
+hide_title: true
+hide_table_of_contents: true
+api: eJytVttu20YQ/ZXBvNRSKNG5oA98U1w5VavGhiQjKGzBGJEjauPlLrO7UqIIBPoR/cJ+STGri+VL0ATok0Tu8JzZM9cNBio9ZtfYKypl4J+//oahLYOFt04VJeM0Qc/50qmwxux6g2+ZHLveMiwwu5420wRrclRxYOejgTKYYU1hgQkaqhgz1PT5XLlqUGCCjj8tleMCs+CWnKDPF1wRZhsM61qMfXDKlNg0yQ5rwVSwu0cbFFzVNrDJ153fef0Ac07ac4IF+9ypOigrAJfOrlTBMLcOPM1Zr8FxcGuaaYbLi/HEd/HbjiRY0Zchm1Ju/PObRq7s2NfWePZi/ur0lfw85ByvTQ4+kAtcYJPgm9M3T436zlkHNa21JdEmtyawCWJIda1VTmKYfvRivXnqoZ195DxggrWzNbugtg7ltuBnBE2wYu+pfP6s4EBK+6Mzco5EXRW48v/NOlesix+kbZpmGz32YfDcx81xcK+3N7sHnCYYVNC8l3K0C0sEbh6nQQwJwVy56ie/S3LrSjLqa9QZyBRQcTVj5xeq9qBMsKBtThoqJfg+coeFLSTFrY8iSKZnmJKUT6oFNbWu9OnmkPVN6tcmlxRjt9qXydJpye0Qap+lKdWqy1+oqjV3c1ulq5fYHFXeWCK/lfm4/g5yCcw+heV5Fo0w2f05t66igBn+9mESNVVmbuPnO/WG9BnEV9g2gVgwXlmjTAm9ywGcRLU6FRkquYDR295ZCxOUy2y1fdl93T3Fx4pHtM6ccsFhU9RWmeAhWMgdU2DY8/oE6j2nvFyz83DSu5r8ens17o/G8ALOB6M/4sPt5ejifDDsy0sbmUjDsPfhz/7odjg4678f98et5MbEaEaHod0Wj2GlaBv2dhtOjiPvk33cE8mIjrOaYaZMoUzpW13o1TXcMdf+nnCuDHdKR8qIHv3xxdXorH/bOzvrj8e370a995Nx98bcmNXL7qvuKVBR+OzGdOBdfwK7XKFlWHSWPl7VM7l8AbM1xAy68uwGRcoVKd0SvRx7q1csKclO+OU7UEX3Eaamzx1J8IfpF0nSzTKiNqmALV3OndpqlSv2cMLzOedBrRhiGcP+pBUJTi521279MFdONc2UViHSUFk6LiXyPrc1e3hxYIIXkJPnQQGeQ+SN4r0+Fq/dHi/r2roAvTxnL4B56JBvtdvZttmmWvmQlhxSxyt7x+AX1oWOVisuILoNfgfh2Uu6eQgLCjIQls4AQcE6elhAsHdsshsD0IlTYn/vHUCHog/prn35raHo8w3DPeF3G6YbVTRb61/6w/6k/3320nKlOVUUp8Zuav4/3e9BfR/aT+AvIa01qcgdO9tm1xivMbqMCcbExgSlOWKC2fFSEPvjNMGF9NTsGjebGXm+crpp5PWnJTvZPqYJrsgpmduxhxbKy/9vzP3N/TzFk9FuirQAk+fd3k89IzNvRXopT5jgHa8frDDNtEn2O8mPOfF9e8izzm2deLr5HPyUbWlrJKVRh6OzJ6uETJbDGBNeTJAeDpRHAyRe9FmBNputxUSKpWkOesXiEa2a5l8V+pXA
+sidebar_class_name: "post api-method"
+info_path: docs/admin-api/law-firm-admin-provisioning-api-logto-managed-rbac
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Sync a firm's Logto organization and memberships into local mirrors"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"post"}
+  path={"/admin/logto/orgs/{lawFirmId}/sync"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Sync a firm's Logto organization and memberships into local mirrors
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"in":"path","name":"lawFirmId","required":true,"schema":{"type":"string"}},{"in":"header","name":"Idempotency-Key","required":false,"description":"Provide for safely retryable POSTs.","schema":{"type":"string","maxLength":64}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"202":{"description":"Sync started"},"404":{"description":"Error payload","content":{"application/json":{"schema":{"type":"object","properties":{"code":{"type":"string"},"message":{"type":"string"},"details":{"type":"array","items":{"type":"object","properties":{"field":{"type":"string"},"message":{"type":"string"}}}},"requestId":{"type":"string"}},"required":["code","message"],"title":"ErrorResponse"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

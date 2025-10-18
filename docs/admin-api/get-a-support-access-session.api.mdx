@@ -1,0 +1,71 @@
+---
+id: get-a-support-access-session
+title: "Get a support access session"
+description: "Get a support access session"
+sidebar_label: "Get a support access session"
+hide_title: true
+hide_table_of_contents: true
+api: eJytVttu20YQ/ZXBPEkKJTqXJ74pLu26dWNDkhEUtmCMuCNqY3KX2V0qUQQC/Yh+Yb+k2CWlyLbSJECfJHJn5sycmTnLLTrKLSa3OBalVPDPX3/DtK4qbRyMs4ytxXmElrPaSLfB5HaLb5kMm3HtVpjczpt5hBUZKtmxscFAKkywIrfCCBWVjAlKgREa/lhLwwITZ2qO0GYrLgmTLbpN5a2sM1Ll2PiYhm2llWXrz1+dnPgfwTYzsnJSe4Sr3zHCTCvHyvlTqqpCZuRP4w/Wm2yfQ+jFB84cRlgZXbFxsgWQ4kgaERb06Uya8uL4qSOTs7uxbL5hQJnTJvD6H0bWkXEsxu75aYRLbUpymKAgx0MnS/Yu/LmShu3PuFhHrrbH7FnVpe8/ZU6uObRprR/YN6zFEThvfLXSFd6xm452OKZsre9G03iTNydvnrcpNUYbqGhTaBL/X8cyLfgonyVbS/nxM8GOZHFIAxlDG4xQOi7t91GXkovjbfw2bKDGzz5bd3QGmsPVuG0r+xpw/pX6QOWkW4wQONR0yPY5OyCw3QZTaBLYrks+qFtpgQnmHIrzS5pgTH5G485r2HrFnZeNt1I06EXArHcrXpsCE1w5V9kkjqmSI/5MZVXwKNNlvH6JzYFqTH1LW/4OtWPPgw+DnRz450Uwwqj7c7Yb6N/ezwJZUi11cO9ouaRP4NcUWgm7NnotfeZS5TC+voDepc6dHpakKGcBk7fj0z5G6ItpSXs5ej06wadUhmjDJWU+DitRaamcBachM0yOYYdrI6h2mP7lho2F3vhm9uv9zTSdTOEFnF1M/ggP99eTq7OLy9S/1AGJCrgcv/8zndxfXpym76bptB/dKVIC2oRhMPAZw1oShEIGA+hpk5OSX8Lq2AhKLhdsbATa5EOjC4aFVEKq3PZHMK4qeGCu7FfApVQ8zA1J5flIp1c3k9P0fnx6mk6n9+eT8bvZdHSn7tT65ejV6ARICJvcqSGcpzPohoVqtxrWNpRqmUy2gsUGCp9gK3YxlySLvufLsNXFmkEqx8bjez+QYvQkZkGfhktPaLzdK28TB5B4W4eoTeyD1SbjYaULmUm20OPlkoN6QdhP2J30A0Dvqiu7/9NYGVW0kIV0AYby3HDuO28zXbGFF3skeAEZWb4QYNkF3EDe60PyBoPHFyv0KHNDsv3BIIFwC8SFtC7O2cWtBoNd+X0s5JoFhLT3m71bTnArcmDY1UYBgeAiZCjA6QdWyZ0CGML11XRf95Ml73TJtoaen28Y7gB/2DDIRmv9S3qZztIfs/daWmnrSgrXQff98B1Ze7S4e11x/NnFVUEyBA2Ste0k7xZDLl51HmUTZK7NByNMpPDyu9LWeZftdkGWb0zRNP71x5qN/yKaR7gmI2nhxeh2i0Ja/19gsqTC8rPs9hcg9iad7PcBo+NZ764p5S+pNRW1f8IIH3jTflY18ybCFZNgE9DbAz9hlTtweXbVeoHe3wbn6QwjpMey/ESGQ/Sj6Wy3rcXMj1zT7LMLI+gTbJp/AYxtlmY=
+sidebar_class_name: "get api-method"
+info_path: docs/admin-api/law-firm-admin-provisioning-api-logto-managed-rbac
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Get a support access session"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/admin/support-access/sessions/{id}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Get a support access session
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"in":"path","name":"id","required":true,"schema":{"type":"string"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"OK","content":{"application/json":{"schema":{"type":"object","properties":{"id":{"type":"string"},"lawFirmId":{"type":"string"},"targetUserId":{"type":"string"},"actorAdminUserId":{"type":"string"},"startedAt":{"type":"string","format":"date-time"},"expiresAt":{"type":"string","format":"date-time"},"status":{"type":"string","enum":["active","revoked","expired"]}},"title":"SupportAccessSession"}}}},"404":{"description":"Error payload","content":{"application/json":{"schema":{"type":"object","properties":{"code":{"type":"string"},"message":{"type":"string"},"details":{"type":"array","items":{"type":"object","properties":{"field":{"type":"string"},"message":{"type":"string"}}}},"requestId":{"type":"string"}},"required":["code","message"],"title":"ErrorResponse"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

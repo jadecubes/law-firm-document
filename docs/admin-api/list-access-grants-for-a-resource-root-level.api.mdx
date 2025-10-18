@@ -1,0 +1,71 @@
+---
+id: list-access-grants-for-a-resource-root-level
+title: "List access grants for a resource (root-level)"
+description: "List access grants for a resource (root-level)"
+sidebar_label: "List access grants for a resource (root-level)"
+hide_title: true
+hide_table_of_contents: true
+api: eJy9VlFz2kYQ/is7O30AciAnfareFCy7ajEwIJJJbcoc0gKXSDrl7kTiMprpj+gv7C/p3AmwTZzEbmfKA6DT3n673+1+tzs0fK3Rv8YgzUUBf//5FwRJQlrDpeKF0ThnqCmplDC36F/v8DVxRSqozAb963k9Z1hyxXMypLQzEAX6WHKzQYYFzwl9VKRlpRKKb0tChoo+VkJRir5RFTFMSSdKlEZIu/Vc5lwUcNgDiUwJWsNRDBwMX2YE1mubAfXWPQb9YBoy6A+icBgzGE0uF7NhFDMIJnHUH4QMouGbUdQPGQTj8SgaxlfhMO4hQ51sKOfo79DYsHzURolijTYhY0jZWH6/Drq/ze3XWfenxbzzA9Y1+2aKUfpIgl+Dqi19inQpC03avn91dmZ/HjIy+hUZJrIwVBj7lpdlJhJu33rvtTXZfQkhl+8pMTYbJUtSRjQAKTf3rbhS/BYZCkO5/v7uBwf5CHP0medlZpfssWDN7vPyZfoMdbX8ns+iyjJ77Acy7zCGozg8cfIYzKmLmiGvzGamSX0lKu46YEBbyh7Nsqhy2zJvovAtMgzPoxgZzsaDUXCODIPzq2iI85rh2rbQ1AX2LT9XwXAWDJDhZDQIkTnuFlfh1etwggzHwSQehpO7hem7aRxeOQBtuDI6MI95X0mVc4O+PXLqGpGTTY2K9On2jzCX8U8XQuVP5DlRxA2lzwmwKtPnbakZGmFcQUz2VdAomBMwrPefU5kZCG2gOWhw56RhJRXwO+FpKSlNN7NV0EaGOZmNTNHHNZlGJDboo8etbnqHTdrb3a/n+u4xSmuvges2cFaCSG0PslmpDH3cGFNq3/N4KXr7Qu8lMve2L7G+p8RT2+1NS97X4yNh1s1B4uzz0hkh2/+5OND4y9vYESiKlXTb90QO+CewxwzNrTBWciu0kIUo1hCMI2gN5NrIbs4LvqYUJq+DvqXIJtOw+7L3Y+8MTzl33rornlg/VKSlFJZ3I6EpFDjgagblAdMu3pLS0Apm8c+L2TScTOEFXESTK/ewGE9GF9EgtIvSIfEMBsHbd+FkMYj64XAaTtvspuBFCk3A0OnYiGErOLhEOh1oSbXmhfjDqapmkFO+JKUZSLXuKpkRLEWRimKt2z0IyhI+EJX6DnAlCrIHKwrLRzgdzSb9cBH0++F0uricBMN42rspborty96r3hnwNNX+TdGFyzCGfQ1ZUepW2qWqiatkA8tbyGyAjVZ5lHORtS1ftqqyLYEo7E3FM7D7QKS9E58Z/9RdWUK93bFza8+BeLvKea2PxdstZSYSQRpatFpRYsSWYCUoS+Hwpu0AWqN92u1nYyW85EuRCeNg+HqtaG1PXieyJA0vjkjwAhKuKUpBk3G4jrwf75PX6UyrspTKHGaWFk9Ml+t2p+OD00YvE9p4azKeoq38QKA3UpluJraUggsb9N6FJm3LTYPZcAOKTKUK4JBS5iJMwcgPVPg3BUAXxqPpMe+9g27T3Z69/Ekb3Rhafr5ieAB8sqG3E2ndWJ+HgzAOn2ZvVbWU2uTcTQr7geXZ+veglY9KY+iz8cqMCwfjRGy318ZrdNHh3RBgNc8/GQb9B5PTQ4WcM9xIbayr3W7JNc1UVtd2+WNFys6jc4ZbrkRz6VzvMBXa/k/RX/FMn86Wu7spCluT/ZDWhv9r4nyUssMgVtgxbMuzyj4hww90ezo529HzXyX437CjFGs7bGyIp6QczY2BbbrS3Nv6xWBq76zjvXkZ2jGJP7ypTm4m5/3RsHa7xiK2XVjXxyhdV9oA6/ofg7pV+g==
+sidebar_class_name: "get api-method"
+info_path: docs/admin-api/law-firm-admin-provisioning-api-logto-managed-rbac
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"List access grants for a resource (root-level)"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/admin/resources/{resourceType}/{resourceId}/access-grants"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+List access grants for a resource (root-level)
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"in":"path","name":"resourceType","required":true,"description":"Domain resource code (NOT a table name), e.g., CASE, CLIENT, ORG_UNIT, ARTICLE, INVOICE, APPOINTMENT.","schema":{"type":"string","pattern":"^[A-Z][A-Z0-9_]*$"}},{"in":"path","name":"resourceId","required":true,"schema":{"type":"string"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"OK","content":{"application/json":{"schema":{"type":"object","properties":{"data":{"type":"array","items":{"type":"object","properties":{"resourceType":{"type":"string","example":"CASE"},"resourceId":{"type":"string"},"subresourceType":{"type":"string","nullable":true,"example":"NOTE"},"subresourceId":{"type":"string","nullable":true},"authUserId":{"type":"string"},"accessLevel":{"type":"string","enum":["VIEW","EDIT","UPLOAD","ADMIN"]},"grantSource":{"type":"string","enum":["MANUAL","ROLE","CASE_MEMBER","PARTNER_MEMBER","SYSTEM"]},"startsAt":{"type":"string","format":"date-time"},"endsAt":{"type":"string","format":"date-time","nullable":true},"lawFirmId":{"type":"string","nullable":true},"createdAt":{"type":"string","format":"date-time"},"updatedAt":{"type":"string","format":"date-time"}},"title":"ResourceAccessGrant"}}}}}}}}}
+>
+  
+</StatusCodes>
+
+
+      
