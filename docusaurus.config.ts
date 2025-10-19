@@ -114,15 +114,21 @@ const config: Config = {
       items: [
         {
           type: 'docSidebar',
-          sidebarId: 'docsSidebar',
+          sidebarId: 'specsSidebar',
           position: 'left',
-          label: 'Documentation',
+          label: 'Specifications',
         },
         {
           type: 'docSidebar',
           sidebarId: 'apiSidebar',
           position: 'left',
           label: 'API Reference',
+        },
+        {
+          type: 'docSidebar',
+          sidebarId: 'c4Sidebar',
+          position: 'left',
+          label: 'C4 Model',
         },
         {
           type: 'search',
