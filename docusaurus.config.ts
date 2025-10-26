@@ -78,14 +78,14 @@ const config: Config = {
         docsPluginId: "classic",
         config: {
           adminApi: {
-            specPath: "examples/admin-api.yaml",
+            specPath: "openapi/admin-api.yaml",
             outputDir: "docs/admin-api",
             sidebarOptions: {
               groupPathsBy: "tag",
             },
           } satisfies OpenApiPlugin.Options,
           userApi: {
-            specPath: "examples/user-apis.yaml",
+            specPath: "openapi/user-apis.yaml",
             outputDir: "docs/user-api",
             sidebarOptions: {
               groupPathsBy: "tag",
@@ -119,25 +119,13 @@ const config: Config = {
           type: 'docSidebar',
           sidebarId: 'specsSidebar',
           position: 'left',
-          label: 'Specifications',
+          label: 'Backstage Specifications',
         },
         {
           type: 'docSidebar',
-          sidebarId: 'apiSidebar',
+          sidebarId: 'backstageApiSidebar',
           position: 'left',
-          label: 'Admin API',
-        },
-        {
-          type: 'docSidebar',
-          sidebarId: 'userApiSidebar',
-          position: 'left',
-          label: 'User API',
-        },
-        {
-          type: 'docSidebar',
-          sidebarId: 'c4Sidebar',
-          position: 'left',
-          label: 'C4 Model',
+          label: 'Backstage API',
         },
         {
           type: 'search',

@@ -1,0 +1,71 @@
+---
+id: release-a-lock
+title: "Release a lock"
+description: "Release a lock"
+sidebar_label: "Release a lock"
+hide_title: true
+hide_table_of_contents: true
+api: eJydVtty2zYQ/ZWdfbIUSoyTPvFNcelUHdf2iPKkHdujWZErCjEIMACkRNVwJv/QfmG+pAOQlmVbTeM+8YLFnrNnd7HYoqPSYnKNo6ISCr59/RuyVV1r42CU52wt3kZoOV8Z4TaYXG/xHZNhM1q5JSbXt81thDUZqtixscFAKEywJrfECBVVjAmKAiM0/GklDBeYOLPiCG2+5Iow2aLb1N7KOiNUiY33adjWWlm2fv3N65/8o2CbG1E7oT3CuYYTrRwrh02EPx0ySY3RBmraSE2eQd7ZJ1ukupYiJ28Yf7TeevuckJ5/5NxhhLXRNRsnWjq5LvgA7QgrtpbKw2sFOxLS7q2RMbTBCIXjyv436kKwLF4I2zRNqztbNz60udlPy3Ub2YPD2wj5C1W15IewMbu6vLyYTGdZmmXji/NZ+vs4m2Z7uxIcKaDciTWDZWuFVkDSMBUb4C/COgsLbcAthQVHpmSHj0j699nxm7c+NCecB28zOelqIsQVJN1P9oQlk2UgkDq/C3zcUnt/BUt2Pq5QlAnG5Gs9Nmz1yuQ88PY23oqiQV/rZn1fySsjMcGlc7VN4phqMezkGOa6itfH2Ow1R+arp03VfovsJPdusKt6/z0PRhh1L6faVOQwwV8/TENehFrosL2T4Iw+w6kwFbSdemn0WnhthSphdDmGozNdOj2oSFHJBUzejU56GKEPphXoePh2+Bqfyha8DRaUez+siloL5Sw4Dblhcgz3uDaC+h7T/9ywsXA0upr+MrvK0kkGr+B0PPktfMwuJxen47PU/9QBiSScjT78kU5mZ+OT9DxLs150o0gV0BKGft8zhrUgCIH0+3CkTUlK/Bm61EZQcTVnYyPQphwYLRnmQhVClbY3hFFdwx1zbR8AF0LxoDQklNcjzS6uJifpbHRykmbZ7P1kdD7NhjfqRq2Ph2+Gr4GKwiY3agDv0yl0NUIrtxysbAjVMpl8CfMNSE/wyrIZFzFXJGTP6+XrSa4ZhHJsPL7fB6IYPvEp6fNg4QWNt5I+e2nHRRMHkHi7Cl6bh+KstRS5YAtHvFhw21XhKID7lV4AOLrowu69GCunmuZCChdgqCwNlz7zNtc1W3i1Q4JXkJPlcQGWXcAN4r3dF6/ffzw/4IhyNyDb6/cTsI6Mi6WwLi7ZxYbX+o7BLrVxAynWXECgDbZz0R0fFtySHBh2K6OAwDe0Z1iA03eskhsFMIDLi2wXd+dgQIFD3J0utjX0+vyL4T3gDxuGY6O1/jk9S6fpj9l7nd6zYiNyL8piAV4Uocp+P3nA/m4Sa6MXQvqMLYR0bGjuG2IDvjHi3HDBygmSvcdgoSbrvbPD99mTLd++/lUYsWbVO6DsdyrqRcZ75bcDPiD7//PwOBUv9RFvHz7GPlt+EtXauorCPaG71DwbOI8O1t257/iLi2tJIrgJI2XbTaJrDATD+NufRRhhIgo/fpfaOm+33c7J8pWRTeN/f1qx8bex2wjXZIRPfRhYhbD+vcBkQdLyM0q7CxAeTbqx3wOMDlO9v6Yof0lZk1z5L4zwjjftla65bSJcMhVsAnq74Nu+dntbnl21/NTcDec2VRghPR6XT8ZjADjIaLttLab+KGiaHcFwNHiOTfMPKcvE7g==
+sidebar_class_name: "delete api-method"
+info_path: docs/admin-api/law-firm-admin-provisioning-api-logto-managed-rbac
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Release a lock"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"delete"}
+  path={"/admin/resource-locks/{id}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Release a lock
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"in":"path","name":"id","required":true,"schema":{"type":"string"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"204":{"description":"No Content"},"404":{"description":"Error payload","content":{"application/json":{"schema":{"type":"object","properties":{"code":{"type":"string"},"message":{"type":"string"},"details":{"type":"array","items":{"type":"object","properties":{"field":{"type":"string"},"message":{"type":"string"}}}},"requestId":{"type":"string"}},"required":["code","message"],"example":{"code":"SUPPORT_SESSION_EXISTS","message":"An active session already exists for this target","requestId":"req_123"},"title":"ErrorResponse"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

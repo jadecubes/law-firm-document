@@ -43,6 +43,13 @@ v1.3.0 adds:
   - GET  /admin/support-access/sessions
   - GET  /admin/support-access/sessions/\{id\}
   - DELETE /admin/support-access/sessions/\{id\}
+- **Generic staff listing**:
+  - GET /admin/law-firms/\{lawFirmId\}/profiles (filterable by role/credential)
+- **Generic user provisioning** (role/credential–driven):
+  - POST /admin/law-firms/\{lawFirmId\}/users
+  - POST /admin/law-firms/\{lawFirmId\}/users/\{userId\}/credentials
+  - GET  /admin/law-firms/\{lawFirmId\}/users/\{userId\}/credentials
+  - DELETE /admin/law-firms/\{lawFirmId\}/users/\{userId\}/credentials/\{credentialId\}
 
 
 <div
