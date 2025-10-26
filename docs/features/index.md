@@ -2,16 +2,16 @@
 sidebar_position: 1
 ---
 
-# BDD Feature Specifications
+# Feature Specifications
 
-Welcome to the Behavior-Driven Development (BDD) feature specifications for the Law Firm Admin Provisioning API.
+Detailed API specifications for the Law Firm Admin Provisioning API system.
 
 ## Overview
 
-These specifications are organized by API domain and written in **Given-When-Then** format for clarity and testability. Each feature file corresponds to a specific API endpoint and includes:
+These specifications are organized by API domain and feature area. Each specification corresponds to a specific API endpoint and includes:
 
-- **User Stories**: "As an admin, I want to..." format
-- **Scenarios**: Concrete examples with Given-When-Then steps
+- **User Stories**: Clear description of the feature's purpose
+- **Scenarios**: Concrete examples with acceptance criteria
 - **Request/Response Specs**: API contract details in tables
 - **Requirements Mapping**: Traceability to functional requirements
 
@@ -83,9 +83,9 @@ Common test fixtures and steps
 - Data Fixtures - Test data setup
 - Common Schemas - Shared data structures
 
-## BDD Format
+## Specification Format
 
-All features follow this structure:
+All specifications follow this structure:
 
 ```markdown
 # Feature Name
@@ -126,8 +126,8 @@ FR-001, FR-002, etc.
 
 ## Key Benefits
 
-✅ **Testable**: Each scenario can be automated with Cucumber/SpecFlow
-✅ **Clear**: Given-When-Then format is unambiguous
+✅ **Testable**: Each scenario can be automated
+✅ **Clear**: Structured format with concrete examples
 ✅ **Complete**: Tables provide comprehensive API details
 ✅ **Traceable**: Requirements mapped to scenarios
 ✅ **Maintainable**: One file per endpoint, easy to update
@@ -154,8 +154,8 @@ FR-001, FR-002, etc.
 
 ### For QA Engineers
 1. Convert scenarios to automated tests
-2. Use Given-When-Then steps directly
-3. Reference data fixtures in `_shared/`
+2. Use scenario steps as test cases
+3. Reference data fixtures in `shared/`
 4. Generate test reports mapped to requirements
 
 ### For Product Managers
@@ -169,7 +169,7 @@ FR-001, FR-002, etc.
 When adding new features:
 
 1. Create new `.md` file in appropriate directory
-2. Follow the BDD format template
+2. Follow the specification format template
 3. Include comprehensive scenarios (success + errors)
 4. Use tables for complex data
 5. Map to requirements (FR-XXX)

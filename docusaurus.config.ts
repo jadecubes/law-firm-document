@@ -161,10 +161,6 @@ const config: Config = {
               to: '/docs/intro',
             },
             {
-              label: 'SpecKit Guide',
-              to: '/docs/speckit-guide',
-            },
-            {
               label: 'API Reference',
               to: '/docs/admin-api/law-firm-admin-provisioning-api-logto-managed-rbac',
             },
