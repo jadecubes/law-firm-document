@@ -616,8 +616,10 @@ components:
 
     CreateCommentRequest:
       type: object
-      required: [content]
+      required: [resourceType, resourceId, content]
       properties:
+        resourceType: { type: string, enum: [CASE, DOCUMENT, TIME_ENTRY, CLIENT] }
+        resourceId: { type: string }
         content: { type: string, minLength: 1 }
         mentions:
           type: array
@@ -969,26 +971,6 @@ paths:
         '400': { $ref: '#/components/responses/ErrorResponse' }
         '403': { $ref: '#/components/responses/ErrorResponse' }
 
-  /clients/{clientId}/cases:
-    get:
-      tags: [User — Clients]
-      summary: List cases for a client
-      security: [ { BearerAuth: [] } ]
-      parameters:
-        - $ref: '#/components/parameters/ClientId'
-        - $ref: '#/components/parameters/PageNumber'
-        - $ref: '#/components/parameters/PageSize'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: array
-                    items: { $ref: '#/components/schemas/Case' }
 
   # ---------- Documents ----------
   /documents:
@@ -1456,13 +1438,23 @@ paths:
         '200': { description: All notifications marked as read }
 
   # ---------- Collaboration (Comments) ----------
-  /cases/{caseId}/comments:
+  /comments:
     get:
       tags: [User — Collaboration]
-      summary: List comments on a case
+      summary: List comments on a resource
+      description: Retrieve comments for cases, documents, time entries, or clients
       security: [ { BearerAuth: [] } ]
       parameters:
-        - $ref: '#/components/parameters/CaseId'
+        - in: query
+          name: resourceType
+          required: true
+          schema: { type: string, enum: [CASE, DOCUMENT, TIME_ENTRY, CLIENT] }
+          description: Type of resource to get comments for
+        - in: query
+          name: resourceId
+          required: true
+          schema: { type: string }
+          description: ID of the resource to get comments for
         - $ref: '#/components/parameters/PageNumber'
         - $ref: '#/components/parameters/PageSize'
       responses:
@@ -1476,12 +1468,19 @@ paths:
                   data:
                     type: array
                     items: { $ref: '#/components/schemas/Comment' }
+                  meta:
+                    type: object
+                    properties:
+                      page: { type: integer }
+                      size: { type: integer }
+                      total: { type: integer }
+        '400': { $ref: '#/components/responses/ErrorResponse' }
+        '403': { $ref: '#/components/responses/ErrorResponse' }
     post:
       tags: [User — Collaboration]
-      summary: Add a comment to a case
+      summary: Add a comment to a resource
+      description: Create a comment on a case, document, time entry, or client
       security: [ { BearerAuth: [] } ]
-      parameters:
-        - $ref: '#/components/parameters/CaseId'
       requestBody:
         required: true
         content:
@@ -1493,44 +1492,8 @@ paths:
           content:
             application/json:
               schema: { $ref: '#/components/schemas/Comment' }
-
-  /documents/{documentId}/comments:
-    get:
-      tags: [User — Collaboration]
-      summary: List comments on a document
-      security: [ { BearerAuth: [] } ]
-      parameters:
-        - $ref: '#/components/parameters/DocumentId'
-        - $ref: '#/components/parameters/PageNumber'
-        - $ref: '#/components/parameters/PageSize'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: array
-                    items: { $ref: '#/components/schemas/Comment' }
-    post:
-      tags: [User — Collaboration]
-      summary: Add a comment to a document
-      security: [ { BearerAuth: [] } ]
-      parameters:
-        - $ref: '#/components/parameters/DocumentId'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema: { $ref: '#/components/schemas/CreateCommentRequest' }
-      responses:
-        '201':
-          description: Created
-          content:
-            application/json:
-              schema: { $ref: '#/components/schemas/Comment' }
+        '400': { $ref: '#/components/responses/ErrorResponse' }
+        '403': { $ref: '#/components/responses/ErrorResponse' }
 
   /comments/{commentId}:
     patch:
