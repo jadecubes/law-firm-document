@@ -1,0 +1,71 @@
+---
+id: delete-a-comment
+title: "Delete a comment"
+description: "Users can only delete their own comments"
+sidebar_label: "Delete a comment"
+hide_title: true
+hide_table_of_contents: true
+api: eJyVVFFvGzcM/isEX9YCmp1u2R7uLW1cIEPWBUmKYbCNgr6jfWp0kirqnBqHA/Yj9gv3SwbpzomTeBv6dNKRIvmRH78OI20Eizl+FA7w959/wTtnDK1coKidxaXCiqUM2udrkf0ESrLgrNlBxYYjQ6xZB3D3FkrXNGyjoELhsg067rCYd/iWKXA4a2ONxXzZLxV6CtRw5CDZQafonmKNCi01jAWOsS4qVBj4S6sDV1jE0LJCKWtuCIsO484nZ4lB2w32KXRg8c4KS7L/cHKaPk9hnOe6K+wVnp78+NI+C8EF8LQzjlL60tnINiZH8t7oMrdn+lmSd/eyGrf6zGVEhT44zyHqoZbSVXykZoUNi9DmuK3iSNrIgY1CoB0q1JEb+f+sa82m+sa0fd8PTWdJAzjicDiT+YDsMeBSIX+lxht+hI1Xs+tfL25uLn778Ol89uFidn7woMA/XAuVA+si1LRl8BwaLaKdheiAypJFINZaILC4NpSMTypM50+nP/2ccEUdU+ZhjNcjGzKoDDrWLj0YyJvalWhX4HRP3mn3QL0+Ezls9zRtg8EC6xi9FNMpeT0ZcU5K10y3bzDxb8/8m0SLYQaH/H/oZQqDI5fTfZWdUI2H9y40FLHAX36/zQ3Xdu3y8xHeJd3Dex0ayNt75UIkA2dXF6gwFTxQ+c3kZHKCx/b4+zWV2m6AbeWdtlFg7QIYut9xEAVpQQ1vyIgCshVIpPU6zaIhS5v90lekzQ7uXbgrFrYkYVFQGp3aqKByZdsMR/I5x3iLumGIgco7bTcKVtqYfEh5ykMFmizswp4Nw9cCUjrPFax20AqH7wTWCX7DzYqD1NrnAI/MEdhqgku3iQ6u3569myzsMwEbebWnlMC9jrW2I7gU/ZW8zlFXJFyB25s2gWzkJ8kmC5vI553EhrIujEI2qA3QXh2fT6N71JdvEdiRRZG/xqk3pHP2TNBupPQcD9yLRz1dKqydxOTQdQnYx2D6Pv3+0nJIir1UuKWgaZWINu+w0pLOFRZrMsL/AeDV9SgLr+HfatzLmE0itiXTphsqvOPdE9nvl73CmqnikIsY7IkNPh68fKHIaQcftvx8djm7naFCerp8z5YtJzhaWNcNHrfujm3fP9QZ0z3V2Pf/ACwshdQ=
+sidebar_class_name: "delete api-method"
+info_path: docs/user-api/law-firm-user-portal-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Delete a comment"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"delete"}
+  path={"/comments/{commentId}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Users can only delete their own comments
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"in":"path","name":"commentId","required":true,"schema":{"type":"string"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"204":{"description":"Deleted"},"403":{"description":"Error payload","content":{"application/json":{"schema":{"type":"object","properties":{"code":{"type":"string"},"message":{"type":"string"},"details":{"type":"array","items":{"type":"object","properties":{"field":{"type":"string"},"message":{"type":"string"}}}},"requestId":{"type":"string"}},"required":["code","message"],"example":{"code":"PERMISSION_DENIED","message":"You do not have permission to access this resource","requestId":"req_456"},"title":"ErrorResponse"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

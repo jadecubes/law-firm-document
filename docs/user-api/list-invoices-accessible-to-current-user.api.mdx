@@ -1,0 +1,71 @@
+---
+id: list-invoices-accessible-to-current-user
+title: "List invoices accessible to current user"
+description: "Users can see invoices for their cases (based on permissions)"
+sidebar_label: "List invoices accessible to current user"
+hide_title: true
+hide_table_of_contents: true
+api: eJytVs1u20YQfpXFXJoAjCQH6IU3xZILt4JjOHZ7kHUYkSNpY3KX2R3aVgQCeYg+YZ+kmCX1Z1H+aaOLSM43PzszO/OtgHHuIR7DjSen/vnxtzo391Yn5GESQUo+cbpgbQ3EAeJVgkZ5IqUbnJpZp3hB2qkEPXn1boqeUmWNKsjl2nttjX8PEXhKSqd5CfF4BZ8IHbl+yQuIx5NqEkGBDnNicj4AtLj8VpJbQgQGc4IYCpzT2JT5lNxEDCYLyhHiFfCyELk2THNyEEGujc7LHOITOcUMy4whPqmq6BnDXn+nN5jN8bF+/tjr7Tj5tXfUi+TnPG3z4NlpM4fjmpkmw/9N1zNy6Z/RjICMnGMMg6v+2TVE8GV4IX+X/fMBRPD5z+HV4GYIEZz2L06Ho9FwAJNKSubIF9Z48mL0Y68nf/s98/kPiCCxhsmwSLEoMp2gSLtfvUBWh3HZ6VdKGCIonC3Isa4dpMi7KHQO5ZiaKfcva+u0JWcRNG18EZqqFdFU7ZjoImS5Tbiu2XHhUV3tfUkD5BZpBDPrcmSIJSEk6PQN2KYbflITRJBpQ+dPKvBzKrPXSC3ybyUaDuNkI6xHgwjdfj62AsxtWbfigYh1TkPDbtlWswhMmWU4zQhidiVVVSXZLKdsGbN2e/h41RrGga2A7R+JrA191Gd9vEvcy+nG0GZI9TbQQdmeJ2OZWtvkIJgClzkZviaXv1Ihnd247GXo0/3zRc8NpermahR2zuXgTKX2wWQW03ClHCFT2ucX78EHqbSolEX6NpXQJSwBQrMnw7ec+BXzS5ZMy1aRNtLfj0ieVnojWv+C84VNIYY5BZ8oKxW66/0cFq+7X6/VUjIPC+bCx90uFrpDj5gXGXUSm3fvT0Dm+npTf5HJXAe/u6830YiZ9WKR92kAQdQ8nK0z+Ptf1yFP2sxsUG9yOMIHdaZdrgL7uLSOMVP9y3OIQAKuy37S6XV60EZGPsww0WauyKSF1YZrLpLhw5Kcj5QQiozmmPlIoUmVZ5zNFFuVo8E5NaQlRZ0t1YN1d/GtCQwmUvV09pFKbVLm9SMWwUfzJu2g2GFyp808UlOdZeFB/CRWuti6sOU6t+bW9JOEvFfaK5/YglI1XarSk/vFq5kcPye5dn6hi2Bghzepe41qZOds1dWn/mnn1mxZmDXZUmFt2pG3pRM69qB5oU1zOLH+zr8PVje0rBbNHRqmPWedWyM9V1jPOYah21CIkfa8JXy1Sz3NSJKZlM6R4XCep1VabVf//2aPTcsxPXK3yFCHUMt6jtQ9Pwa9w10X1rN8W63E4o3Lqko+1+RIbkKqvcyaFOIZZp4iuKPlIce8x0wmJIDQq+dU1uzxNQobIvgq8Jb7vQa+oXtb8ERenK4n61i29oIwFbozXjVa0qEF72gdEDWxshk1vw2FGuD+NHhy+4P1NSMwyx3bq1WNuLZ3ZKoK1qGzvEM1qarqXzZsSoc=
+sidebar_class_name: "get api-method"
+info_path: docs/user-api/law-firm-user-portal-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"List invoices accessible to current user"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/invoices"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Users can see invoices for their cases (based on permissions)
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"in":"query","name":"page[number]","schema":{"type":"integer","minimum":1,"default":1}},{"in":"query","name":"page[size]","schema":{"type":"integer","minimum":1,"maximum":200,"default":50}},{"in":"query","name":"caseId","schema":{"type":"string"}},{"in":"query","name":"clientId","schema":{"type":"string"}},{"in":"query","name":"status","schema":{"type":"string","enum":["DRAFT","SENT","PAID","OVERDUE","CANCELLED"]}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"OK","content":{"application/json":{"schema":{"type":"object","properties":{"data":{"type":"array","items":{"type":"object","properties":{"id":{"type":"string"},"invoiceNumber":{"type":"string"},"caseId":{"type":"string"},"caseName":{"type":"string"},"clientId":{"type":"string"},"clientName":{"type":"string"},"issueDate":{"type":"string","format":"date"},"dueDate":{"type":"string","format":"date"},"status":{"type":"string","enum":["DRAFT","SENT","PAID","OVERDUE","CANCELLED"]},"lineItems":{"type":"array","items":{"type":"object","properties":{"id":{"type":"string"},"description":{"type":"string"},"quantity":{"type":"number"},"rate":{"type":"number"},"amount":{"type":"number"},"timeEntryId":{"type":"string","nullable":true}}}},"subtotal":{"type":"number"},"taxRate":{"type":"number","nullable":true},"taxAmount":{"type":"number","nullable":true},"total":{"type":"number"},"amountPaid":{"type":"number","default":0},"amountDue":{"type":"number"},"notes":{"type":"string","nullable":true},"paymentTerms":{"type":"string","nullable":true},"pdfUrl":{"type":"string","nullable":true,"description":"Signed URL for PDF download"},"createdAt":{"type":"string","format":"date-time"},"updatedAt":{"type":"string","format":"date-time"}},"title":"Invoice"}},"meta":{"type":"object","properties":{"page":{"type":"integer"},"size":{"type":"integer"},"total":{"type":"integer"}}}}}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

@@ -1,0 +1,71 @@
+---
+id: list-appointments-for-current-user
+title: "List appointments for current user"
+description: "List appointments for current user"
+sidebar_label: "List appointments for current user"
+hide_title: true
+hide_table_of_contents: true
+api: eJy9V19vGkcQ/yqreWkrbTCO1BfeCFxiWgyWgfQBW9FwN8DGd7vX3TnbBJ3UD9FP2E9SzR045xg7OKr6xLL7m787O/O7LTCuAnTmMAvk1T9//a26ee6M5YwsB7jWECguvOENdOZbeEfoyXcLXkNnfl1ea8jRY0ZMPlQAY6EDfxbkN6DBYkbQgRxXNLdFtiB/DRpCvKYMobMF3uRybizTijxoyIw1WZFB51RDQkssUobOaVnqFxQH84VeoTbD+3r9tt1uGPm1/ayVwOi5j0yHjAT2xq5Aw9L5DBk6kAjyWWVkk/9KVSX2kh6yEucceuPRZDacdqeD8Qg09Mazy+mns6h7ORh9AA396GI8GewOz6NoWm9fnI1H0adedzisMN3+cDCKQMN4ehZdwvVL6eIiHOXYpHcW9WfDqF95NXo/uDzfrc8vhtG0XndHvWgomOdNxhhokLxgspRK9RRyZwMFOX/bbstPQiH2JmfjRO34d9AQO8tkWU4xz1MTo5yefA4C2T414RafKWbQkHuXk2dTG0iQmyj0HsVjw5SF70ub5EAQGthwSgdPHgXyNOO2SFNciCz7gkRTBfi/a0bXj2lqsoPGHxX+GxZUKS4lrxNIXX1nRyXChI/Gc4FpA71wLiW00OgPS0yDwDMiNnY18+lR2neVeRQ0NWT5SLDzK7TmC/lD+Ob5CA9lrtSAzGQTovDjRVqEw/YP+JuYkKe4edYbytAczOjDDdeIA6p3/eaFWr6IRv26Pru9XnRR95V+1JPilOU0Gkmhf4ykxZSldIrM2KQaaT+am++9r+i8O5BHMjmfyLuZTc6q55EZWzCFd7R0vim/n2W1f98P+ZWdtVHoDdFSg3VMBw09LV9PyJR0+fh3WuTJ60S+dkBosJRqPyM+oikLYTiUVQ3CIg6fsONHzaF5FWV9H4+nyNAEVthgUWrpvIoL78mykkcDlb9rl0AHVlS5icKo4KQpJvOM/O2eWRXScmDNnIfOyQnmpkX3mOUptWKXndyeQtkgaxOZUnXMTcr2EISo2c/LquNVINC7xft98n/7Y1ql19ilq8R36R/inXpvfKYq2njhPGOquhcD0CAO14k4bbVbbfg2PSLxZomxsStFNqnirVOU4t2GfNBKOGVKK0yDVmgTFRiXS8VOZWhxRYrXZLxK0KQbdef8TefKSqMNWtVNNGiVuLjI6mUzp1pJJSn2GN8Yu9JqYdK0Woid2ElRO19Nj9aVvbLdOKYQlAkqxC6nRC021Q3+FNRSws9IWG1Ym7xSkJPPTJDwg7o1qIZuxU5dvuv2WldWAg8qRqucTTcKa9Wegit8TEHdGV4buwtOtP8cfqm0LjBQotz+aOXRMj0y1rqyUqq5C5xhNfd2zOioWjzMHZju+SRP0VSqi3rg1XU6B/zmI2HtAsv+divOznxalrJd8zSp3sQEaRfJbpJquKHN00+DW0wLsQ3C9F4S2ZP+YwSa/P0Y/FeKfgx6x8KPdKRmxseAHzjtV/C1/PGmbrtzGRdrwoR8leBaSuo154bUEworWh6az4doChrwcW/4phdU2vdD0G4aurfbGjF1N2TLEh5SIv+hlGH6L2ogz3Y=
+sidebar_class_name: "get api-method"
+info_path: docs/user-api/law-firm-user-portal-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"List appointments for current user"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/appointments"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+List appointments for current user
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"in":"query","name":"page[number]","schema":{"type":"integer","minimum":1,"default":1}},{"in":"query","name":"page[size]","schema":{"type":"integer","minimum":1,"maximum":200,"default":50}},{"in":"query","name":"startDate","schema":{"type":"string","format":"date"}},{"in":"query","name":"endDate","schema":{"type":"string","format":"date"}},{"in":"query","name":"type","schema":{"type":"string","enum":["CONSULTATION","COURT_HEARING","DEPOSITION","MEETING","PHONE_CALL","DEADLINE","OTHER"]}},{"in":"query","name":"status","schema":{"type":"string","enum":["SCHEDULED","CONFIRMED","COMPLETED","CANCELLED"]}},{"in":"query","name":"caseId","schema":{"type":"string"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"OK","content":{"application/json":{"schema":{"type":"object","properties":{"data":{"type":"array","items":{"type":"object","properties":{"id":{"type":"string"},"title":{"type":"string"},"description":{"type":"string","nullable":true},"type":{"type":"string","enum":["CONSULTATION","COURT_HEARING","DEPOSITION","MEETING","PHONE_CALL","DEADLINE","OTHER"]},"startTime":{"type":"string","format":"date-time"},"endTime":{"type":"string","format":"date-time"},"location":{"type":"string","nullable":true},"isVirtual":{"type":"boolean","default":false},"meetingUrl":{"type":"string","nullable":true},"caseId":{"type":"string","nullable":true},"clientId":{"type":"string","nullable":true},"organizerId":{"type":"string"},"organizerName":{"type":"string"},"attendees":{"type":"array","items":{"type":"object","properties":{"userId":{"type":"string","nullable":true},"displayName":{"type":"string"},"email":{"type":"string","format":"email","nullable":true},"status":{"type":"string","enum":["PENDING","ACCEPTED","DECLINED","TENTATIVE"]}}}},"reminders":{"type":"array","items":{"type":"object","properties":{"type":{"type":"string","enum":["EMAIL","SMS","PUSH"]},"minutesBefore":{"type":"integer"}}}},"status":{"type":"string","enum":["SCHEDULED","CONFIRMED","COMPLETED","CANCELLED"],"default":"SCHEDULED"},"notes":{"type":"string","nullable":true},"createdAt":{"type":"string","format":"date-time"},"updatedAt":{"type":"string","format":"date-time"}},"title":"Appointment"}},"meta":{"type":"object","properties":{"page":{"type":"integer"},"size":{"type":"integer"},"total":{"type":"integer"}}}}}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

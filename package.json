@@ -5,6 +5,8 @@
   "scripts": {
     "docusaurus": "node node_modules/@docusaurus/core/bin/docusaurus.mjs",
     "start": "node node_modules/@docusaurus/core/bin/docusaurus.mjs start",
+    "start:docusaurus": "node node_modules/@docusaurus/core/bin/docusaurus.mjs start",
+    "start:swagger": "serve ~/swagger-ui/dist -l 8080 -n",
     "build": "node node_modules/@docusaurus/core/bin/docusaurus.mjs build",
     "swizzle": "node node_modules/@docusaurus/core/bin/docusaurus.mjs swizzle",
     "deploy": "node node_modules/@docusaurus/core/bin/docusaurus.mjs deploy",
@@ -15,7 +17,6 @@
     "typecheck": "tsc"
   },
   "dependencies": {
-    "@akebifiky/remark-simple-plantuml": "^1.0.2",
     "@docusaurus/core": "3.9.1",
     "@docusaurus/preset-classic": "3.9.1",
     "@docusaurus/theme-mermaid": "^3.9.1",
@@ -31,6 +32,7 @@
     "@docusaurus/module-type-aliases": "3.9.1",
     "@docusaurus/tsconfig": "3.9.1",
     "@docusaurus/types": "3.9.1",
+    "serve": "^14.2.5",
     "typescript": "~5.6.2"
   },
   "browserslist": {

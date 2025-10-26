@@ -1,0 +1,71 @@
+---
+id: create-a-new-client
+title: "Create a new client"
+description: "Create a new client"
+sidebar_label: "Create a new client"
+hide_title: true
+hide_table_of_contents: true
+api: eJzNV+Fu2zYQfhXi/mwDGNsJsg3TrzmOi3rokiBOMgyOUZyls81GIlmSiusZAvYQe8I9yUBKtuRUdrtuwPbLNHk83h2/7ztqAw4XFqIJ3Fsy7M/f/2CDVJB0FqYcLMW5EW4N0WQDF4SGTD93S4gm02LKwdD7nKy7UMkaok34KwwlEDmTE4dYSUfS+SXUOhUxOqFk951V0s/ZeEkZ+pFba4II1OwdxQ54w9GkXOOQCKtTXF9hRj4wbZQm4wTZev/Oj3VGyAVwIJln3sfo6nL0MLq8778BDhf349HVcDyGabHv9iMHBYe5MNYdXE3xyGKsMo3ysGvKUKRtUc+VydBBVFkUHPRSyXYnmCSGrG0r4n6JrDNErj3QcMEtC9ahaz/2N6EHKjmUdy6dafNY+IKjo+v5hTAeRUdy93bem1SuecfN6FRu4vYQSkjvFtAYXAMH4Shr8+XjcsKlfm5gCB2VFLgt4e0NCg9Kq5W0ZTRnvVP/k5CNjdAe1ru9CfwD5O9fmkja0/sv4M5B5mmKM18lT++j8G8xPkqHFvvPpUfL1gN0abE8Qp992/8hnTgkNMc89aW4H38Bu1rqYa38dN34C9gPZWzW2lHSzdA+UXKEtm1HOnR5q+kWzv3B3ehhCBxGV7th/3bwevQwvPS9oC5DtXxEHD6Vy2u1YnEgP5urXCbMLYnNhcm+RFY4xKUi9FuQ8uI2TpzIguDlOvl7W5riFSKv9Oq81/tYoobGKMM0rlOF/6JQxYfQm5G1uGhfS8ihSD+nogdOnQtK2xXy8LGVlAdhH7VtLvafHyGz2uGUA33ATKdUpw03w9ufR+Px6Prq7eXwajS8bGyI4FeVs0QxqRxb4jMxTSYT1golmVMM45isZW4pLDNUwXYvQj9+e/7td9C46HCNt1VDCkkVL5FcNiOGTNIW0iEst1TeqVY2FBS9UkA3rt58/slnnsnY8OLLTQoRLJ3TNup2UYtOlXwnVln3+RSKxhtx7LFSXkzzpbgrsHfj/QcziGAWjIBXg1dbaP/0y124BY/B2/qBOazLXjnca3N7na1BmLqh1ZN136rn9tpTQ4PKLgS5JfNjI3nYdZnattFMtu2h4T90hfp/1QzqiV0PaMZUSX+TNE2Fh7Pe2flJ7/uTsx9gp7mNMyoRrGe2b/1qwj8JhJyrUNQKWm9wxV4Jk7HwPXCjjMOU9W9GwMHjogTXaafX6cFLyPkdJ3OMhVwwkolWQjrL5sqwFFdrMpYzjQZTWmBqOUOZMOtwPvc8yFDigrzcCsMSFOmarZR5ih5ljJYsryBsOUtUnGflEHU4o/rn5ZA5g/GTkAvOZiJNw8CfEyuv+soEees8ykfZL4knLLOx0pSw2Zr5W/7KBr1nGWUzMnYpdHBQs9ayZ4HsjVo4xW4v+oPOo/SJWxajZEqm6y2nt3S2bCXcUsgqOe/9a/tN8DpDSwlT26WFQelo77DOowxfAMq6DIMmyxKi7fzeu5AdUxx9cF2dogi+Aqs3FfUnENefe0svCtEENhsf2L1Ji8JPv8/Jo3Ay5fCMRpTdc+LBsyRMyASteCIP1EHZT07uyq+2Z0zzIOwve0vBtzv8PWh31Hba0K2b6/Gd14zqkzMrKWNw5UUTVxABcFChAIGJYW4DKcpFXupx6dMrDO4L1AtBClltG5NcNyLcbEqLO/VEsiiAV6k4/x+KaVEUfwGg9kDw
+sidebar_class_name: "post api-method"
+info_path: docs/user-api/law-firm-user-portal-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Create a new client"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"post"}
+  path={"/clients"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Create a new client
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"required":true,"content":{"application/json":{"schema":{"type":"object","required":["type","displayName"],"properties":{"type":{"type":"string","enum":["INDIVIDUAL","BUSINESS"]},"displayName":{"type":"string"},"firstName":{"type":"string"},"lastName":{"type":"string"},"companyName":{"type":"string"},"email":{"type":"string","format":"email"},"phone":{"type":"string"},"address":{"type":"object","properties":{"street":{"type":"string"},"city":{"type":"string"},"state":{"type":"string"},"zipCode":{"type":"string"},"country":{"type":"string"}}},"dateOfBirth":{"type":"string","format":"date"},"notes":{"type":"string"},"source":{"type":"string"},"tags":{"type":"array","items":{"type":"string"}}},"title":"CreateClientRequest"}}}}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"201":{"description":"Created","content":{"application/json":{"schema":{"type":"object","properties":{"id":{"type":"string"},"type":{"type":"string","enum":["INDIVIDUAL","BUSINESS"]},"displayName":{"type":"string"},"firstName":{"type":"string","nullable":true},"lastName":{"type":"string","nullable":true},"companyName":{"type":"string","nullable":true},"email":{"type":"string","format":"email","nullable":true},"phone":{"type":"string","nullable":true},"address":{"type":"object","nullable":true,"properties":{"street":{"type":"string"},"city":{"type":"string"},"state":{"type":"string"},"zipCode":{"type":"string"},"country":{"type":"string","default":"US"}}},"dateOfBirth":{"type":"string","format":"date","nullable":true},"ssn":{"type":"string","nullable":true,"description":"Encrypted/masked"},"notes":{"type":"string","nullable":true},"status":{"type":"string","enum":["ACTIVE","INACTIVE","ARCHIVED"],"default":"ACTIVE"},"source":{"type":"string","nullable":true,"description":"How client found the firm"},"tags":{"type":"array","items":{"type":"string"}},"createdAt":{"type":"string","format":"date-time"},"updatedAt":{"type":"string","format":"date-time"}},"title":"Client"}}}},"400":{"description":"Error payload","content":{"application/json":{"schema":{"type":"object","properties":{"code":{"type":"string"},"message":{"type":"string"},"details":{"type":"array","items":{"type":"object","properties":{"field":{"type":"string"},"message":{"type":"string"}}}},"requestId":{"type":"string"}},"required":["code","message"],"example":{"code":"PERMISSION_DENIED","message":"You do not have permission to access this resource","requestId":"req_456"},"title":"ErrorResponse"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

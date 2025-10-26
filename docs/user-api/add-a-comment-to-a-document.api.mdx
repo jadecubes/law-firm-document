@@ -1,0 +1,71 @@
+---
+id: add-a-comment-to-a-document
+title: "Add a comment to a document"
+description: "Add a comment to a document"
+sidebar_label: "Add a comment to a document"
+hide_title: true
+hide_table_of_contents: true
+api: eJylVttu2zgQ/RViXrYFGDvZR705rgt4kaZB4mCxsI3FWBpLbChSJam4hiFgP2K/cL9kMZTsyI0doO2TJHI4l8MzZ7SDgLmHZA6Pnpz4759/xdhqjSvrMChrYCnBU1o7FbaQzHdwTejIjepQQDJfNksJFTosKZDz0UAZSKDCUIAEgyVBAplN65JMmGYgwdHXWjnKIAmuJgk+LahESHYQthVb++CUyaFh32xMPlzbbMsW359NrQlkAm9hVWmVxpyHX7w1vPbKtV19oTQcJTE/OOFSnK3IBUWeD/W8H6cmoVTmhkzOIFw1Erg4ZY3vmaJzuAUJKlDpT7nIyKdOVRHkpEV/+sFD0zQSggqajceOMNDYlhzgvsWCLRquwFfW+DbT3y+v+HHssj3MkP80TMd4qOzELcVMbO1SmsWN14WSqUvGeTx6mICED5/Hj58mtzOQMJt+mvw9uZ3d/wUSxjdTXl32PE5PB8Q6FNa9uXkbiXd2+66wwT46fSpdUzP9GX7mWCPP0+DHLv4MqLWnc6Vkylcat2dqiSzAEDAtOItfSOHMvZpzGNangGvzUX6SKSbdy/7KWk1oIuPXWOsAyRq1j8i2DB2dbLG1dSUGVg8MdBFUSTF2lf3YkX43tX0UU22+b8BRlgkUaWsighUo9rLF/U6hsBkLm/URQNa3BIZ7Ez/cvYhcM+zceGDxdM97aYzAQRFC5ZPhECs1oG9YVpoGqS2Hz1fQ9NT2gbuyvaC+5h6qZjfQyWfEORqB7F4+7rH4489ZRIG7/f5FTidt5COd6+nbgdfz/SI3pjJrG1PoEL3BjfioXCmifN1ZF1CL0d0UJHDRLbJXg8vB5UnBu1hjqkwuyGSVVSZ4sbZOaNxsyXkpeLBoylF7KdBkwgdcr/lqSjSYkwgFKScyVHorNtY9JQuToicvRaoVwy8PV8geqhij+2JyiOAwfVIml2KltI4vHCftD8DBwizMKE3Je6G88KmtKBOrreDG/c2LNZdfUrki5wtVRQcVuVJ5Lt+LZ4XixubBivvr0XiwMFy4FykaYY3eCmxd7yXPi40KhTJdcez9nX8fva7QUybsfit3aAIdBRssDPcIc7TEKO3dAH6b3EcXc+BXoG9hWGlUptfzLe/nh4nODE+OxvuB+ksJBTdLMofdjnN/dLppePlrTY5/JpYSntGpVmznO9Y7fs86gXiV2AtP39138/u9AHk64b0UGhbCZ9Q1f4GEJ9oe/5E0TOyCMCMXs2gNxm2sizjUXhy8Gp+N3J9gjlThTdtlT0juPj/wCFx1fzalzfiMww3/neCmTdZWh+kS13ag0eQ15mzb+my6odZX3GMliFWdhGO3ay1m9olM0xzQCfzNwDTN/7fQgMI=
+sidebar_class_name: "post api-method"
+info_path: docs/user-api/law-firm-user-portal-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Add a comment to a document"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"post"}
+  path={"/documents/{documentId}/comments"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Add a comment to a document
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"in":"path","name":"documentId","required":true,"schema":{"type":"string"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"required":true,"content":{"application/json":{"schema":{"type":"object","required":["content"],"properties":{"content":{"type":"string","minLength":1},"mentions":{"type":"array","items":{"type":"string","description":"User IDs"}}},"title":"CreateCommentRequest"}}}}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"201":{"description":"Created","content":{"application/json":{"schema":{"type":"object","properties":{"id":{"type":"string"},"resourceType":{"type":"string","enum":["CASE","DOCUMENT","TIME_ENTRY","CLIENT"]},"resourceId":{"type":"string"},"authorId":{"type":"string"},"authorName":{"type":"string"},"authorPhotoUrl":{"type":"string","nullable":true},"content":{"type":"string"},"mentions":{"type":"array","items":{"type":"object","properties":{"userId":{"type":"string"},"displayName":{"type":"string"}}}},"attachments":{"type":"array","items":{"type":"object","properties":{"id":{"type":"string"},"name":{"type":"string"},"url":{"type":"string"}}}},"isEdited":{"type":"boolean","default":false},"createdAt":{"type":"string","format":"date-time"},"updatedAt":{"type":"string","format":"date-time"}},"title":"Comment"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

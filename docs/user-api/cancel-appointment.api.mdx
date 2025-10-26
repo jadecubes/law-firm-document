@@ -1,0 +1,71 @@
+---
+id: cancel-appointment
+title: "Cancel appointment"
+description: "Cancel appointment"
+sidebar_label: "Cancel appointment"
+hide_title: true
+hide_table_of_contents: true
+api: eJyVVMFuG0cM/RWClybAVHJaN4e9KbECuHBTw3ZQFLIQULuUduLZmcmQK0dYLNCP6Bf2S4pZybYUCSh60qzmDflIPr4OlVaCxQw/CSf456+/YRJjsF4b9io4NyhctsnqBotZh++YEqdJqzUWs3k/NxgpUcPKSQaA9VhgJK3RoKeGsUB6CXhZocHEX1ubuMJCU8sGpay5ISw61E3MD0ST9Svsc/jEEoMXlnz/09l5/qlYymSj2pCTvSdfsnNcYW/w/OznY8Q0pZAg0sYFygTK4JW9ZiDF6GxJGTj+IhndHfMJiy9cKhqMKUROardsylDxCdYGGxah1em7ipWsk707Sok2aNAqN/LfWZeWXfU/0/Z9v207Sx7BCcD+VGbbyl4Czg3yN2qi45ey8Xp689vl7e3l7x8/X0w/Xk4v9h4U+GdooQrgg0JNa4bIqbEiNnjQAFSWLAJaW4HEEtpUMh4wzOfP57+8zXWp1Zx5O8abnR6GooZ+HmsB9hQ3sNI65JgVO9acaNBngeM9nIy7A532mJWf1k+6bpPDAmvVKMV4TNGOdi0ZlaEZr99gv7cqt1lB23HtL8xz23MY3Ak/fy8GEJrd4UNIDSkW+Osfd8NsrF+G4fmuE1f0CB9samBY2uuQlBxMri/RYCa87cWb0dnoDL/vUH7x45JK61fAvhoqFliGBI4eN5zEQN5oxytyYoB8BaK0XOaxNeRpxaA12wQVWbeBx5AeintfkrAYKJ3NrTRQhbJttsf9HhtQ2zBoovLB+pWBhXVuOOQ8ZXCOFiEN2zi69/d+stWJFZAyRK5gsYFWOP0gsMzlN9wsOElt4xDgRWQCa0twFVYa4Obd5P3o3ufCBUryELzbPEnwSX0Cj1Zr63fF5eiv5PUQdUHCFYSnq1Uir3yQbHTvs05jEG1osJCd852U48E8niWh/E3H0ZEdQg1q63Y6ne07qKDB4tBR5wbrIJqBXZfZfkqu7/PfX1tO2bfnBteULC2yemYdVlbyucJiSU74iNOzQeKrm50tvAY0p7k+2ZjPJrYm1+YvNPjAmyPz7+e9wZqp4jQQ2WLymKPuvT5y5bxcz2t8Mb2a3k3RIB1u1XdbNCQ4Sa7rtoi78MC+75+5av7OHPv+X+azdvU=
+sidebar_class_name: "delete api-method"
+info_path: docs/user-api/law-firm-user-portal-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Cancel appointment"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"delete"}
+  path={"/appointments/{appointmentId}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Cancel appointment
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"in":"path","name":"appointmentId","required":true,"schema":{"type":"string"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"204":{"description":"Cancelled"},"403":{"description":"Error payload","content":{"application/json":{"schema":{"type":"object","properties":{"code":{"type":"string"},"message":{"type":"string"},"details":{"type":"array","items":{"type":"object","properties":{"field":{"type":"string"},"message":{"type":"string"}}}},"requestId":{"type":"string"}},"required":["code","message"],"example":{"code":"PERMISSION_DENIED","message":"You do not have permission to access this resource","requestId":"req_456"},"title":"ErrorResponse"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

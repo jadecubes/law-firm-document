@@ -1,0 +1,71 @@
+---
+id: list-clients-accessible-to-current-user
+title: "List clients accessible to current user"
+description: "List clients accessible to current user"
+sidebar_label: "List clients accessible to current user"
+hide_title: true
+hide_table_of_contents: true
+api: eJydVs1u4zYQfhViLm0Bru0s0Ituzs923QbZxeanB8eHsTS2uaFIlqSSdQwBfYg+YZ+kGEp27ERxnPpiipwfzjfDmW8FEecBsjFcB/Li37//ESdakYkBJhIC5ZVXcQnZeAXHhJ78sIoLyMaTeiLBoceSIvmQBJSBDP6qyC9BgsGSIAOHcxqbqpySn4CEkC+oRMhWEJeOz5WJNCcPEkplVFmVkB1JKGiGlY6QHdW13GM4qEd6h9kSfzTrj4PBlpNfB696SeY67IfolZmDBDJsbwyji9PRzej0engOEo6vL0cXZ5eXMHnVcIgYq3CQ6eHJ1ejmDCSMLjbL4beTz6Obs9N9Hgh9vgCOM+ReuagsS12mbTFdCpaTgkpUWgrrhVtYsy/Y1z1ZHw+KpFDBaVxesJqE3BNGKoasW7miXU+2ErOjUHPFeQrOmkCB3XwcDPhvN74vf7BpayKZyKfonFY58mn/e2CR1cub2ul3yvkezltHPqrGQYFxWwq9Rw5bRSrD29qq6MBQthvvryS5g0aX5ZnyIXafSjCV1jjVBFn0FdUSNL5DOLelQ/OK6w75VFVdkjPrS+TUNhIdqk0ZHuIEi8JT6MzEruzzzIToiWInhnnqdh0H/GC7YX9U7sQW3We5rUz0HRa3q/z6Euqa84uRvsyOlecOuwc6luvCIwTzNm7P+8GZyf3SRSr6JYY7KvjWxkYKB6WgbWP/u3ttw9Aes1Vb+fyAGngey2f7IPI0vcTMVqYQcUFipnyZ3l2ac28+5qdmt9Wg3srGh6i4Q233sQNV+GIqckDQzN20VVI8oD3xCOyYeQygenzlJNqIuuto/XuO6bkKsQU1CMxzCkFNNYloRV55z1hXoZm0FBe2gAzmlO6KXMbQb3V5QJC/X3OFymvIYBGjC1m/j0716AeWTlMvt2X//gjqLfpxyf26iXmbhGyCYDPrAcTf0yQEsl18WuP++59XCV5lZjapt8if44P4pHwpEgf6an1ELYZfRyCBL9wAcdQb9AYvxilrfJhhrsxckCmcVYzTzHqh8WFJPkjBLEnTHHWQAk0hQsTZjPEr0eCcuEiVFwUqvRQP1t9ltybHQEGuYZeisHlVNkt0yUf7xUUkosf8Tpm5FFOldVqwn9zyW7E+zb7erbk1w5Q+oYIIuXVUMAvg5P0U0isRJTFPCwvlkgFHvlSBww/iXqE4t/Noxbfj4Unv1nDgQeRohDV62VaG8NS83SAeVFwo0wbH1n8OvySrUwxUCLs+mns0kXac9W4Nl6qzIZaYWlpLNA6vxZ0kbeok0o/YdxpVsp9KcNXW6RjyJ9q7sCHy1mrFl732uq55u6E9XL2FCtyFCshmqANJuKPlS7J7j7pit8DEaZ/KmsYeotAy0kNENxxzv/AzrDbc6QCq2Ilr63xNPw+6acMgn0Qn/OFV0+rHTH4WhAX5hH6jw8XstrVeMD22smlKv51dgQTcbRzPGkWyvp4PZrlle7VqJK7sHZm6hk02+BvqSV3X/wHma4MV
+sidebar_class_name: "get api-method"
+info_path: docs/user-api/law-firm-user-portal-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"List clients accessible to current user"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/clients"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+List clients accessible to current user
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"in":"query","name":"page[number]","schema":{"type":"integer","minimum":1,"default":1}},{"in":"query","name":"page[size]","schema":{"type":"integer","minimum":1,"maximum":200,"default":50}},{"in":"query","name":"type","schema":{"type":"string","enum":["INDIVIDUAL","BUSINESS"]}},{"in":"query","name":"status","schema":{"type":"string","enum":["ACTIVE","INACTIVE","ARCHIVED"]}},{"in":"query","name":"search","description":"Search by name, email, or phone","schema":{"type":"string"}},{"in":"query","name":"sort","schema":{"type":"string","enum":["displayName","createdAt","updatedAt"],"default":"displayName"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"OK","content":{"application/json":{"schema":{"type":"object","properties":{"data":{"type":"array","items":{"type":"object","properties":{"id":{"type":"string"},"type":{"type":"string","enum":["INDIVIDUAL","BUSINESS"]},"displayName":{"type":"string"},"firstName":{"type":"string","nullable":true},"lastName":{"type":"string","nullable":true},"companyName":{"type":"string","nullable":true},"email":{"type":"string","format":"email","nullable":true},"phone":{"type":"string","nullable":true},"address":{"type":"object","nullable":true,"properties":{"street":{"type":"string"},"city":{"type":"string"},"state":{"type":"string"},"zipCode":{"type":"string"},"country":{"type":"string","default":"US"}}},"dateOfBirth":{"type":"string","format":"date","nullable":true},"ssn":{"type":"string","nullable":true,"description":"Encrypted/masked"},"notes":{"type":"string","nullable":true},"status":{"type":"string","enum":["ACTIVE","INACTIVE","ARCHIVED"],"default":"ACTIVE"},"source":{"type":"string","nullable":true,"description":"How client found the firm"},"tags":{"type":"array","items":{"type":"string"}},"createdAt":{"type":"string","format":"date-time"},"updatedAt":{"type":"string","format":"date-time"}},"title":"Client"}},"meta":{"type":"object","properties":{"page":{"type":"integer"},"size":{"type":"integer"},"total":{"type":"integer"}}}}}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

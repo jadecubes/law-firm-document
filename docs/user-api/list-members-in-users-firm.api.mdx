@@ -1,0 +1,71 @@
+---
+id: list-members-in-users-firm
+title: "List members in user's firm"
+description: "List members in user's firm"
+sidebar_label: "List members in user's firm"
+hide_title: true
+hide_table_of_contents: true
+api: eJydVcGO4zYM/RWBl7aAmmQW6MW3bNEt2k7bRXcGPSQ5MDIda0aWVImemTQw0I/oF/ZLCtpJNplk02xziW2SjxT1+LgBxlWGYgb3mZL656+/1TubGvUzNUtKGRYaMpk2WV5DMdvAW8JEadpyDcVs0S00REzYEIuzOFgPBfzRUlqDBo8NQQERVzTzrSAuQEM2NTUIxQZ4HcVuPdOKEmhorLdN20Bxo6GkClvHUNx0nb4AnO2f9BmwDb4Mz28mk4Mk30w+mSUFR+fwMyfrV/Dp6hIatoamifD/xGfCZGqQIrNJNrIN4vWh/6yWayV+KiRFDVp3McNCQ6Icg8+Uxf5mMpG/Y+BffwINJngmz2LFGJ01KNbxQxaXzWmKsHwgw6AhphApsR0SlMiHXpgSysksU5P/O9qWZw6hobQ5Olz/0rfnjH3ow4lFQxVSgwwF7DrlW+dw6QgKTi11Gh7C8s6yO4N7xjnWgcN9OpvqxDlUlTV0G4ZGXovvr6tEqJmv6PNHqh2x8jNDbZ4atk+HpS1DcIS+N/PQQBABGfSj/9wQX0EYGeUzs9tpkPk+b+HA6M6Zdr/Xo3NrM6tmkDZlvWozpS+yqmxqoC+0DiUUsKK+PhSRg7FYx9sgGTJKTzuxa4UDUDPHXIzHGO2IXrCJjkYmNOOnG+gO9PODjM5w2EMV3VcvMLsh7lvbO4HePrzbcfjH3++G2/BV6MO3bb/F50G7eyV/HxKjU9P3P4AGKXjowM1oMpqcSIpEfF2hsX6lyJcxWM9ZVSEph89rSlkrkXlHK3RZK/SlyoxVpTioBj2uSHFNNqkSrVur55Aei7k3mClrZZwlz1mrMpi2GR4x9jm2b2wbUpzQPFq/0mppnesfJI8JQvmQ+ukZzf3cT42hnJXNKpsQqRQlPLjI3f3WNvYAkVJjsxw/qyeL6jasOKjf3k6/Hc29HDwrg14F79YKB+hEObTJUFbPlmvrt4cT9C/zVz3qEjOVKuxMq4Se6SjZaO6FozFkbrCf+62sXybh0cXsucH0wuPo0PaY7SA9A0FnsKfvfmXXIbNYNhup8z65rpPPw34R4pY2i46UUFToMml4pPXpon5C10p2kA11KWS3gq8J2G7Tq7CPF+jlkFeN2++xC/vybHOH1Pvd+zHpQl6SHfR3tug01IQlpb6hQ5RQM/JB1MkKFZS9znz/3R1owGMZeDX2PfpOov36AHuzGTzuwiP5roNd6Szv0C26rvsX01Jhyg==
+sidebar_class_name: "get api-method"
+info_path: docs/user-api/law-firm-user-portal-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"List members in user's firm"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/firm/members"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+List members in user's firm
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"in":"query","name":"page[number]","schema":{"type":"integer","minimum":1,"default":1}},{"in":"query","name":"page[size]","schema":{"type":"integer","minimum":1,"maximum":200,"default":50}},{"in":"query","name":"role","schema":{"type":"string"}},{"in":"query","name":"practiceArea","schema":{"type":"string"}},{"in":"query","name":"search","description":"Search by name or email","schema":{"type":"string"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"OK","content":{"application/json":{"schema":{"type":"object","properties":{"data":{"type":"array","items":{"type":"object","properties":{"id":{"type":"string"},"displayName":{"type":"string"},"email":{"type":"string","format":"email","nullable":true},"jobTitle":{"type":"string","nullable":true},"photoUrl":{"type":"string","nullable":true},"officeLocation":{"type":"string","nullable":true},"phone":{"type":"string","nullable":true},"roles":{"type":"array","items":{"type":"string"}},"practiceAreas":{"type":"array","items":{"type":"string"}},"isActive":{"type":"boolean"}},"title":"FirmMember"}},"meta":{"type":"object","properties":{"page":{"type":"integer"},"size":{"type":"integer"},"total":{"type":"integer"}}}}}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

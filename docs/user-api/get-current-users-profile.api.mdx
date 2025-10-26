@@ -1,0 +1,63 @@
+---
+id: get-current-users-profile
+title: "Get current user's profile"
+description: "Get current user's profile"
+sidebar_label: "Get current user's profile"
+hide_title: true
+hide_table_of_contents: true
+api: eJyVVVFv2zYQ/ivEvWwDWDvdo9+Uzk3deU7gOiiKxCjO1EliTJHakYrrGgL2I/YL90sGUk7ipE6RPOmoO3684333cQcBSw+jK7j0xOK/f/4VF+wKbQiWEjyplnXYwuhqB6eETJy1oYLR1bJbSmDyjbOePIx28PvJSfzk5BXrJmhnYQTnf4IE5WwgG6IXm8ZohdE7vPExZAdeVVRjtMK2IRiBW92QCiChYdcQB90foPODGB9Y2xI6Ca0nnhx3Gdy811w/4821bwxuZ1jTUT/VqM2PHgmF4xoDjPYRnYQbt1roYI7gSLCtMbiKvsAtdRKaygV3yUehfwh2RaEVTV1/Zy/Fty/LZKXdi+LYmb4F+0hkxi1I0IFqfwyBbFtHTk2zz1/Gc5Bwkc2z6fgsm4KE+fjd+GIxOZ9NPi1AwulkOp3Mzr5mf/w1mYGEyeLBnC3G82icLz6M57DsYnWMKmhFGRO+Iqcu0cGWLZavKSVuC7qm789caU4FtiZyIauJtcLhjDZfvzheQ8qVCmKy6tGRz9A7kWnmgi72A3K4Z+WcIbSHJ+5742v/ik0FGh93hYqOsf6hc0aXVcwxR16DBGyDi4LwUG/608X7UUwYKM/CT2clx0Bv4lWmmW3y121JbUgDlnTqTqK6LmXwWHPOKAjVMpMNIorDL140+3gJNYXK5TCCklILMKoZDOvo88S3xD6JXRvnE6oQGj8aDrHRA/qGdWNooFw9vH0L3YE8fooK1nfxUCTvS4swEV/1tw6rFARyb7y/K/jj50UqVduiH8x9yVPciChkImn0heOARmQXE5AQE+7Lfjs4GZzA08uIO94UqLQtBdm8cdoGLwrHwuBmS+ylaJDRUInGS4E2Fz5gUYjgRI0WSxKhIs0iR222YuN4Pbq2Cj15KZTRZIOXIneqrXsTm3TGfhW7JwKjWmtbSrHSxiQjnqNclBnHibeDa3ttM6XIe6G98Mo1lIvV9q6DRSy/pnpF7CvdJICGuNY+lu/FrUYxdWVwYn6avRtc21i4FwqtcNZsBfbQTN61rMiLjQ6VtvviIvqv/reEukJPuXB3rpLRBnp02ODapul2PtSYNNmmN+TnzHvUl3tqBPoWho1BnSDb/lXoWXkFdXqEK+dDXO12MbVLNl0Xf//dEseHeSnhFln3gn217CRUhDlxovGatlGblKIm0v0WTZtU7+kzHNl8Pxpn40U/8occfsLZhH6noXZ7gL3b9RELtybbdSD3SYS4hm7Zdd3/1fjm5w==
+sidebar_class_name: "get api-method"
+info_path: docs/user-api/law-firm-user-portal-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Get current user's profile"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/me"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Get current user's profile
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"OK","content":{"application/json":{"schema":{"type":"object","properties":{"id":{"type":"string"},"userId":{"type":"string"},"lawFirmId":{"type":"string"},"displayName":{"type":"string"},"email":{"type":"string","format":"email"},"jobTitle":{"type":"string","nullable":true},"photoUrl":{"type":"string","nullable":true},"officeLocation":{"type":"string","nullable":true},"phone":{"type":"string","nullable":true},"bio":{"type":"string","nullable":true},"roles":{"type":"array","items":{"type":"string","enum":["LAWYER","PARALEGAL","RECEPTIONIST","BILLING_ADMIN","IT_ADMIN","INTERN","OTHER"]}},"practiceAreas":{"type":"array","items":{"type":"string"}},"languages":{"type":"array","items":{"type":"string"}},"timezone":{"type":"string","default":"America/New_York"},"preferences":{"type":"object","properties":{"emailNotifications":{"type":"boolean","default":true},"smsNotifications":{"type":"boolean","default":false},"theme":{"type":"string","enum":["light","dark","auto"],"default":"auto"}}},"createdAt":{"type":"string","format":"date-time"},"updatedAt":{"type":"string","format":"date-time"}},"title":"UserProfile"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

@@ -1,0 +1,71 @@
+---
+id: delete-time-entry
+title: "Delete time entry"
+description: "Can only delete entries in DRAFT status"
+sidebar_label: "Delete time entry"
+hide_title: true
+hide_table_of_contents: true
+api: eJyVVdtu20YQ/ZXBPLQJsJGc1u0D3+xYBlS4qWE7KApZCEbkSNx4ucvsDOUIBIF+RL+wX1IsScXypS3ypF3t7Mw5s2cOW1TaCGYL/CAc4e8//4IbWzF8B6fWOes3uDRYsOTR1mqDxwzfkYfg3Q4KdqwM7DVaFrAezq5Ozm9AlLQRNCicN9HqDrNFi6dMkeNJoyVmi2W3NFhTpIqVo/QBNiWvSUs06KlizFBtxTOvcTcv0GDkz42NXGCmsWGDkpdcEWYt6q5O4aIxIe5S8shSBy8s6fyHo+P085jHWQ+/wM7g8dGPz89nMYYINe1coFQ+D17ZawqkunY2pxQ4/SQpun2OJqw+ca5osI6h5qh2wJKHgl/AbLBiEdq8fFawknVycEYx0g4NWuVK/r/q2rIrvrFs13VD01l0/tLl7vBNFgOzh4RLg/yFqtrxA228nF39Or++nv/2/uPZ7P18dnZwIcM/QgNFAB8UStoy1BwrK2KDBw1Aec4ioKUViCyhiTnjI4Rp/fH4p58TL7WaKg/PeDWqoSfVk9YypAuDhlO7kvAynCbJvRklPW0PBNj1go7bvVyb6DDDUrWWbDql2k5GtpM8VNPtW0wq3E/AdRLH8BKHc/C1oykNjopO+1UfhGZcnIdYkWKGv/x+07fd+nXor48kL+gezm2soJ/iyxCVHJxcztFgAjwI+u3kaHKET8c53Xizptz6DbAv6mC9CqxDBEf3O45iIA2q4w05MUC+SAO+XqcXqcjThkFLthEKsm4H9yHeZbc+J2ExkDvLXsVAEfKmGpZU9zXGXeowaKT8zvqNgdXgOkOdPDhHqxD7QZvc+lt/MkjACkgeai5gtYNGOH4vsE70K65WHKW0dZ/gQT8CW0twETYa4Or05N3k1ifiAvnezUZ17YUlcG+1tH4kl7K/ktd91hUJFxD2R5tIXvlRscmtTxKsg2hFvTuMhjZ4zkA6iWz39DnaB5v5BqMdVaT8Rae1I9tX7wXajsJe4KGw0WB26K1Lg2UQTWFtm+h9iK7r0t+fG47Jv5cGtxQtrZLcFi0WVtK6wGxNTvg/WLy6Gi3iNfwb0r2l+dSOLbkm7dDgHe+efAS6ZWewZCo49jCGiKSKWg/uPvPnNItfZ/5sdjG7maFBejyET4auL/AitLYdIm7CHfuue0Ca9glj1/0DbkOJog==
+sidebar_class_name: "delete api-method"
+info_path: docs/user-api/law-firm-user-portal-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Delete time entry"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"delete"}
+  path={"/time-entries/{timeEntryId}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Can only delete entries in DRAFT status
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"in":"path","name":"timeEntryId","required":true,"schema":{"type":"string"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"204":{"description":"Deleted"},"403":{"description":"Error payload","content":{"application/json":{"schema":{"type":"object","properties":{"code":{"type":"string"},"message":{"type":"string"},"details":{"type":"array","items":{"type":"object","properties":{"field":{"type":"string"},"message":{"type":"string"}}}},"requestId":{"type":"string"}},"required":["code","message"],"example":{"code":"PERMISSION_DENIED","message":"You do not have permission to access this resource","requestId":"req_456"},"title":"ErrorResponse"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

@@ -1,0 +1,71 @@
+---
+id: list-members-assigned-to-a-case
+title: "List members assigned to a case"
+description: "List members assigned to a case"
+sidebar_label: "List members assigned to a case"
+hide_title: true
+hide_table_of_contents: true
+api: eJyFVM1u2zgQfhViLtsCXDvdo25qNi2yNRojcbAH24exNJbYUCTLoZwKgoB9iD7hPsliJMebHwP1xaRm+M3f900PCSuGbA33TFH9+89PdYlMDFsNTEUbTeogW/fwkTBSzNtUQ7beDlsNASM2lCjy6GAcZBAw1aDBYUOQQYFM1yVoiPS9NZFKyFJsSQMXNTUIWQ+pC+LJKRpXwSC4kTh4JzlkPfxxcSF/JXERTUjGS5SbL6Ch8C6RS2LFEKwpUKzzbywu/dsQfveNigQaQvSBYjJTgBLTcy+METvQYBI1/OvXLVO8Ls8UoqE0HCx2X8dWnLGH2id/H+1bowbXWos7S1O/Bg3R2zMoGsi1jQxvcZX/CRryu7uby+t8dQUalvltvrj6nC9Aw939cnlzu4LtcPrpVz1dGE6qoWZHkRUym8pRqZJXqGSMoKGhVPsSMqhobISMOoO5WHneT7Me5kcIEPrEwxM5WqkT6pQCZ/M5BjOjH9gES7PCN/PDBxie8e1ORjf19znrTtULDBxJJPfd6AT6ePjkY4MJMvjr7xVIocbt/fjcJOkiLPBRfTKxUSPllz4mtCpfXoMGSXjqx4fZxewCXndJXvy+x8K4SpErgzcusdr7qCw+dhRZK5GFpQota4WuVJxwv5dGNuiwIpVqMlGVaGynHn18yDZubKFWhTXkEmtV+qJtpiOGMcbxlkxDKkUsHoyrtNoZa8eDxCm8cMbHUQazjdu4vCiIWRlWXPhApdp1Sgj7G6u9lH8cVW3CCBAoNoalfFYHg2rhq+TV7cf8crZxUjirAp3yznYKJ+hI7NtYEKtHk2rjjsUJ+jt+P6LukKlU/slURXSJXgSbbdyoB8+pwVG7x/Xxa0q+GM6JH4l+pHmwaEbcdpLYRNf1uJOEndlpOT0xdquh9pzEqe8l7ftoh0E+f28pyhbcajhgNJMy171IXM4lZHu0TG/yOa0oeHd73IDvFejzeT4tICfr54C2lRtoeKDu/1U6bAcNNWFJccxgMsqgQ3r27M1CFHmd9Pv5agUa8KWoXoloRD+bUt9PHiv/QG4YThkmuUuCw/AfMkcskQ==
+sidebar_class_name: "get api-method"
+info_path: docs/user-api/law-firm-user-portal-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"List members assigned to a case"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/cases/{caseId}/members"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+List members assigned to a case
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"in":"path","name":"caseId","required":true,"schema":{"type":"string"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"OK","content":{"application/json":{"schema":{"type":"object","properties":{"data":{"type":"array","items":{"type":"object","properties":{"userId":{"type":"string"},"displayName":{"type":"string"},"photoUrl":{"type":"string","nullable":true},"role":{"type":"string","enum":["LEAD","ASSOCIATE","PARALEGAL","SUPPORT"]}}}}}}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

@@ -1,0 +1,71 @@
+---
+id: update-client-details
+title: "Update client details"
+description: "Update client details"
+sidebar_label: "Update client details"
+hide_title: true
+hide_table_of_contents: true
+api: eJztWO9u2zYQfxXivqwFmDjNug3TpzmOi3ro0iBOOgyJUZyls81GIjWSiusZAvYQe8I9yXCUbMmJ7BbFgA3YPpkij8f7+7s7r8Hj3EF0CzeOrPjz9z/EIFWkvYOJBEdxYZVfQXS7hjNCS7Zf+AVEt5NyIiFHixl5si4QKA0R5OgXIEFjRhBBHHiNEpBg6ddCWUog8rYgCS5eUIYQrcGvcqZ13io9h5I5MzE5f2aSFVM8vhsb7Ul7PsI8T1WMXhnd++CM5r0nrM30A8V+R4jb6kxColye4uqCBWadrMnJekWuuf9YRAmki4x5jC7OR+9G5zf9NyDh7GY8uhiOxzApd9k+1VHCTFnn956meOAwNlmOej9rylClXVLPjM3QQ1RTlBLyhdHdTDBJLDnXZcRdEzlviXy3oCF0Og6cR9/97G8qH5hkn96F9raLY8kGR09vZ2fKcnwe0J3pmJs2vu3jtnSmsHG3CFWybA/QWlyBBOUp6+LFcnnlU94bWEJPVXJdVeHNBCUHpcuNdpU0pycn/JOQi63KOawhgpucpeYs+uLI33WaSrrV+yfCXYIu0hSnbCVO74Ph30F8MB066D83PTqu7kmXDsoD6bNL+y9MJwkJzbBI2RQ34y/Irg57OKc/bTf5KOyHOrar3FPSy9DdU3Igbbue9OiLTtJNOPcH16N3Q5Awutgu+1eD16N3w3OuBY0Z6uMD4PApXV6bpaiqoZiZQifCL0jMlM2+BFYkxAFNkn5HpDzyxpFXWQC8ogKRz7/SBq8geY1XL7sgamitsSLHVWrwbwSqeF/0ZuQczrvPEvKo0s+x6J5XZ4rSboTc/2wN5QHYR12Xy932I2jWMJxIoI+Y5Sk1asPl8Oqn0Xg8envx/nx4MRqety5E8IspRGKENl4s8IFETjZTzimjhTcC45icE36hnLBUh+2OhLx+//Kbb6Hl6ODGq7ogbf399f/+/s/4u3yMXFXzsQGvja1ZML8wSdXyx9zzh9Y/gl5F6XrrTfdfAo8S9mEzKBQ2hQgW3ucu6vUwV8e1KY5jk/UeXkDZmj3GHDmVm9oTyNbczAbqcYK/p4EIZL14tQG2H3++Dj7hiLxqxoth44Sa4U6Ts9PXtOCyaWeazaZrafZ2mpNWBap6ECgc2R9aysO2x2hoW63Epjlo8Q89QfNdtwLNxrYDaMtUF/52CrXrO5yenL48Ovnu6PR72Fbc1ht1CWx2NjNkvcENodIzE4xaB9obXIpXymYizJmXxnpMRf9yBBI4LqpQe3F8cnwCTwLQkT2aYaz0XJBOcqO0d2JmrEhxuSLrpOBJNKU5pk4K1IlwHmczzooMNc6Ji62yIkGVrsTS2PvoTsfoyMk6rJ0UiYmLrFpiHt6ov7gYCm8xvld6LsVUpWlY8Dux4ZpvbAC74zt9p/tVGionXGxySsR0JdjLX7lQ7UVG2ZSsW6g8MGhy2IkHheKNmXsjrs76g+M7zYo7EaMWRqerTYZvktuJpfILpWvlmPsz9zxwnaKjRJjN0dyi9rTz2PGdDvOfcT7DgND1xL4v23dcss0VTx99L09RBW4hr9c1DtzWwz9fjrb/A0wkLIzzfLxes5g3Ni1L3v61II7J24mEB7Sq6qRu15yBvE4gmmHqHvdV66bwwLOrGm6fC5DdEm7Kg+bi8IBpwV8g4Z5W7X8rSo7gBWFCNshQHQ+ql46uqz8ONteflLtSbm5wMOT+IO2kBaSX/evBa0au+m+PrEpci0sGclxWspqgesCDsLeGFPW8qGpExZRxDndh8hEsBrU6rbFeVxTX5p50WW6N4/mbLVOWfwFRTzxT
+sidebar_class_name: "patch api-method"
+info_path: docs/user-api/law-firm-user-portal-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Update client details"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"patch"}
+  path={"/clients/{clientId}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Update client details
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"in":"path","name":"clientId","required":true,"schema":{"type":"string"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"required":true,"content":{"application/json":{"schema":{"type":"object","required":["type","displayName"],"properties":{"type":{"type":"string","enum":["INDIVIDUAL","BUSINESS"]},"displayName":{"type":"string"},"firstName":{"type":"string"},"lastName":{"type":"string"},"companyName":{"type":"string"},"email":{"type":"string","format":"email"},"phone":{"type":"string"},"address":{"type":"object","properties":{"street":{"type":"string"},"city":{"type":"string"},"state":{"type":"string"},"zipCode":{"type":"string"},"country":{"type":"string"}}},"dateOfBirth":{"type":"string","format":"date"},"notes":{"type":"string"},"source":{"type":"string"},"tags":{"type":"array","items":{"type":"string"}}},"title":"CreateClientRequest"}}}}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Updated","content":{"application/json":{"schema":{"type":"object","properties":{"id":{"type":"string"},"type":{"type":"string","enum":["INDIVIDUAL","BUSINESS"]},"displayName":{"type":"string"},"firstName":{"type":"string","nullable":true},"lastName":{"type":"string","nullable":true},"companyName":{"type":"string","nullable":true},"email":{"type":"string","format":"email","nullable":true},"phone":{"type":"string","nullable":true},"address":{"type":"object","nullable":true,"properties":{"street":{"type":"string"},"city":{"type":"string"},"state":{"type":"string"},"zipCode":{"type":"string"},"country":{"type":"string","default":"US"}}},"dateOfBirth":{"type":"string","format":"date","nullable":true},"ssn":{"type":"string","nullable":true,"description":"Encrypted/masked"},"notes":{"type":"string","nullable":true},"status":{"type":"string","enum":["ACTIVE","INACTIVE","ARCHIVED"],"default":"ACTIVE"},"source":{"type":"string","nullable":true,"description":"How client found the firm"},"tags":{"type":"array","items":{"type":"string"}},"createdAt":{"type":"string","format":"date-time"},"updatedAt":{"type":"string","format":"date-time"}},"title":"Client"}}}},"400":{"description":"Error payload","content":{"application/json":{"schema":{"type":"object","properties":{"code":{"type":"string"},"message":{"type":"string"},"details":{"type":"array","items":{"type":"object","properties":{"field":{"type":"string"},"message":{"type":"string"}}}},"requestId":{"type":"string"}},"required":["code","message"],"example":{"code":"PERMISSION_DENIED","message":"You do not have permission to access this resource","requestId":"req_456"},"title":"ErrorResponse"}}}},"403":{"description":"Error payload","content":{"application/json":{"schema":{"type":"object","properties":{"code":{"type":"string"},"message":{"type":"string"},"details":{"type":"array","items":{"type":"object","properties":{"field":{"type":"string"},"message":{"type":"string"}}}},"requestId":{"type":"string"}},"required":["code","message"],"example":{"code":"PERMISSION_DENIED","message":"You do not have permission to access this resource","requestId":"req_456"},"title":"ErrorResponse"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

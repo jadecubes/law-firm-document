@@ -1,0 +1,71 @@
+---
+id: mark-notification-as-read
+title: "Mark notification as read"
+description: "Mark notification as read"
+sidebar_label: "Mark notification as read"
+hide_title: true
+hide_table_of_contents: true
+api: eJyVVVFv2zgM/isCX24DtCQ79O7Bb92tA3LYuqLtMBySYGBsJtYiSxoppwsMA/sR9wvvlwyy3TRpgjvcU6SI/PiR/Eg3EHEtkM3gkxCrf378ra59NCuTYzTeCSw0COU1m7iDbNbAG0ImvqxjCdls0S40BGSsKBJLZ2AcZBAwlqDBYUWQgTtAnBaggelbbZgKyCLXpEHykiqErIG4C8lDIhu3hjbhM0nwTkjS+6+TSfopSHI2IQFCBh+QN1QoFMWEBbQaLiYXp2ZXzJ5VwJ31mFjk3kVyMRliCHYgOP4qybo5JeWXXymPoCGwD8TR9JRyX9AZ6hoqEsH1+beCIhorB2/IjDvQYCJV8t9RV4Zs8T/Dtm3b154kTs85t4etmfWZPQEuNNB3rIKlp7Th5ur2w/Tubvrx+svbq+vp1dsDhwz+8rUqvHI+qhK3pAJxZUSMdyp6hXlOIiqWJnVOfM05wRHDdP5y8dvvKa9oYorct/F2EEWXVFfP54JQh6rbayORi6VP0MFLV9Yk1QzGh+Yybo41244r5M2rAUKIt49yr9lCBmWMQbLxGIMZDTUa5b4ab19DezBBd0lSff8O52jfhwQDwzik+7IzAj0c3nmuMEIGf36+75pl3Mp37kNp3uODeme4Ut0w33iOaNXlzRQ0JMJ9cV6PJqMJPC9Z8ni1wty4tSJXBG9cFLXyrCw+7IhFqzToltZoRSt0hZKIq1XqY4UO16RiSYZVgcbu1IPnTTZ3OQqJVrk15KJoVfi8rvojhi7GcIumIhUZ841xa62WxtrukOLk3lpceu56MZq7ubvshWNESe4DFWq5U7UQ/yJqldKvqFoSS2lCB/CkOlFbg+q9X0evbt9c/jGau5S4qByd8s7uHjX5KEdRDyaWxg3JJfQX8rJDXaJQofzj05rRRToKNpq7JNwktAq7nTIsxH/T51Fb9sqI9D2Og0XTIXaiawbpzo72q4CG7GThPql3oaFMws9m0DQphU9s2zb9/a0mTjt+oWGLbHCZJDVroDCSzgVkK7RCJwz3axRe3A7L46UCfZ7547JzadVt0dbpBho2tDv9ULSLVkNJWBB3THqj1PwQD9xPlncauf2Y33y8uwcNeDxpzyargz/LrWl6i3u/Ide2e6ox3RPDtv0JL/KF6g==
+sidebar_class_name: "post api-method"
+info_path: docs/user-api/law-firm-user-portal-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Mark notification as read"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"post"}
+  path={"/notifications/{notificationId}/mark-read"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Mark notification as read
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"in":"path","name":"notificationId","required":true,"schema":{"type":"string"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Marked as read"},"404":{"description":"Error payload","content":{"application/json":{"schema":{"type":"object","properties":{"code":{"type":"string"},"message":{"type":"string"},"details":{"type":"array","items":{"type":"object","properties":{"field":{"type":"string"},"message":{"type":"string"}}}},"requestId":{"type":"string"}},"required":["code","message"],"example":{"code":"PERMISSION_DENIED","message":"You do not have permission to access this resource","requestId":"req_456"},"title":"ErrorResponse"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

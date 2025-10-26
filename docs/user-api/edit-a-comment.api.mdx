@@ -1,0 +1,71 @@
+---
+id: edit-a-comment
+title: "Edit a comment"
+description: "Users can only edit their own comments"
+sidebar_label: "Edit a comment"
+hide_title: true
+hide_table_of_contents: true
+api: eJytVt1u2zYUfhXi3KwFGDvdul7oznFczEOSBomDoUiM4Fg6tthQpEpScQ1DwB5iT7gnGQ4lx4pjZ0U331gSDw/Pz8fvO2sIuPCQ3MKNJyf+/vMvMbRa48w6DMoamErIyKdOlfE1iXZepGiENXolKFNBhJyUE3ZpRGqLgkzwIMFTWjkVVpDcruGE0JEbVCGH5HZaTyWU6LCgQM5HA8W+Sww5SDBYECTQ+hpnIMHR10o5yiAJriIJPs2pQEjWEFYlG/vglFlAza7ZmHw4sdmKLXb3ptYEMoGXsCy1SmOm/S+e81u/dG1nXygNz4K4fXLCmThbkguKPG/qeN8NjX/sxZfW+Mb65+Nj/tspcZlhIE77h0N9HpPK9oQTI7GVS2kSF3YNJJCpCs51OLgegYTTT8Ob89HFBCRMxuej+9HF5OozSBiejfnrtONxvP9ArEJu3auLF7H3B5cvcxvsjdP7wjUVA1dT0+davtIKCYwsZY3vLKJzuAIJKlDh/72oladDqWTKlxpXB3KJKMAQMM2bu/LDIRzoqzlUw2pf4Zp4lB9likG3XZ9ZqwkNMAPMsdIBkjlqHyvriBE62FNbCXPrCgyQAKP4KKiC4tkNqL9/Sy0hqMDthGHDBG2o749/eXlnRs5ZJ0pcaYv/481Jbba/lAV5j4v9axkFVPo/9HWuSO9v7eFjW26JzLcXlvUugWUEW4dTCfQNi1LTNm24HF2dj6+vx58u7k9HF+PRaWdDAp9tJTIrjA0ix0cSJblCea+sEcEKTFPyXoRcebGhBXgWIT/fv//1A3Q6Hdt41TIktIxZUMht1uhDygIRdSKB/kZt+usnraij8rjHja5EyEMeQumTfh9L1WvT7KW26D++AxaMjVRdMyqaFnQF66mU7AZa8Yk3JBqBbB8+blD8+x+TWG9G29VWjEbdArfw7PRWmbmNh7W1OMOl+KhcIaI0X1oXUIvB5RgkcHoN7t/1jnvHsE+kj+aYKrMQZLLSKhO8mFsnNC5X5LwUrL+aFqi9FGgy4QPO59y4Ag0uqNX0DJVeiaV1D8mdSdGTlyLViosuRWbTqmgesYxntG98gUVwmD4os5BiprSOD3xO2h0venfmzgwapCgvfGpLysRsJZhcf/JizukXVMzI+VyV0cEWZl48KhRndhGsuDoZDHt3Zmc6aUG4wZ8XSxVyZdrk2Psb/zZ6naGnTNjN0sKhCfTssN6d4S6V1ocCI4m0cwoTp8DN6LPbi26vv3t2avEW6FvolxqV6bB3A/5b6Jgn21FpKiG3PrDBes1J3Thd1/z5a0WOh7GphEd0qlHK2zWLFT9nLbu/Ev6bq5Y/3opDMW74zjDbPaKu+A0kPNDq2URX87SQE2bkYhDN+rA56igOJNv9Lwi8lpsdjJ0yvGo77RDI5WAy/I3vazsaFg3POVwyNeGyCdaWT6NB/LYGjWZRNazXOK3biaQrl8/JIKa1txzrdWMxsQ9k6vqpOoHfuTJ1/Q8aqwG7
+sidebar_class_name: "patch api-method"
+info_path: docs/user-api/law-firm-user-portal-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Edit a comment"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"patch"}
+  path={"/comments/{commentId}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Users can only edit their own comments
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"in":"path","name":"commentId","required":true,"schema":{"type":"string"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"required":true,"content":{"application/json":{"schema":{"type":"object","required":["content"],"properties":{"content":{"type":"string"}}}}}}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Updated","content":{"application/json":{"schema":{"type":"object","properties":{"id":{"type":"string"},"resourceType":{"type":"string","enum":["CASE","DOCUMENT","TIME_ENTRY","CLIENT"]},"resourceId":{"type":"string"},"authorId":{"type":"string"},"authorName":{"type":"string"},"authorPhotoUrl":{"type":"string","nullable":true},"content":{"type":"string"},"mentions":{"type":"array","items":{"type":"object","properties":{"userId":{"type":"string"},"displayName":{"type":"string"}}}},"attachments":{"type":"array","items":{"type":"object","properties":{"id":{"type":"string"},"name":{"type":"string"},"url":{"type":"string"}}}},"isEdited":{"type":"boolean","default":false},"createdAt":{"type":"string","format":"date-time"},"updatedAt":{"type":"string","format":"date-time"}},"title":"Comment"}}}},"403":{"description":"Error payload","content":{"application/json":{"schema":{"type":"object","properties":{"code":{"type":"string"},"message":{"type":"string"},"details":{"type":"array","items":{"type":"object","properties":{"field":{"type":"string"},"message":{"type":"string"}}}},"requestId":{"type":"string"}},"required":["code","message"],"example":{"code":"PERMISSION_DENIED","message":"You do not have permission to access this resource","requestId":"req_456"},"title":"ErrorResponse"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

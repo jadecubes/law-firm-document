@@ -1,0 +1,71 @@
+---
+id: respond-to-appointment-invitation
+title: "Respond to appointment invitation"
+description: "Respond to appointment invitation"
+sidebar_label: "Respond to appointment invitation"
+hide_title: true
+hide_table_of_contents: true
+api: eJydVdtu20YQ/ZXFvDQBNpJTuH3gm2wrgArXMWylRSELwYgciRuTu8zOUopAEOhH9Av7JcUsKUuyhN70oiU593PmbAMBVwzJDD4xefXn73+oUVU5Y0NJNjDMNTCltTdhC8msgStCT35UhxyS2byda6jQY0mBPEcDYyGBCkMOGiyWBAngPuAkAw2evtbGUwZJ8DVp4DSnEiFpIGwrceDgjV1BK+HFmDhcuWwrFq99U2cD2SCfsKoKk2Iwzg6/sLPy7iS0W3yhNBwVMQMOGOrYa+VdRT4Y4ujdvT8pTAPZuhTP0fX1+H46vgENN+Pr28ldPE7Hd9PRdPLLGOZt/Ek6rpzlLu73FxfylxGn3lRSMCTw0FsoT6nzGWXQari8uDy1HHvvvKpwWziUef7vGRx3m7qMzoCgoSRmXJ3/llFAUxzOCL3HLWgwgUr+56xLQ0X2H9P2E43EmJxzbo/xjZ3tA8410Dcsq4L2bcP9+OHnyePj5OPd55vx3STi+FIB/OZqlTllXVA5rklV5EvDbJxVwSlMU2JWITesPLGrfUpwVKGcP1/+8KP0FUyQzB2MO9Sh58k5TmQxx36JlLFrEyLIsciQO0lROY7jld1LYHjgwMPmaAfbYUdHIQ+TX+92t/YFJJCHUHEyHGJlBv2cBqkrh+v30B7IwaPQqsPwUBResJAw0C+3PC+iEej+8MH5EgMk8NOv0wiY0PVhv+zjPUK7NdxvW6vB2KWL2fpp3uJGfTC+VFHH7p0PWKjR/QQ0SH/dPN8PLgYX8HrK4vFuiamxK0U2i4NitXReFbjZkmetROQKWmHBWqHNFAdcLgWWEi2uSIWcjFcZmmKrNs4/J082RSbWKi2MIKBV5tK67I6H0GgVTEkqeEyfjV1ptTBFEQ+SJ3VFgQvnI9iDJ/tkRx3XDCtOXUWZWmxVzeS/Y7WU9ksqF+Q5N1UMsCcqq7VBdetWwamHq9H14MlK46xStMrZYruj8Y7BrDYm5Mb2zUn0N/w2Rl0gU6bc7tPKow10lGzwZAUl4WSJUYb6y+DfUPoInhdCBfoWhlWBJkaOXG16ts8O7xgGDcnpndMRfq4hlz1JZtA00sYnX7StvP5ak5c7bq5hjd7gQmg1ayAzLOcMkiUWTCfVvagvvHnoNeetAn2+6p1GWlHINRa1PIGGZ9qeXJTtvNWQE2bkYyGdzXWX7t1UIu1jnAh/q3cewpgq/K3t/EBG7j8+TmVL+wu37OTR40amiJuuXhfbj8sf3zVQoF3VnVh2MWWn8VgSXklA7OrsRJqms5i6Z7Jt+zKgIM8ymLb9CwfPBzE=
+sidebar_class_name: "post api-method"
+info_path: docs/user-api/law-firm-user-portal-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Respond to appointment invitation"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"post"}
+  path={"/appointments/{appointmentId}/respond"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Respond to appointment invitation
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"in":"path","name":"appointmentId","required":true,"schema":{"type":"string"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"required":true,"content":{"application/json":{"schema":{"type":"object","required":["status"],"properties":{"status":{"type":"string","enum":["ACCEPTED","DECLINED","TENTATIVE"]}}}}}}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Response recorded"},"404":{"description":"Error payload","content":{"application/json":{"schema":{"type":"object","properties":{"code":{"type":"string"},"message":{"type":"string"},"details":{"type":"array","items":{"type":"object","properties":{"field":{"type":"string"},"message":{"type":"string"}}}},"requestId":{"type":"string"}},"required":["code","message"],"example":{"code":"PERMISSION_DENIED","message":"You do not have permission to access this resource","requestId":"req_456"},"title":"ErrorResponse"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

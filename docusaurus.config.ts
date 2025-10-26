@@ -2,7 +2,6 @@ import {themes as prismThemes} from 'prism-react-renderer';
 import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 import type * as OpenApiPlugin from "docusaurus-plugin-openapi-docs";
-import remarkSimplePlantuml from '@akebifiky/remark-simple-plantuml';
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
@@ -48,9 +47,6 @@ const config: Config = {
           editUrl:
             'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
           docItemComponent: "@theme/ApiItem", // Required for OpenAPI docs
-          remarkPlugins: [
-            [remarkSimplePlantuml, { baseUrl: 'https://www.plantuml.com/plantuml/svg' }]
-          ], // Enable PlantUML rendering with SVG
         },
         blog: {
           showReadingTime: true,
@@ -88,7 +84,14 @@ const config: Config = {
               groupPathsBy: "tag",
             },
           } satisfies OpenApiPlugin.Options,
-        } satisfies OpenApiPlugin.PluginOptions,
+          userApi: {
+            specPath: "examples/user-apis.yaml",
+            outputDir: "docs/user-api",
+            sidebarOptions: {
+              groupPathsBy: "tag",
+            },
+          } satisfies OpenApiPlugin.Options,
+        } satisfies OpenApiPlugin.Options,
       },
     ],
   ],
@@ -122,7 +125,13 @@ const config: Config = {
           type: 'docSidebar',
           sidebarId: 'apiSidebar',
           position: 'left',
-          label: 'API Reference',
+          label: 'Admin API',
+        },
+        {
+          type: 'docSidebar',
+          sidebarId: 'userApiSidebar',
+          position: 'left',
+          label: 'User API',
         },
         {
           type: 'docSidebar',
@@ -150,10 +159,6 @@ const config: Config = {
             {
               label: 'Getting Started',
               to: '/docs/intro',
-            },
-            {
-              label: 'SpecKit Guide',
-              to: '/docs/speckit-guide',
             },
             {
               label: 'API Reference',

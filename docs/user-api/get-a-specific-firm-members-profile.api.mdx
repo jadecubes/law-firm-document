@@ -1,0 +1,71 @@
+---
+id: get-a-specific-firm-members-profile
+title: "Get a specific firm member's profile"
+description: "Get a specific firm member's profile"
+sidebar_label: "Get a specific firm member's profile"
+hide_title: true
+hide_table_of_contents: true
+api: eJytVttuGzcQ/RViXpIArOQUbh/2TWmcQK3jBL6gKGQhGHFntbS5JMPhyhGEBfIR/cJ+ScHlypbjDeACfTLXM5zLmTOH2kHENUOxgCumIP759rd4p0MjPlCzosCwlMCk2qDjForFDt4QBgqzNtZQLJbdUoLHgA3F5JwctIUCPMYaJFhsCApomcK8BAmBvrQ6UAlFDC1JYFVTg1DsIG598uQYtF1Dl+IGYu8sEyf7z0dH6U9JrIL2UbuU5eMfIEE5G8nGZEXvjVaYrNMbTi67pync6oZUBAk+OE8h6pxAlyNlSCg1e4Pbs76RETs1qM1Ti4TKhQYjFIOHBNsagytDufdOwo1bXepoRuKOOPvaRXcVRlM9cXZVpRWdugzFc+Pb51USnMmIDZ4YAm5Bgo7U8NgoE9KoolY0C4T/8armmYp6c1jayjlDaHtzzABComxmLHRdMhwfHT/ly0kILgiPW+Ow/P+oo1w5To6GmHE9bispojbPQeMHWStNZpyzP07bQ5OWkDjOxy53hzu6yJ09BFxKoK/Y+MzZ3DZ8Ojn/ML+4mH88+/z25Gx+8vbgQgF/uVaUTlgXRY0bEp5Co5m1syI6gUoRs4i1ZhGIXRsUwaMK0/nz8S+/wsGw+zGeD+rQN9XjeTjp9xQFCvakdKWVqJKiNT0/XrDwwVXa5MZi7VKWNfUAJ9UqYJrcp9mdp7usXh0kIQybvcy1aRehjtFzMZ2i15MBmolyzXTzGroD5bxITMpjO9TPe/hTGBjksKd47wRyOLzba8nvf17mrbCV668PiJziXVbtXsM/uRDRiNmnOUhIBWdMXk+OJkfwPVLpxk8VKm3XgmzpnbaRReWCMHi3pcBSJIE3tEbDUqAtBUesqjS+Bi2uScSadBAlarMVdy7cFtdWIRNLoYwmG1mK0qm2yUf0fY7hK+qGRAyobrVdS7HSxvSHlEe5JD0u9Fs5ubbXdpb5olmwcp5KsdqKNJ4XfDhirrXvAzyQjcVGozh16+jE+ZvZb5NrmxpnodAKZ812T8U9C1nc6VhrOzSXor/kV33UFTKVwu1N64A20qNkk2ub+OodxwZ7KRkewmfS8tGE7kkS6WuceoO6D97mtyBTdgEpVE/o/GpLKIZHdymhdhyTz26XSr8KpuvSv7+0FNKbvpSwwaCzyC926clL5xKKCg3Tk3LuVRNeng9a8UqAHC9zr202KdsGTZu+QMItbR9+GHTLTkJNWFLoK8jGNGwfD6490ei0Yvcr/P7kEiTg48X6bpH66KMl7XbZ49Ldku26+wpj+k4Fdt2/z0sqXQ==
+sidebar_class_name: "get api-method"
+info_path: docs/user-api/law-firm-user-portal-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Get a specific firm member's profile"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/firm/members/{userId}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Get a specific firm member's profile
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"in":"path","name":"userId","required":true,"schema":{"type":"string"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"OK","content":{"application/json":{"schema":{"type":"object","properties":{"id":{"type":"string"},"displayName":{"type":"string"},"email":{"type":"string","format":"email","nullable":true},"jobTitle":{"type":"string","nullable":true},"photoUrl":{"type":"string","nullable":true},"officeLocation":{"type":"string","nullable":true},"phone":{"type":"string","nullable":true},"roles":{"type":"array","items":{"type":"string"}},"practiceAreas":{"type":"array","items":{"type":"string"}},"isActive":{"type":"boolean"}},"title":"FirmMember"}}}},"404":{"description":"Error payload","content":{"application/json":{"schema":{"type":"object","properties":{"code":{"type":"string"},"message":{"type":"string"},"details":{"type":"array","items":{"type":"object","properties":{"field":{"type":"string"},"message":{"type":"string"}}}},"requestId":{"type":"string"}},"required":["code","message"],"example":{"code":"PERMISSION_DENIED","message":"You do not have permission to access this resource","requestId":"req_456"},"title":"ErrorResponse"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

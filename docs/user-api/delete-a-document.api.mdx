@@ -1,0 +1,71 @@
+---
+id: delete-a-document
+title: "Delete a document"
+description: "Delete a document"
+sidebar_label: "Delete a document"
+hide_title: true
+hide_table_of_contents: true
+api: eJyVVFFv20YM/isHvqwFbna6ZXvQW7q4QIasK5IUw+AYBS3R1jWnu+uRcmoIAvYj9gv3SwbKsuM0BoY96U7kkR/Jj18HgmuGYg4fmbL556+/zWUs24aCMCwsMJVtdrKFYt7BW8JM+aKVGor5ol9YSJixIaHMg4MLUEBCqcFCwIaggGqMdlWBhUxfWpepgkJySxa4rKlBKDqQbVJvluzCGnqNnYlTDEys9h/OzvVTEZfZJXFRM12SJ6EKegvnZz++tM9yjtkk3PqImr6MQSiIOmJK3pWojtPPrN7dSzRx+ZlKAQspx0RZ3A5LGSs6gdlCQ8y4Pm2rSNB5PrJhzrgFC06o4f/OunLkq/+Ztu/7XdOJdQAnHI5nMt9V9hRwYYG+YpM8PZUNH2Y3v13d3l79/v7T5ez91ezy6EEBf8bWVNGEKKbGDZlEuXHMLgYj0WBZErOR2rHJxLHNJcEzhHr+dP7Tz1qXONHMuzHejGwYihr6+ZIJBs2ebgMoqaOGrAajNlSZWcB078TT7omePSjb82bP5TZ7KKAWSVxMp5jcZOzFpIzNdPMG+qP1uFXq7OZ0vCSHfmsYGPmu9+XgBHY8vIu5QYECfv3jbhiKC6s4PB9bcI2P5p3LjRm29EPMgt5cfLgCCwp414Q3k7PJGXzbGn3x/QpLF9aGQpWiC8JmFbPx+LilzNboFntao2drMFSGBVcrnVeDAddkpCaXTYXOb81jzA/FfSiRia0pvdM+2kPfNUIacow3cQ0ZyVg+uLC2Zum8Hw6ap4ze4zLmYQ0n9+E+XOwI4thwGRNVZrk1LVP+js1Ky2+oWVLm2qUhwBO72Gwcmuu4lmhu3l78MrkPWjibEoOJwW/33NvTjs2jk9qFsTiN/opfD1GXyFSZuDetMwahZ8km90EJmiJLg4N2jGp3iofPxnFghNBXmSaPbog0kK0bCTo/iCaDheJIQRcW6siiLl2nMD9m3/f6+0tLWUV6YWGD2eFSaTPvoHKs5wqKFXqmF2gOkgivbkYheG3Anka5F66gsrVB3+oNLDzQ9rnS94veQk1YUR5Q7Bx0uEmOnr4QYV2pw9pezq5ndzOwgM936ZvdGRKcRNZ1O4+7+ECh7w9ARe+Kse//BQJFa30=
+sidebar_class_name: "delete api-method"
+info_path: docs/user-api/law-firm-user-portal-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Delete a document"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"delete"}
+  path={"/documents/{documentId}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Delete a document
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"in":"path","name":"documentId","required":true,"schema":{"type":"string"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"204":{"description":"Deleted"},"403":{"description":"Error payload","content":{"application/json":{"schema":{"type":"object","properties":{"code":{"type":"string"},"message":{"type":"string"},"details":{"type":"array","items":{"type":"object","properties":{"field":{"type":"string"},"message":{"type":"string"}}}},"requestId":{"type":"string"}},"required":["code","message"],"example":{"code":"PERMISSION_DENIED","message":"You do not have permission to access this resource","requestId":"req_456"},"title":"ErrorResponse"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

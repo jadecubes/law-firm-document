@@ -1,0 +1,71 @@
+---
+id: list-documents-accessible-to-current-user
+title: "List documents accessible to current user"
+description: "List documents accessible to current user"
+sidebar_label: "List documents accessible to current user"
+hide_title: true
+hide_table_of_contents: true
+api: eJy9Vs1S40YQfpWpviSpmrXNVuWimwGz6wQMZQx7MD60pbY8y2hGmRkBxqWqfYg8YZ4k1ZJlbDBgNlXxxZKmf6e/7v6WEDD1EI3hypMT//z4WxzbuMjIBA8TCZ7iwqmwgGi8hENCR65bhDlE40k5kZCjw4wCOV8JKAMR/FWQW4AEgxlBBDmmNDZFNiU3AQk+nlOGEC0hLHI+VyZQSg4kZMqorMggOpCQ0AwLHSA6KEv5hmGvHukDZjN8qJ8/dzobTn7vvOolRk/9ZJcHH5wyKbyuqRWZ8JO6GCi11ZfXdCWQ4UzGcHHa6x73B19Awtn5qH8+AAm96/5xb3DUAwlH54PRsHs0qh6Hw97lxfmgOesPRr3hoHsKEs5HX3tDmLwakg8YCr9XQMfD7gm7G/au+71vIOGkX/voDo++9q97x2+5IXTxHLg4PnYqD8qy1GX1WUwXIlnBU1QKP3G3Ra4tJpQcvnW7JaPbkc+t8eT5/HOnw3/bYZ3/CRJiawKZwKeY51rFyKft755Fli9d2Ol3igNIyJ3NyQVVO0gwbEqhc8gRqkCZf19bJTuSaHLecbCVx8tSmkJrnGqCKLiCStn0wV6iDfD3s7tC+v8GcAkzpWlU+Xrpc7u+Z/2znmARYZ2gh0DG88HKxqV6pJ0j5xl21SMJZcR0Ecizrg/WYUpXTr8fwaVKDSXiangqZtaJxN4bhi+buSPnt8u3GcF6fsqmdf9bx27YXImXcrOXdoHs6XjwGg7r9fMu6p+aGjIK+KxX1j2BSaL44lBfbHRHAzVHGCjphl03MbMuQ84twUCfgsqoTiD5mApnpALjG5o9ug76/SbmlbajnFzC3VBjdzag3nXU/J4j6lT5sJ6iXmAck/dqqkkEK+LCOR6uha93J4W5TSCClKpokVc/tNfaPEHJ3TX7v2BEwzyE3EftNuaqRQ+Y5Zpasc3adwdQblCKS56Ldd6bxGKdCJtpJjS/TyshkKuHk+b2//g2qq5YmZmt1Ff3f4r34kS5TFTM5sK6gFp0L/qw0Tlw0Oq0Oi+ajjU+zTBWJhVkktwqvinuP433C3JeCmY+mlLUXgo0ifABZzO+wQwNpiTCnJQTCSq9EPfW3UY3hkeol6Iej14+1UAKzCsfqzeGkggO41tlUimmSuvqgf3ElgeoddWOad2YG9OtCiiUFz62OSW8JLl8v3gx4/QzYu7l5yqvDOTkMuU5fS/uFIpTmwYrhofdo9aN4cS9iNEIa/RihQ3hyNvCxeTFvQpzZVbJsfVf/W+V1Sl6SoRtjlKHJtCWs9ZNNTdz60OG1dBa7eOP4HH31gr0ENq5RlV5KOqxWmN1DMkmnZ1bH/jjcskBXzldlvy5ZgiM4ER5Xk8JRDPUniTc0uIlib1DXbBjYI7xlkpDT/dRWDPNvYSfyOV+ttd8ch/xNdd7W/hZNdY86A22trNiK6cN89snwi0S96Qw4RenaoYx5l0/J0zIVbWtNbld8rCh9YKzsZX14PvS472I26Pp2SiqrDcLzGxGtFzWEiN7S6YsoQk/8DuUk7Is/wUX7osN
+sidebar_class_name: "get api-method"
+info_path: docs/user-api/law-firm-user-portal-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"List documents accessible to current user"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/documents"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+List documents accessible to current user
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"in":"query","name":"page[number]","schema":{"type":"integer","minimum":1,"default":1}},{"in":"query","name":"page[size]","schema":{"type":"integer","minimum":1,"maximum":200,"default":50}},{"in":"query","name":"caseId","schema":{"type":"string"}},{"in":"query","name":"clientId","schema":{"type":"string"}},{"in":"query","name":"category","schema":{"type":"string","enum":["PLEADING","MOTION","EVIDENCE","CONTRACT","CORRESPONDENCE","INTERNAL","OTHER"]}},{"in":"query","name":"status","schema":{"type":"string","enum":["DRAFT","REVIEW","FINAL","ARCHIVED"]}},{"in":"query","name":"search","description":"Search by document name","schema":{"type":"string"}},{"in":"query","name":"uploadedBy","schema":{"type":"string"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"OK","content":{"application/json":{"schema":{"type":"object","properties":{"data":{"type":"array","items":{"type":"object","properties":{"id":{"type":"string"},"name":{"type":"string"},"description":{"type":"string","nullable":true},"caseId":{"type":"string","nullable":true},"clientId":{"type":"string","nullable":true},"category":{"type":"string","enum":["PLEADING","MOTION","EVIDENCE","CONTRACT","CORRESPONDENCE","INTERNAL","OTHER"]},"fileType":{"type":"string","description":"MIME type or extension"},"fileSize":{"type":"integer","description":"Size in bytes"},"storageUrl":{"type":"string","description":"Signed URL for download"},"version":{"type":"integer","default":1},"status":{"type":"string","enum":["DRAFT","REVIEW","FINAL","ARCHIVED"],"default":"DRAFT"},"uploadedBy":{"type":"string"},"uploadedByName":{"type":"string"},"tags":{"type":"array","items":{"type":"string"}},"metadata":{"type":"object","additionalProperties":true},"createdAt":{"type":"string","format":"date-time"},"updatedAt":{"type":"string","format":"date-time"}},"title":"Document"}},"meta":{"type":"object","properties":{"page":{"type":"integer"},"size":{"type":"integer"},"total":{"type":"integer"}}}}}}}}}}
+>
+  
+</StatusCodes>
+
+
+      
