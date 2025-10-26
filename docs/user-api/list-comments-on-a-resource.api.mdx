@@ -1,0 +1,71 @@
+---
+id: list-comments-on-a-resource
+title: "List comments on a resource"
+description: "Retrieve comments for cases, documents, time entries, or clients"
+sidebar_label: "List comments on a resource"
+hide_title: true
+hide_table_of_contents: true
+api: eJztV91u2zYUfhXi3KwFWMfp2l3oLk3cwVuSBvnBUCRGcSwdW2woUiWppJ4hYA+xJ9yTDIeSGjlRsjTL3eYbUyTP/8fDj2sIuPSQnMOZJyf++uNPsWu1xrl1GJQ1MJOQkU+dKuNnAscUnKIrEqktCjLBi4V1IkVPXorMplWclCKoggQZ3uyl4C1a8QpI8JRWToUVJOdreEfoyO1UIYfkfFbPJJTosKBAzscNiq1+qcitQILBgiABR95WLqXTVUkgwdGXSjnKIAmuIgk+zalASNYQeEMCPjhlliCBTFVwtLs7JxOQsPdh9+xgcngKEk6nB5NPk8PT448gYXd/yrOz+nb0bFDYhegcEMGKJYWNZEAtH/Z6mn2Hz3dcmO6xAyGnpzlR4pLOTVXMyc1gwKwygZbkQEKhjCo4XdvswgIrHSDZrh9U7NXv9B1qC/zajF+Pxz0jb8c1A8GRL63x5FnP6/GY/zZz8eFXkJBaE8gEXsWy1CqNyN367HnL+q4rdv6Z0gASSmdLckE1BjIM/V3oHHJ0KlDh/1laZYOl2wDqs+CxB6Ihg1iF3LoHFw9jve5dPsptsGdOD7lrKu4NmhrQ1hu5v6OOsais8U9PauXpvlAy5UuNq3tiqWsOJwRM83ginr2u5r4cVkOJa/xRfpKpQH2Fc2s1oYEe9heofcysIwyU7QzkVsLCugIDJAxaesWtNtous+8TqSUEFbicsNv0jjhXUHjEeeHzPnDAawncBIZXgg2oh5ban4Q3Q8d84px1osSVtpg934lPbTZcxIK834yu34wDKv0vELVQpIdBdb/ZmBq+MciHwQNR9y+U8yayG4UzCfQVi1LTTdhwNDk+mJ6cTD8cftqbHE4nez2BBD7aSmRWGBtEjlckSnKF8l5Zw7cNpil5L0Ku/LdbCDY85PGnN29/gh7GYhmP26YOXb1//L/e/5l6N80ltyywpJgrZOIHWx13ifTQXXXkL7ZTyEMofbK1haUatYGNUltsXW0D84SOT54wDpqk91nlt+Sxmo6bxO4bN4FsB++7DvnLb6cxw8osbBRv49nHa/FeuUJErnxkXUAtdo6mIIEdbrC7PRqPxnCbtLHEqwWmyiwFmay0qmPOGq9X5LwUTHs1LVF7KdBkwgdcLDj5BRpcEjM+5USGSq/EtXWXyYVpWXfLrDfoN5bRRp+MB4fppTJLKeZK6zhgO2mf748uzIXZaaqtvPCpLSkT85Xgq/gHLxYcfkHMHn2uyqjgBipeXCkU+3YZrDh+t7M7ujAcuBcpGmGNXnVA6jDkxbUKuTJtcKz9hX8Ztc7RUyZst7R0aAJtGBtdGEZbaX0oMDaClonuK98jw9YI7IN2ozDrm97yHC+bFmiBvoatUqMyPUrQIJ3Paov0mYTc+sBz6zWHe+Z0XfN0w6wZ/5nyzLeylhc84P2L47YfvBSPeqTc4+wlre6+r65QV7w1Piqe5NIjHy2Pcio+nx52qRG49dR5tEj3iLkRmPGHUw31PWcanhNm5GKNGkk+NGXoSd25qVjLt+7384RJPm42qFsNKWrvLh2z6uler5sdp/aSTF1D537gb6hndV3/DVhRcik=
+sidebar_class_name: "get api-method"
+info_path: docs/user-api/law-firm-user-portal-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"List comments on a resource"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/comments"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Retrieve comments for cases, documents, time entries, or clients
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"in":"query","name":"resourceType","required":true,"schema":{"type":"string","enum":["CASE","DOCUMENT","TIME_ENTRY","CLIENT"]},"description":"Type of resource to get comments for"},{"in":"query","name":"resourceId","required":true,"schema":{"type":"string"},"description":"ID of the resource to get comments for"},{"in":"query","name":"page[number]","schema":{"type":"integer","minimum":1,"default":1}},{"in":"query","name":"page[size]","schema":{"type":"integer","minimum":1,"maximum":200,"default":50}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"OK","content":{"application/json":{"schema":{"type":"object","properties":{"data":{"type":"array","items":{"type":"object","properties":{"id":{"type":"string"},"resourceType":{"type":"string","enum":["CASE","DOCUMENT","TIME_ENTRY","CLIENT"]},"resourceId":{"type":"string"},"authorId":{"type":"string"},"authorName":{"type":"string"},"authorPhotoUrl":{"type":"string","nullable":true},"content":{"type":"string"},"mentions":{"type":"array","items":{"type":"object","properties":{"userId":{"type":"string"},"displayName":{"type":"string"}}}},"attachments":{"type":"array","items":{"type":"object","properties":{"id":{"type":"string"},"name":{"type":"string"},"url":{"type":"string"}}}},"isEdited":{"type":"boolean","default":false},"createdAt":{"type":"string","format":"date-time"},"updatedAt":{"type":"string","format":"date-time"}},"title":"Comment"}},"meta":{"type":"object","properties":{"page":{"type":"integer"},"size":{"type":"integer"},"total":{"type":"integer"}}}}}}}},"400":{"description":"Error payload","content":{"application/json":{"schema":{"type":"object","properties":{"code":{"type":"string"},"message":{"type":"string"},"details":{"type":"array","items":{"type":"object","properties":{"field":{"type":"string"},"message":{"type":"string"}}}},"requestId":{"type":"string"}},"required":["code","message"],"example":{"code":"PERMISSION_DENIED","message":"You do not have permission to access this resource","requestId":"req_456"},"title":"ErrorResponse"}}}},"403":{"description":"Error payload","content":{"application/json":{"schema":{"type":"object","properties":{"code":{"type":"string"},"message":{"type":"string"},"details":{"type":"array","items":{"type":"object","properties":{"field":{"type":"string"},"message":{"type":"string"}}}},"requestId":{"type":"string"}},"required":["code","message"],"example":{"code":"PERMISSION_DENIED","message":"You do not have permission to access this resource","requestId":"req_456"},"title":"ErrorResponse"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

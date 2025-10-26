@@ -118,12 +118,6 @@ const sidebar: SidebarsConfig = {
           label: "Update client details",
           className: "api-method patch",
         },
-        {
-          type: "doc",
-          id: "user-api/list-cases-for-a-client",
-          label: "List cases for a client",
-          className: "api-method get",
-        },
       ],
     },
     {
@@ -294,26 +288,14 @@ const sidebar: SidebarsConfig = {
       items: [
         {
           type: "doc",
-          id: "user-api/list-comments-on-a-case",
-          label: "List comments on a case",
+          id: "user-api/list-comments-on-a-resource",
+          label: "List comments on a resource",
           className: "api-method get",
         },
         {
           type: "doc",
-          id: "user-api/add-a-comment-to-a-case",
-          label: "Add a comment to a case",
-          className: "api-method post",
-        },
-        {
-          type: "doc",
-          id: "user-api/list-comments-on-a-document",
-          label: "List comments on a document",
-          className: "api-method get",
-        },
-        {
-          type: "doc",
-          id: "user-api/add-a-comment-to-a-document",
-          label: "Add a comment to a document",
+          id: "user-api/add-a-comment-to-a-resource",
+          label: "Add a comment to a resource",
           className: "api-method post",
         },
         {
