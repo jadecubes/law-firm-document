@@ -1,0 +1,71 @@
+---
+id: get-document-metadata-and-download-url
+title: "Get document metadata and download URL"
+description: "Get document metadata and download URL"
+sidebar_label: "Get document metadata and download URL"
+hide_title: true
+hide_table_of_contents: true
+api: eJztVs1u20YQfpXFXJoAG8lp0xx4Uyw6YWtLhiwnKGQhGJEjamNyl9ldylEFAn2IPmGfpBhSlKWIblOgt/akpWZ2/ufbbwseUwfBDG4dWfHHb7+LoYnLnLR3MJfgKC6t8hsIZlt4Q2jJDkq/gmA2r+YSCrSYkyfragWlIYAC/QokaMwJAkh21qIEJFj6XCpLCQTeliTBxSvKEYIt+E3B2s5bpVOo2LYlVxjtyLH8+7Mz/knIxVYVXhn2NP4ZJMRGe9KepVgUmYqRpf1PjlW2py7M4hPFHiQU1hRkvWocqKQjjDaLDsFRJF/LJegyy3CRUZNpJSFGR1GHjy7VTDUF+za7nlJjN13KpMucW3t9GQ6G0egtSLgaT6PxCCSE76NhODoPQcL5eDSdDM6n9XEyCW+ux6NWFo2m4WQ0uAQJ4+m7cALzSsJSZTStfZ36PO7QVXQVClYRxgr64kk7Fuxs3KhfD20o7Skle2KE1YTSYrHx5Piu88ZiSrc2+/sIblSqKRG3k0uxNFYk5kFnBhM2sybrjtt3GMESy8xD8LL2h750f1Xh4WRwwfWbhO+j8ANIuIiaog0m5++i9+GQd2lvc6deSSgLDoaSNx39OxKPnprDZn33ArQWNyBBeco7Iq4qCTl5TNB37gQmieLCYXZ9sB3tqFlCT8nAd1ViaWyOnFuCnl54lVOTQPLPrnBGyvN8Q4tDUFX896uzH04RILTWWFHgpu7pvwYGsUm6q52Tc5g+hQgeVfYtzXjC61JR1o1CT7utS8OwSq4TMVpxg7qzJrNHg3MJ9AXzIqPHtOE6nFxFNzfRePRxGI6icHhwIYBfTCkSI7TxYoVrEgXZXDleJOGNwDgm54RfKScsOVPamOAoQj5/fPXjazhodd3GyQ7v9/1+9X+//zP9/vpFhbfkRcsdRAtZAnWyh3DG9DpSvzLsJ6W6xMw+Aui3d11/+0hBKmBGY9ctXyn5BYGV94UL+n0sVG9XnV5s8v76JVQHFOiGh6np3CER2neAzcCO0/D3olYCuTtctGj304dp3Sall6a+vivKJT6IC2VzUTOxa2M9ZmJwHcHBSwUve2e9s5NHjm+8WGKsdCpIJ4VR2rv6vcvwYUPWScFMLaMUMyfrKjqPyyV3MEeNKQm/ImVFgirbiAdj74M7zZTFSdHQESf37WALRe1j98XQLbzF+F7pVIqFyrL6wH5iw4TF2Hoxe3f6Tg+akVFOuNgUlIjFRpSO7HdOLDn9nPIFWbdSRW3gcd6cWCsUlyb1RkzeDM57d5oTdyJGLYzONu00toPoxIPyK6V3ybH1Z+55bXWBjhJhWlFqUXs6cta7q3lKYZzPsUaTHaP95snspoievvh+kaGqzZcNh2mmdrZnyw4kBAfUeS5hZZxnle2WY7+1WVXx359LYvI3m0tYo1UNN5xtIVGOzwkES8wcnUSzR054NtnhxXMBsjvKFt80o9sas5K/QMI9bY4pfsX0cEWYkK2jaBS444U/uHqC1bxn+0V+GzKVwuPt+mqbauudYW23jcbU3JOuqn2Unr85wKr6E13vbqM=
+sidebar_class_name: "get api-method"
+info_path: docs/user-api/law-firm-user-portal-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Get document metadata and download URL"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/documents/{documentId}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Get document metadata and download URL
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"in":"path","name":"documentId","required":true,"schema":{"type":"string"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"OK","content":{"application/json":{"schema":{"type":"object","properties":{"id":{"type":"string"},"name":{"type":"string"},"description":{"type":"string","nullable":true},"caseId":{"type":"string","nullable":true},"clientId":{"type":"string","nullable":true},"category":{"type":"string","enum":["PLEADING","MOTION","EVIDENCE","CONTRACT","CORRESPONDENCE","INTERNAL","OTHER"]},"fileType":{"type":"string","description":"MIME type or extension"},"fileSize":{"type":"integer","description":"Size in bytes"},"storageUrl":{"type":"string","description":"Signed URL for download"},"version":{"type":"integer","default":1},"status":{"type":"string","enum":["DRAFT","REVIEW","FINAL","ARCHIVED"],"default":"DRAFT"},"uploadedBy":{"type":"string"},"uploadedByName":{"type":"string"},"tags":{"type":"array","items":{"type":"string"}},"metadata":{"type":"object","additionalProperties":true},"createdAt":{"type":"string","format":"date-time"},"updatedAt":{"type":"string","format":"date-time"}},"title":"Document"}}}},"403":{"description":"Error payload","content":{"application/json":{"schema":{"type":"object","properties":{"code":{"type":"string"},"message":{"type":"string"},"details":{"type":"array","items":{"type":"object","properties":{"field":{"type":"string"},"message":{"type":"string"}}}},"requestId":{"type":"string"}},"required":["code","message"],"example":{"code":"PERMISSION_DENIED","message":"You do not have permission to access this resource","requestId":"req_456"},"title":"ErrorResponse"}}}},"404":{"description":"Error payload","content":{"application/json":{"schema":{"type":"object","properties":{"code":{"type":"string"},"message":{"type":"string"},"details":{"type":"array","items":{"type":"object","properties":{"field":{"type":"string"},"message":{"type":"string"}}}},"requestId":{"type":"string"}},"required":["code","message"],"example":{"code":"PERMISSION_DENIED","message":"You do not have permission to access this resource","requestId":"req_456"},"title":"ErrorResponse"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

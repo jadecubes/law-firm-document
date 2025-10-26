@@ -1,0 +1,71 @@
+---
+id: upload-a-new-document
+title: "Upload a new document"
+description: "Initiate document upload (returns upload URL for multipart upload)"
+sidebar_label: "Upload a new document"
+hide_title: true
+hide_table_of_contents: true
+api: eJytVttu20YQ/ZXFvDQBGNku0j7wTZHoRoUjCbScoJCFYESOpI3JXWZ3aUUQCOQj+oX9kmKWpETZclAUeeJeZmdnzpw5yz04XFsI53BnyYh/vv8thjopc1LOwiKAlGxiZOGkVhDCSEkn0ZFIGxtRFpnGVLwy5EqjbDu/i2/EShuRl5mTBZrW8DUEYCkpjXQ7COd7eEdoyPRLt4FwvqgWARj6WpJ173S6g3Dvp9JQCqEzJQWQaOVIOd7CoshkghzbxRfLAe7BJhvKkUduVxCEoJdfKHEQdBzNQWFOnF1hdEHGSbJ8wq8eT1pnpFpD9QSEM/sJWhql57cyScq9tImO1trsnm8GQKrMOdTpTdQfjsZ/QAAfJrPRZAwBRB9Hw2g8iCCAwWQ8i/uDmR/GcXQ7nYzbvdF4FsXj/g0EMJm9j2JYVAFYh660P7pxGPev2V8cfRxFnyCA61HtpB8P3o8+RkPvp6bNwQsagzsIQDrKz3ivqgBycpiiO1scTFPJ8GI27ZSEK84nnXQZm995DrX8jGuiQFWxjSFbaGXrSv56ecWfU/IODKGjs1xlWv5vYp2SqO2MF0pe33lnsnMVOI13asjKtaJjN61kRk3U7Iu+FdKQ7btzvlba5OgghBQdvXEyJw8UQ/X28vI5OpEx2ogCd977T4Mj0en5nsrJWly/1G8OZfZf6PXCrStJ2Xn8X762YZHn1NniVaca4jM7OlxwPTAvMjqmDdMo/jC6vR1Nxp+H0XgUDTsHQvhLlyLVQmknNvhIoiCTS2ulVsJpgUlC1gq3kVYYsro0CcFJhDz+/Pa336HTIr6McdML0BQ8J7fRfKDQ1oOFLLdwkR6UnlXZPJKxXpRLpidsnCtseHGBhew1qfUSnV88XgHrdCvjt8yEGvaumB/gYzfs35tBCEtvBEEzuG55+uenmceYGRYf34DoCGqtzy+1y2G5VePOykGEu1at9nYltlXHgwi2r2NzbnEiYxyuVCvts20KcINbcS1NLvx7OtXGYSb60xEEwPjWsV71LnuXzzLgE29WmEi1FqTSQkvlrG/8DLc7MjYQBRrMaI2ZDQSqVFiHqxWzJUeFaxJuQ9KIFGW2E1ttHsJ7xXDYQNQY2ODwdLOHwt/RzFgjhDOYPEi1DsRSZpkf8D2JzjJcauNFoHev7lW/pqe0wia6oFQsd6K0ZH6xYsXp55QvydiNLLyDI7eteJQobvTaaRG/6w9694oTtyJBJbTKdi3zW9JbsZVuI1WTHHt/ZV97r0u0lArdbq0NKlb4zmW9e8XtwcTPUXVYVL8lAoWi7QGTpyXZH2Xw5/z7ND3h6Ju7KDKUPriyfg3qrpxD2v3/2nDHhnPY7znXO5NVFS9/LYmpO18E8IhG4pK5N+d3eUOYkvFt/EDM7kGdwZsZX83mWekV9amoV0F7gktbuB/aLjqiMp3ccqcsmx+2vJY+g1tWK9xCCBCA9oh6lfBre8hQrctaCGuf3E14qh1PtMJn1b4IateJcL+vLWb6gVRVQdCk4ngO1aKqqn8BMky/xQ==
+sidebar_class_name: "post api-method"
+info_path: docs/user-api/law-firm-user-portal-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Upload a new document"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"post"}
+  path={"/documents"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Initiate document upload (returns upload URL for multipart upload)
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"required":true,"content":{"application/json":{"schema":{"type":"object","required":["name"],"properties":{"name":{"type":"string"},"description":{"type":"string"},"caseId":{"type":"string"},"clientId":{"type":"string"},"category":{"type":"string","enum":["PLEADING","MOTION","EVIDENCE","CONTRACT","CORRESPONDENCE","INTERNAL","OTHER"]},"status":{"type":"string","enum":["DRAFT","REVIEW","FINAL","ARCHIVED"]},"tags":{"type":"array","items":{"type":"string"}},"metadata":{"type":"object","additionalProperties":true}},"title":"UploadDocumentRequest"}}}}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"201":{"description":"Created (returns upload URL)","content":{"application/json":{"schema":{"type":"object","properties":{"documentId":{"type":"string"},"uploadUrl":{"type":"string","description":"Presigned URL for file upload"},"expiresAt":{"type":"string","format":"date-time"}}}}}},"400":{"description":"Error payload","content":{"application/json":{"schema":{"type":"object","properties":{"code":{"type":"string"},"message":{"type":"string"},"details":{"type":"array","items":{"type":"object","properties":{"field":{"type":"string"},"message":{"type":"string"}}}},"requestId":{"type":"string"}},"required":["code","message"],"example":{"code":"PERMISSION_DENIED","message":"You do not have permission to access this resource","requestId":"req_456"},"title":"ErrorResponse"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

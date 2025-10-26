@@ -1,0 +1,71 @@
+---
+id: update-current-users-profile
+title: "Update current user's profile"
+description: "Update current user's profile"
+sidebar_label: "Update current user's profile"
+hide_title: true
+hide_table_of_contents: true
+api: eJzNV1Fv2zYQ/ivEvWwDWDsduj34zUnd1oPrGo6DonCM4EydLDYUqZFUXM8QsB+xX7hfMpCSY7lV0nTogL1RvOORd/fdd6c9eNw4GCzhypFlf//5F5tZk0pFsOLgSJRW+h0Mlns4J7Rkh6XPYLBcVSsOln4vyflzk+xgsI+f0lICA29L4iCM9qR9EGFRKCnQS6P7H53RYc+JjHIMK78rCAZg1h9JeOBQWFOQ9ZJckCbSFQp3U8yppey8lXoDFYePZr2QXnULi8x4c2XVQ0LdfWwtTfcJi8JLQUNL6FoaaC3ugIP0lLuOkxUHhXpT4oa+8ZiXOf3x0DMLSylZ0uLE6gNxpBylmhov0yYT7TNrYxShDkZd7p6g5TPqygcH0mUe8KTkJguPSNDeAgcsvYFVVdU+xXTBVZGgpwZv8xpMUKtYcoXRrn75z2dnEQjkhJVFeNT94QS+G85k0hnj0pEdd4sUbl9Jmz8g/RpuYz66Ipgam6OHQaPxKMQ56FIpXAdZqLpHId+hbNJUCpqYOmZPtd8Fxw7Nzirq0LNGfUtZHDE2Gb7/MJoDh9lwPpyMXg8nwGE+uhjNFuN30/HlAjicjyeT8fT1zfDl2/EUOIwXx+V0MZqHxbvFm9E8oPP/VeEcEkqxVAELw5ysFNif0vbmg7G3/035t25scvMENmgdSlE5+tfs0PY37kQqEJZCoQ/9o7USyOBZCGWs2Zobnn6kTUqO7KEF1lz0oot+RtYaywrcKYPfkYSESbrZIifncNMtS8ijVE+B3QO3ppJUN4k9fG1D05G0OxmwEdcTwbL27GhwxYE+YV7UpFa7DbPR/O348nL8bnrzcjQdj162DgzggylZYpg2nmV4R6wgm0vnpNHMG4ZCkHPMZ9IxS86UVoT7Wi8M65sXv/wKrWzHNM6bZhOdivH8stEwUVpL2rPQD35wrGggEh7oMxPMF+hFFmKLYUSCfh6kjuwdWRcnqDKQMmTeF27Q72Mhe00IesLk/bvnULVmrsuAmDo97cnrPszBTLAv6lKDdVQC3ixeHVD+2/tFzEVA4vw4sI2OwT9pVMc6OTad496xt5zs6ROlSPst+SmjLg+S1QljtrePjNi2csJ1XWxWT51fEla931BSwzwhIlKndX9qvJzgloV+zuIoPDPWo2LD2Rg4hBTWaHjeO+udwRcYcWSfpSik3jDSSWGk9o6lxjKF2x1Zx1mBFhVtUDnOUCfMeUzTANwcNW6I+YykZQlKtWNbY28H11qgI8eZUJK0d5wlRpR5vcQi3tF8hYAxb1HcSr3hbC2ViotwjzCh2xobo9G71td6WFeKdMwJU1DC1rsDqtPgfk75mqzLZBENHMvMsTuJbGI23rD5+fCid62D444J1MxotTsU4aH+HNtKn0ndOBes/+h+ilbX6Chh5iDaWNSeTi7rXcdBszDO5xhJVNcI/VpBnqTmvl48ffL9QqGMVst6PqpLdQl5JKTMOB++9vvwuiurqips/16SDb9AKw53aGU9uixXFYeMMCEba/uWdjCAi7oLPFuEO4O6KiMdf94RKn44EZJR+Ed1Vy2OmQ0XF29CjTX/XHlNnBa3getwCwMADqa479Vxb39faTCA2mgoADxllM8YJLp16Cd613rifl9rLMwt6aoC3vjiwzdUYcr/Bx1i8yQ=
+sidebar_class_name: "patch api-method"
+info_path: docs/user-api/law-firm-user-portal-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Update current user's profile"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"patch"}
+  path={"/me"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Update current user's profile
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"required":true,"content":{"application/json":{"schema":{"type":"object","properties":{"displayName":{"type":"string"},"jobTitle":{"type":"string"},"photoUrl":{"type":"string"},"phone":{"type":"string"},"bio":{"type":"string"},"practiceAreas":{"type":"array","items":{"type":"string"}},"languages":{"type":"array","items":{"type":"string"}},"timezone":{"type":"string"},"preferences":{"type":"object","properties":{"emailNotifications":{"type":"boolean"},"smsNotifications":{"type":"boolean"},"theme":{"type":"string","enum":["light","dark","auto"]}}}},"title":"UpdateProfileRequest"}}}}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Updated","content":{"application/json":{"schema":{"type":"object","properties":{"id":{"type":"string"},"userId":{"type":"string"},"lawFirmId":{"type":"string"},"displayName":{"type":"string"},"email":{"type":"string","format":"email"},"jobTitle":{"type":"string","nullable":true},"photoUrl":{"type":"string","nullable":true},"officeLocation":{"type":"string","nullable":true},"phone":{"type":"string","nullable":true},"bio":{"type":"string","nullable":true},"roles":{"type":"array","items":{"type":"string","enum":["LAWYER","PARALEGAL","RECEPTIONIST","BILLING_ADMIN","IT_ADMIN","INTERN","OTHER"]}},"practiceAreas":{"type":"array","items":{"type":"string"}},"languages":{"type":"array","items":{"type":"string"}},"timezone":{"type":"string","default":"America/New_York"},"preferences":{"type":"object","properties":{"emailNotifications":{"type":"boolean","default":true},"smsNotifications":{"type":"boolean","default":false},"theme":{"type":"string","enum":["light","dark","auto"],"default":"auto"}}},"createdAt":{"type":"string","format":"date-time"},"updatedAt":{"type":"string","format":"date-time"}},"title":"UserProfile"}}}},"400":{"description":"Error payload","content":{"application/json":{"schema":{"type":"object","properties":{"code":{"type":"string"},"message":{"type":"string"},"details":{"type":"array","items":{"type":"object","properties":{"field":{"type":"string"},"message":{"type":"string"}}}},"requestId":{"type":"string"}},"required":["code","message"],"example":{"code":"PERMISSION_DENIED","message":"You do not have permission to access this resource","requestId":"req_456"},"title":"ErrorResponse"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

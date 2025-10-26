@@ -1,0 +1,1568 @@
+openapi: 3.1.0
+info:
+  title: Law Firm User Portal API
+  version: "1.0.0"
+  description: |
+    User-facing endpoints for lawyers, paralegals, and staff to manage their daily work:
+    cases, clients, documents, appointments, time tracking, billing, and collaboration.
+
+    Access is scoped by user's firm membership and permissions via Logto RBAC.
+    Users can only access resources within their firm(s) and based on their granted permissions.
+
+servers:
+  - url: https://api.example.com/v1
+
+tags:
+  - name: User — Profile
+  - name: User — Firm Members
+  - name: User — Cases
+  - name: User — Clients
+  - name: User — Documents
+  - name: User — Appointments
+  - name: User — Time & Billing
+  - name: User — Invoices
+  - name: User — Notifications
+  - name: User — Collaboration
+
+security:
+  - BearerAuth: []
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  headers:
+    X-Request-Id:
+      description: Correlation id for logs/tracing.
+      schema: { type: string }
+
+  parameters:
+    PageNumber:
+      in: query
+      name: page[number]
+      schema: { type: integer, minimum: 1, default: 1 }
+
+    PageSize:
+      in: query
+      name: page[size]
+      schema: { type: integer, minimum: 1, maximum: 200, default: 50 }
+
+    CaseId:
+      in: path
+      name: caseId
+      required: true
+      schema: { type: string }
+
+    ClientId:
+      in: path
+      name: clientId
+      required: true
+      schema: { type: string }
+
+    DocumentId:
+      in: path
+      name: documentId
+      required: true
+      schema: { type: string }
+
+    AppointmentId:
+      in: path
+      name: appointmentId
+      required: true
+      schema: { type: string }
+
+    TimeEntryId:
+      in: path
+      name: timeEntryId
+      required: true
+      schema: { type: string }
+
+    InvoiceId:
+      in: path
+      name: invoiceId
+      required: true
+      schema: { type: string }
+
+    NotificationId:
+      in: path
+      name: notificationId
+      required: true
+      schema: { type: string }
+
+    CommentId:
+      in: path
+      name: commentId
+      required: true
+      schema: { type: string }
+
+  responses:
+    ErrorResponse:
+      description: Error payload
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        code: { type: string }
+        message: { type: string }
+        details:
+          type: array
+          items:
+            type: object
+            properties:
+              field: { type: string }
+              message: { type: string }
+        requestId: { type: string }
+      required: [code, message]
+      example:
+        code: "PERMISSION_DENIED"
+        message: "You do not have permission to access this resource"
+        requestId: "req_456"
+
+    # ---------- User Profile ----------
+    UserProfile:
+      type: object
+      properties:
+        id: { type: string }
+        userId: { type: string }
+        lawFirmId: { type: string }
+        displayName: { type: string }
+        email: { type: string, format: email }
+        jobTitle: { type: string, nullable: true }
+        photoUrl: { type: string, nullable: true }
+        officeLocation: { type: string, nullable: true }
+        phone: { type: string, nullable: true }
+        bio: { type: string, nullable: true }
+        roles:
+          type: array
+          items:
+            type: string
+            enum: [LAWYER, PARALEGAL, RECEPTIONIST, BILLING_ADMIN, IT_ADMIN, INTERN, OTHER]
+        practiceAreas:
+          type: array
+          items: { type: string }
+        languages:
+          type: array
+          items: { type: string }
+        timezone: { type: string, default: "America/New_York" }
+        preferences:
+          type: object
+          properties:
+            emailNotifications: { type: boolean, default: true }
+            smsNotifications: { type: boolean, default: false }
+            theme: { type: string, enum: [light, dark, auto], default: auto }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+
+    UpdateProfileRequest:
+      type: object
+      properties:
+        displayName: { type: string }
+        jobTitle: { type: string }
+        photoUrl: { type: string }
+        phone: { type: string }
+        bio: { type: string }
+        practiceAreas: { type: array, items: { type: string } }
+        languages: { type: array, items: { type: string } }
+        timezone: { type: string }
+        preferences:
+          type: object
+          properties:
+            emailNotifications: { type: boolean }
+            smsNotifications: { type: boolean }
+            theme: { type: string, enum: [light, dark, auto] }
+
+    # ---------- Firm Members ----------
+    FirmMember:
+      type: object
+      properties:
+        id: { type: string }
+        displayName: { type: string }
+        email: { type: string, format: email, nullable: true }
+        jobTitle: { type: string, nullable: true }
+        photoUrl: { type: string, nullable: true }
+        officeLocation: { type: string, nullable: true }
+        phone: { type: string, nullable: true }
+        roles:
+          type: array
+          items: { type: string }
+        practiceAreas:
+          type: array
+          items: { type: string }
+        isActive: { type: boolean }
+
+    # ---------- Cases ----------
+    Case:
+      type: object
+      properties:
+        id: { type: string }
+        caseNumber: { type: string }
+        title: { type: string }
+        description: { type: string, nullable: true }
+        status:
+          type: string
+          enum: [INTAKE, ACTIVE, PENDING, SETTLED, CLOSED, ARCHIVED]
+        priority: { type: string, enum: [LOW, MEDIUM, HIGH, URGENT], default: MEDIUM }
+        practiceArea: { type: string, nullable: true }
+        clientId: { type: string }
+        clientName: { type: string }
+        leadAttorneyId: { type: string }
+        leadAttorneyName: { type: string }
+        assignedMembers:
+          type: array
+          items:
+            type: object
+            properties:
+              userId: { type: string }
+              displayName: { type: string }
+              role: { type: string, enum: [LEAD, ASSOCIATE, PARALEGAL, SUPPORT] }
+        courtInfo:
+          type: object
+          nullable: true
+          properties:
+            courtName: { type: string }
+            caseNumber: { type: string }
+            judge: { type: string, nullable: true }
+            jurisdiction: { type: string }
+        importantDates:
+          type: object
+          nullable: true
+          properties:
+            filedDate: { type: string, format: date, nullable: true }
+            trialDate: { type: string, format: date, nullable: true }
+            statuteOfLimitationsDate: { type: string, format: date, nullable: true }
+        billingInfo:
+          type: object
+          nullable: true
+          properties:
+            billingType: { type: string, enum: [HOURLY, FLAT_FEE, CONTINGENCY, PRO_BONO] }
+            hourlyRate: { type: number, nullable: true }
+            flatFeeAmount: { type: number, nullable: true }
+            contingencyPercentage: { type: number, nullable: true }
+        tags:
+          type: array
+          items: { type: string }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+
+    CreateCaseRequest:
+      type: object
+      required: [title, clientId, status]
+      properties:
+        title: { type: string, minLength: 1 }
+        description: { type: string }
+        status: { type: string, enum: [INTAKE, ACTIVE, PENDING, SETTLED, CLOSED, ARCHIVED] }
+        priority: { type: string, enum: [LOW, MEDIUM, HIGH, URGENT] }
+        practiceArea: { type: string }
+        clientId: { type: string }
+        leadAttorneyId: { type: string, description: "Defaults to current user if not specified" }
+        assignedMembers:
+          type: array
+          items:
+            type: object
+            properties:
+              userId: { type: string }
+              role: { type: string, enum: [LEAD, ASSOCIATE, PARALEGAL, SUPPORT] }
+        courtInfo:
+          type: object
+          properties:
+            courtName: { type: string }
+            caseNumber: { type: string }
+            judge: { type: string }
+            jurisdiction: { type: string }
+        importantDates:
+          type: object
+          properties:
+            filedDate: { type: string, format: date }
+            trialDate: { type: string, format: date }
+            statuteOfLimitationsDate: { type: string, format: date }
+        billingInfo:
+          type: object
+          properties:
+            billingType: { type: string, enum: [HOURLY, FLAT_FEE, CONTINGENCY, PRO_BONO] }
+            hourlyRate: { type: number }
+            flatFeeAmount: { type: number }
+            contingencyPercentage: { type: number }
+        tags: { type: array, items: { type: string } }
+
+    UpdateCaseRequest:
+      type: object
+      properties:
+        title: { type: string }
+        description: { type: string }
+        status: { type: string, enum: [INTAKE, ACTIVE, PENDING, SETTLED, CLOSED, ARCHIVED] }
+        priority: { type: string, enum: [LOW, MEDIUM, HIGH, URGENT] }
+        practiceArea: { type: string }
+        courtInfo:
+          type: object
+          properties:
+            courtName: { type: string }
+            caseNumber: { type: string }
+            judge: { type: string }
+            jurisdiction: { type: string }
+        importantDates:
+          type: object
+          properties:
+            filedDate: { type: string, format: date }
+            trialDate: { type: string, format: date }
+            statuteOfLimitationsDate: { type: string, format: date }
+        tags: { type: array, items: { type: string } }
+
+    # ---------- Clients ----------
+    Client:
+      type: object
+      properties:
+        id: { type: string }
+        type: { type: string, enum: [INDIVIDUAL, BUSINESS] }
+        displayName: { type: string }
+        firstName: { type: string, nullable: true }
+        lastName: { type: string, nullable: true }
+        companyName: { type: string, nullable: true }
+        email: { type: string, format: email, nullable: true }
+        phone: { type: string, nullable: true }
+        address:
+          type: object
+          nullable: true
+          properties:
+            street: { type: string }
+            city: { type: string }
+            state: { type: string }
+            zipCode: { type: string }
+            country: { type: string, default: "US" }
+        dateOfBirth: { type: string, format: date, nullable: true }
+        ssn: { type: string, nullable: true, description: "Encrypted/masked" }
+        notes: { type: string, nullable: true }
+        status: { type: string, enum: [ACTIVE, INACTIVE, ARCHIVED], default: ACTIVE }
+        source: { type: string, nullable: true, description: "How client found the firm" }
+        tags:
+          type: array
+          items: { type: string }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+
+    CreateClientRequest:
+      type: object
+      required: [type, displayName]
+      properties:
+        type: { type: string, enum: [INDIVIDUAL, BUSINESS] }
+        displayName: { type: string }
+        firstName: { type: string }
+        lastName: { type: string }
+        companyName: { type: string }
+        email: { type: string, format: email }
+        phone: { type: string }
+        address:
+          type: object
+          properties:
+            street: { type: string }
+            city: { type: string }
+            state: { type: string }
+            zipCode: { type: string }
+            country: { type: string }
+        dateOfBirth: { type: string, format: date }
+        notes: { type: string }
+        source: { type: string }
+        tags: { type: array, items: { type: string } }
+
+    # ---------- Documents ----------
+    Document:
+      type: object
+      properties:
+        id: { type: string }
+        name: { type: string }
+        description: { type: string, nullable: true }
+        caseId: { type: string, nullable: true }
+        clientId: { type: string, nullable: true }
+        category:
+          type: string
+          enum: [PLEADING, MOTION, EVIDENCE, CONTRACT, CORRESPONDENCE, INTERNAL, OTHER]
+        fileType: { type: string, description: "MIME type or extension" }
+        fileSize: { type: integer, description: "Size in bytes" }
+        storageUrl: { type: string, description: "Signed URL for download" }
+        version: { type: integer, default: 1 }
+        status:
+          type: string
+          enum: [DRAFT, REVIEW, FINAL, ARCHIVED]
+          default: DRAFT
+        uploadedBy: { type: string }
+        uploadedByName: { type: string }
+        tags:
+          type: array
+          items: { type: string }
+        metadata:
+          type: object
+          additionalProperties: true
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+
+    UploadDocumentRequest:
+      type: object
+      required: [name]
+      properties:
+        name: { type: string }
+        description: { type: string }
+        caseId: { type: string }
+        clientId: { type: string }
+        category: { type: string, enum: [PLEADING, MOTION, EVIDENCE, CONTRACT, CORRESPONDENCE, INTERNAL, OTHER] }
+        status: { type: string, enum: [DRAFT, REVIEW, FINAL, ARCHIVED] }
+        tags: { type: array, items: { type: string } }
+        metadata: { type: object, additionalProperties: true }
+
+    # ---------- Appointments ----------
+    Appointment:
+      type: object
+      properties:
+        id: { type: string }
+        title: { type: string }
+        description: { type: string, nullable: true }
+        type:
+          type: string
+          enum: [CONSULTATION, COURT_HEARING, DEPOSITION, MEETING, PHONE_CALL, DEADLINE, OTHER]
+        startTime: { type: string, format: date-time }
+        endTime: { type: string, format: date-time }
+        location: { type: string, nullable: true }
+        isVirtual: { type: boolean, default: false }
+        meetingUrl: { type: string, nullable: true }
+        caseId: { type: string, nullable: true }
+        clientId: { type: string, nullable: true }
+        organizerId: { type: string }
+        organizerName: { type: string }
+        attendees:
+          type: array
+          items:
+            type: object
+            properties:
+              userId: { type: string, nullable: true }
+              displayName: { type: string }
+              email: { type: string, format: email, nullable: true }
+              status: { type: string, enum: [PENDING, ACCEPTED, DECLINED, TENTATIVE] }
+        reminders:
+          type: array
+          items:
+            type: object
+            properties:
+              type: { type: string, enum: [EMAIL, SMS, PUSH] }
+              minutesBefore: { type: integer }
+        status: { type: string, enum: [SCHEDULED, CONFIRMED, COMPLETED, CANCELLED], default: SCHEDULED }
+        notes: { type: string, nullable: true }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+
+    CreateAppointmentRequest:
+      type: object
+      required: [title, type, startTime, endTime]
+      properties:
+        title: { type: string }
+        description: { type: string }
+        type: { type: string, enum: [CONSULTATION, COURT_HEARING, DEPOSITION, MEETING, PHONE_CALL, DEADLINE, OTHER] }
+        startTime: { type: string, format: date-time }
+        endTime: { type: string, format: date-time }
+        location: { type: string }
+        isVirtual: { type: boolean }
+        meetingUrl: { type: string }
+        caseId: { type: string }
+        clientId: { type: string }
+        attendees:
+          type: array
+          items:
+            type: object
+            properties:
+              userId: { type: string }
+              email: { type: string, format: email }
+        reminders:
+          type: array
+          items:
+            type: object
+            properties:
+              type: { type: string, enum: [EMAIL, SMS, PUSH] }
+              minutesBefore: { type: integer }
+        notes: { type: string }
+
+    # ---------- Time & Billing ----------
+    TimeEntry:
+      type: object
+      properties:
+        id: { type: string }
+        caseId: { type: string }
+        caseName: { type: string }
+        userId: { type: string }
+        userName: { type: string }
+        date: { type: string, format: date }
+        hours: { type: number, minimum: 0 }
+        description: { type: string }
+        billable: { type: boolean, default: true }
+        hourlyRate: { type: number, nullable: true }
+        amount: { type: number, description: "Calculated: hours * hourlyRate" }
+        status: { type: string, enum: [DRAFT, SUBMITTED, APPROVED, INVOICED], default: DRAFT }
+        invoiceId: { type: string, nullable: true }
+        activityType:
+          type: string
+          enum: [RESEARCH, DRAFTING, COURT_APPEARANCE, CLIENT_MEETING, PHONE_CALL, EMAIL, REVIEW, TRAVEL, OTHER]
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+
+    CreateTimeEntryRequest:
+      type: object
+      required: [caseId, date, hours, description]
+      properties:
+        caseId: { type: string }
+        date: { type: string, format: date }
+        hours: { type: number, minimum: 0 }
+        description: { type: string, minLength: 1 }
+        billable: { type: boolean }
+        hourlyRate: { type: number, description: "Defaults to user's default rate if not specified" }
+        activityType: { type: string, enum: [RESEARCH, DRAFTING, COURT_APPEARANCE, CLIENT_MEETING, PHONE_CALL, EMAIL, REVIEW, TRAVEL, OTHER] }
+
+    UpdateTimeEntryRequest:
+      type: object
+      properties:
+        date: { type: string, format: date }
+        hours: { type: number, minimum: 0 }
+        description: { type: string }
+        billable: { type: boolean }
+        hourlyRate: { type: number }
+        activityType: { type: string, enum: [RESEARCH, DRAFTING, COURT_APPEARANCE, CLIENT_MEETING, PHONE_CALL, EMAIL, REVIEW, TRAVEL, OTHER] }
+
+    # ---------- Invoices ----------
+    Invoice:
+      type: object
+      properties:
+        id: { type: string }
+        invoiceNumber: { type: string }
+        caseId: { type: string }
+        caseName: { type: string }
+        clientId: { type: string }
+        clientName: { type: string }
+        issueDate: { type: string, format: date }
+        dueDate: { type: string, format: date }
+        status: { type: string, enum: [DRAFT, SENT, PAID, OVERDUE, CANCELLED] }
+        lineItems:
+          type: array
+          items:
+            type: object
+            properties:
+              id: { type: string }
+              description: { type: string }
+              quantity: { type: number }
+              rate: { type: number }
+              amount: { type: number }
+              timeEntryId: { type: string, nullable: true }
+        subtotal: { type: number }
+        taxRate: { type: number, nullable: true }
+        taxAmount: { type: number, nullable: true }
+        total: { type: number }
+        amountPaid: { type: number, default: 0 }
+        amountDue: { type: number }
+        notes: { type: string, nullable: true }
+        paymentTerms: { type: string, nullable: true }
+        pdfUrl: { type: string, nullable: true, description: "Signed URL for PDF download" }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+
+    # ---------- Notifications ----------
+    Notification:
+      type: object
+      properties:
+        id: { type: string }
+        type:
+          type: string
+          enum: [CASE_ASSIGNED, CASE_UPDATE, DOCUMENT_SHARED, APPOINTMENT_REMINDER, COMMENT_MENTION, DEADLINE_UPCOMING, MESSAGE_RECEIVED, SYSTEM]
+        title: { type: string }
+        message: { type: string }
+        priority: { type: string, enum: [LOW, NORMAL, HIGH], default: NORMAL }
+        read: { type: boolean, default: false }
+        actionUrl: { type: string, nullable: true, description: "Deep link to related resource" }
+        relatedResourceType: { type: string, nullable: true }
+        relatedResourceId: { type: string, nullable: true }
+        metadata: { type: object, additionalProperties: true }
+        createdAt: { type: string, format: date-time }
+
+    # ---------- Collaboration (Notes/Comments) ----------
+    Comment:
+      type: object
+      properties:
+        id: { type: string }
+        resourceType: { type: string, enum: [CASE, DOCUMENT, TIME_ENTRY, CLIENT] }
+        resourceId: { type: string }
+        authorId: { type: string }
+        authorName: { type: string }
+        authorPhotoUrl: { type: string, nullable: true }
+        content: { type: string }
+        mentions:
+          type: array
+          items:
+            type: object
+            properties:
+              userId: { type: string }
+              displayName: { type: string }
+        attachments:
+          type: array
+          items:
+            type: object
+            properties:
+              id: { type: string }
+              name: { type: string }
+              url: { type: string }
+        isEdited: { type: boolean, default: false }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+
+    CreateCommentRequest:
+      type: object
+      required: [content]
+      properties:
+        content: { type: string, minLength: 1 }
+        mentions:
+          type: array
+          items: { type: string, description: "User IDs" }
+
+paths:
+  # ---------- User Profile ----------
+  /me:
+    get:
+      tags: [User — Profile]
+      summary: Get current user's profile
+      security: [ { BearerAuth: [] } ]
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/UserProfile' }
+    patch:
+      tags: [User — Profile]
+      summary: Update current user's profile
+      security: [ { BearerAuth: [] } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/UpdateProfileRequest' }
+      responses:
+        '200':
+          description: Updated
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/UserProfile' }
+        '400': { $ref: '#/components/responses/ErrorResponse' }
+
+  # ---------- Firm Members ----------
+  /firm/members:
+    get:
+      tags: [User — Firm Members]
+      summary: List members in user's firm
+      security: [ { BearerAuth: [] } ]
+      parameters:
+        - $ref: '#/components/parameters/PageNumber'
+        - $ref: '#/components/parameters/PageSize'
+        - in: query
+          name: role
+          schema: { type: string }
+        - in: query
+          name: practiceArea
+          schema: { type: string }
+        - in: query
+          name: search
+          description: Search by name or email
+          schema: { type: string }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/FirmMember' }
+                  meta:
+                    type: object
+                    properties:
+                      page: { type: integer }
+                      size: { type: integer }
+                      total: { type: integer }
+
+  /firm/members/{userId}:
+    get:
+      tags: [User — Firm Members]
+      summary: Get a specific firm member's profile
+      security: [ { BearerAuth: [] } ]
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/FirmMember' }
+        '404': { $ref: '#/components/responses/ErrorResponse' }
+
+  # ---------- Cases ----------
+  /cases:
+    get:
+      tags: [User — Cases]
+      summary: List cases accessible to current user
+      description: Returns cases where user is assigned or has access based on permissions
+      security: [ { BearerAuth: [] } ]
+      parameters:
+        - $ref: '#/components/parameters/PageNumber'
+        - $ref: '#/components/parameters/PageSize'
+        - in: query
+          name: status
+          schema: { type: string, enum: [INTAKE, ACTIVE, PENDING, SETTLED, CLOSED, ARCHIVED] }
+        - in: query
+          name: priority
+          schema: { type: string, enum: [LOW, MEDIUM, HIGH, URGENT] }
+        - in: query
+          name: practiceArea
+          schema: { type: string }
+        - in: query
+          name: leadAttorneyId
+          schema: { type: string }
+        - in: query
+          name: clientId
+          schema: { type: string }
+        - in: query
+          name: search
+          description: Search by case number or title
+          schema: { type: string }
+        - in: query
+          name: assignedToMe
+          schema: { type: boolean }
+        - in: query
+          name: sort
+          schema: { type: string, enum: [updatedAt, createdAt, title, caseNumber], default: updatedAt }
+        - in: query
+          name: order
+          schema: { type: string, enum: [asc, desc], default: desc }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/Case' }
+                  meta:
+                    type: object
+                    properties:
+                      page: { type: integer }
+                      size: { type: integer }
+                      total: { type: integer }
+    post:
+      tags: [User — Cases]
+      summary: Create a new case
+      security: [ { BearerAuth: [] } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CreateCaseRequest' }
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Case' }
+        '400': { $ref: '#/components/responses/ErrorResponse' }
+        '403': { $ref: '#/components/responses/ErrorResponse' }
+
+  /cases/{caseId}:
+    get:
+      tags: [User — Cases]
+      summary: Get case details
+      security: [ { BearerAuth: [] } ]
+      parameters:
+        - $ref: '#/components/parameters/CaseId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Case' }
+        '403': { $ref: '#/components/responses/ErrorResponse' }
+        '404': { $ref: '#/components/responses/ErrorResponse' }
+    patch:
+      tags: [User — Cases]
+      summary: Update case details
+      security: [ { BearerAuth: [] } ]
+      parameters:
+        - $ref: '#/components/parameters/CaseId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/UpdateCaseRequest' }
+      responses:
+        '200':
+          description: Updated
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Case' }
+        '400': { $ref: '#/components/responses/ErrorResponse' }
+        '403': { $ref: '#/components/responses/ErrorResponse' }
+        '404': { $ref: '#/components/responses/ErrorResponse' }
+
+  /cases/{caseId}/members:
+    get:
+      tags: [User — Cases]
+      summary: List members assigned to a case
+      security: [ { BearerAuth: [] } ]
+      parameters:
+        - $ref: '#/components/parameters/CaseId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        userId: { type: string }
+                        displayName: { type: string }
+                        photoUrl: { type: string, nullable: true }
+                        role: { type: string, enum: [LEAD, ASSOCIATE, PARALEGAL, SUPPORT] }
+    post:
+      tags: [User — Cases]
+      summary: Add a member to a case
+      security: [ { BearerAuth: [] } ]
+      parameters:
+        - $ref: '#/components/parameters/CaseId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [userId, role]
+              properties:
+                userId: { type: string }
+                role: { type: string, enum: [LEAD, ASSOCIATE, PARALEGAL, SUPPORT] }
+      responses:
+        '201': { description: Added }
+        '400': { $ref: '#/components/responses/ErrorResponse' }
+        '403': { $ref: '#/components/responses/ErrorResponse' }
+
+  /cases/{caseId}/members/{userId}:
+    delete:
+      tags: [User — Cases]
+      summary: Remove a member from a case
+      security: [ { BearerAuth: [] } ]
+      parameters:
+        - $ref: '#/components/parameters/CaseId'
+        - in: path
+          name: userId
+          required: true
+          schema: { type: string }
+      responses:
+        '204': { description: Removed }
+        '403': { $ref: '#/components/responses/ErrorResponse' }
+        '404': { $ref: '#/components/responses/ErrorResponse' }
+
+  # ---------- Clients ----------
+  /clients:
+    get:
+      tags: [User — Clients]
+      summary: List clients accessible to current user
+      security: [ { BearerAuth: [] } ]
+      parameters:
+        - $ref: '#/components/parameters/PageNumber'
+        - $ref: '#/components/parameters/PageSize'
+        - in: query
+          name: type
+          schema: { type: string, enum: [INDIVIDUAL, BUSINESS] }
+        - in: query
+          name: status
+          schema: { type: string, enum: [ACTIVE, INACTIVE, ARCHIVED] }
+        - in: query
+          name: search
+          description: Search by name, email, or phone
+          schema: { type: string }
+        - in: query
+          name: sort
+          schema: { type: string, enum: [displayName, createdAt, updatedAt], default: displayName }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/Client' }
+                  meta:
+                    type: object
+                    properties:
+                      page: { type: integer }
+                      size: { type: integer }
+                      total: { type: integer }
+    post:
+      tags: [User — Clients]
+      summary: Create a new client
+      security: [ { BearerAuth: [] } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CreateClientRequest' }
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Client' }
+        '400': { $ref: '#/components/responses/ErrorResponse' }
+
+  /clients/{clientId}:
+    get:
+      tags: [User — Clients]
+      summary: Get client details
+      security: [ { BearerAuth: [] } ]
+      parameters:
+        - $ref: '#/components/parameters/ClientId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Client' }
+        '403': { $ref: '#/components/responses/ErrorResponse' }
+        '404': { $ref: '#/components/responses/ErrorResponse' }
+    patch:
+      tags: [User — Clients]
+      summary: Update client details
+      security: [ { BearerAuth: [] } ]
+      parameters:
+        - $ref: '#/components/parameters/ClientId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CreateClientRequest' }
+      responses:
+        '200':
+          description: Updated
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Client' }
+        '400': { $ref: '#/components/responses/ErrorResponse' }
+        '403': { $ref: '#/components/responses/ErrorResponse' }
+
+  /clients/{clientId}/cases:
+    get:
+      tags: [User — Clients]
+      summary: List cases for a client
+      security: [ { BearerAuth: [] } ]
+      parameters:
+        - $ref: '#/components/parameters/ClientId'
+        - $ref: '#/components/parameters/PageNumber'
+        - $ref: '#/components/parameters/PageSize'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/Case' }
+
+  # ---------- Documents ----------
+  /documents:
+    get:
+      tags: [User — Documents]
+      summary: List documents accessible to current user
+      security: [ { BearerAuth: [] } ]
+      parameters:
+        - $ref: '#/components/parameters/PageNumber'
+        - $ref: '#/components/parameters/PageSize'
+        - in: query
+          name: caseId
+          schema: { type: string }
+        - in: query
+          name: clientId
+          schema: { type: string }
+        - in: query
+          name: category
+          schema: { type: string, enum: [PLEADING, MOTION, EVIDENCE, CONTRACT, CORRESPONDENCE, INTERNAL, OTHER] }
+        - in: query
+          name: status
+          schema: { type: string, enum: [DRAFT, REVIEW, FINAL, ARCHIVED] }
+        - in: query
+          name: search
+          description: Search by document name
+          schema: { type: string }
+        - in: query
+          name: uploadedBy
+          schema: { type: string }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/Document' }
+                  meta:
+                    type: object
+                    properties:
+                      page: { type: integer }
+                      size: { type: integer }
+                      total: { type: integer }
+    post:
+      tags: [User — Documents]
+      summary: Upload a new document
+      description: Initiate document upload (returns upload URL for multipart upload)
+      security: [ { BearerAuth: [] } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/UploadDocumentRequest' }
+      responses:
+        '201':
+          description: Created (returns upload URL)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  documentId: { type: string }
+                  uploadUrl: { type: string, description: "Presigned URL for file upload" }
+                  expiresAt: { type: string, format: date-time }
+        '400': { $ref: '#/components/responses/ErrorResponse' }
+
+  /documents/{documentId}:
+    get:
+      tags: [User — Documents]
+      summary: Get document metadata and download URL
+      security: [ { BearerAuth: [] } ]
+      parameters:
+        - $ref: '#/components/parameters/DocumentId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Document' }
+        '403': { $ref: '#/components/responses/ErrorResponse' }
+        '404': { $ref: '#/components/responses/ErrorResponse' }
+    patch:
+      tags: [User — Documents]
+      summary: Update document metadata
+      security: [ { BearerAuth: [] } ]
+      parameters:
+        - $ref: '#/components/parameters/DocumentId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name: { type: string }
+                description: { type: string }
+                category: { type: string }
+                status: { type: string, enum: [DRAFT, REVIEW, FINAL, ARCHIVED] }
+                tags: { type: array, items: { type: string } }
+      responses:
+        '200':
+          description: Updated
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Document' }
+        '403': { $ref: '#/components/responses/ErrorResponse' }
+    delete:
+      tags: [User — Documents]
+      summary: Delete a document
+      security: [ { BearerAuth: [] } ]
+      parameters:
+        - $ref: '#/components/parameters/DocumentId'
+      responses:
+        '204': { description: Deleted }
+        '403': { $ref: '#/components/responses/ErrorResponse' }
+
+  # ---------- Appointments ----------
+  /appointments:
+    get:
+      tags: [User — Appointments]
+      summary: List appointments for current user
+      security: [ { BearerAuth: [] } ]
+      parameters:
+        - $ref: '#/components/parameters/PageNumber'
+        - $ref: '#/components/parameters/PageSize'
+        - in: query
+          name: startDate
+          schema: { type: string, format: date }
+        - in: query
+          name: endDate
+          schema: { type: string, format: date }
+        - in: query
+          name: type
+          schema: { type: string, enum: [CONSULTATION, COURT_HEARING, DEPOSITION, MEETING, PHONE_CALL, DEADLINE, OTHER] }
+        - in: query
+          name: status
+          schema: { type: string, enum: [SCHEDULED, CONFIRMED, COMPLETED, CANCELLED] }
+        - in: query
+          name: caseId
+          schema: { type: string }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/Appointment' }
+                  meta:
+                    type: object
+                    properties:
+                      page: { type: integer }
+                      size: { type: integer }
+                      total: { type: integer }
+    post:
+      tags: [User — Appointments]
+      summary: Create a new appointment
+      security: [ { BearerAuth: [] } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CreateAppointmentRequest' }
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Appointment' }
+        '400': { $ref: '#/components/responses/ErrorResponse' }
+
+  /appointments/{appointmentId}:
+    get:
+      tags: [User — Appointments]
+      summary: Get appointment details
+      security: [ { BearerAuth: [] } ]
+      parameters:
+        - $ref: '#/components/parameters/AppointmentId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Appointment' }
+        '404': { $ref: '#/components/responses/ErrorResponse' }
+    patch:
+      tags: [User — Appointments]
+      summary: Update appointment
+      security: [ { BearerAuth: [] } ]
+      parameters:
+        - $ref: '#/components/parameters/AppointmentId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CreateAppointmentRequest' }
+      responses:
+        '200':
+          description: Updated
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Appointment' }
+        '400': { $ref: '#/components/responses/ErrorResponse' }
+        '403': { $ref: '#/components/responses/ErrorResponse' }
+    delete:
+      tags: [User — Appointments]
+      summary: Cancel appointment
+      security: [ { BearerAuth: [] } ]
+      parameters:
+        - $ref: '#/components/parameters/AppointmentId'
+      responses:
+        '204': { description: Cancelled }
+        '403': { $ref: '#/components/responses/ErrorResponse' }
+
+  /appointments/{appointmentId}/respond:
+    post:
+      tags: [User — Appointments]
+      summary: Respond to appointment invitation
+      security: [ { BearerAuth: [] } ]
+      parameters:
+        - $ref: '#/components/parameters/AppointmentId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [status]
+              properties:
+                status: { type: string, enum: [ACCEPTED, DECLINED, TENTATIVE] }
+      responses:
+        '200': { description: Response recorded }
+        '404': { $ref: '#/components/responses/ErrorResponse' }
+
+  # ---------- Time & Billing ----------
+  /time-entries:
+    get:
+      tags: [User — Time & Billing]
+      summary: List time entries for current user
+      security: [ { BearerAuth: [] } ]
+      parameters:
+        - $ref: '#/components/parameters/PageNumber'
+        - $ref: '#/components/parameters/PageSize'
+        - in: query
+          name: caseId
+          schema: { type: string }
+        - in: query
+          name: startDate
+          schema: { type: string, format: date }
+        - in: query
+          name: endDate
+          schema: { type: string, format: date }
+        - in: query
+          name: status
+          schema: { type: string, enum: [DRAFT, SUBMITTED, APPROVED, INVOICED] }
+        - in: query
+          name: billable
+          schema: { type: boolean }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/TimeEntry' }
+                  meta:
+                    type: object
+                    properties:
+                      page: { type: integer }
+                      size: { type: integer }
+                      total: { type: integer }
+                      totalHours: { type: number }
+                      totalAmount: { type: number }
+    post:
+      tags: [User — Time & Billing]
+      summary: Create a new time entry
+      security: [ { BearerAuth: [] } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CreateTimeEntryRequest' }
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/TimeEntry' }
+        '400': { $ref: '#/components/responses/ErrorResponse' }
+
+  /time-entries/{timeEntryId}:
+    get:
+      tags: [User — Time & Billing]
+      summary: Get time entry details
+      security: [ { BearerAuth: [] } ]
+      parameters:
+        - $ref: '#/components/parameters/TimeEntryId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/TimeEntry' }
+        '404': { $ref: '#/components/responses/ErrorResponse' }
+    patch:
+      tags: [User — Time & Billing]
+      summary: Update time entry
+      description: Can only update entries in DRAFT status
+      security: [ { BearerAuth: [] } ]
+      parameters:
+        - $ref: '#/components/parameters/TimeEntryId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/UpdateTimeEntryRequest' }
+      responses:
+        '200':
+          description: Updated
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/TimeEntry' }
+        '400': { $ref: '#/components/responses/ErrorResponse' }
+        '403': { $ref: '#/components/responses/ErrorResponse' }
+    delete:
+      tags: [User — Time & Billing]
+      summary: Delete time entry
+      description: Can only delete entries in DRAFT status
+      security: [ { BearerAuth: [] } ]
+      parameters:
+        - $ref: '#/components/parameters/TimeEntryId'
+      responses:
+        '204': { description: Deleted }
+        '403': { $ref: '#/components/responses/ErrorResponse' }
+
+  /time-entries/{timeEntryId}/submit:
+    post:
+      tags: [User — Time & Billing]
+      summary: Submit time entry for approval
+      security: [ { BearerAuth: [] } ]
+      parameters:
+        - $ref: '#/components/parameters/TimeEntryId'
+      responses:
+        '200':
+          description: Submitted
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/TimeEntry' }
+        '400': { $ref: '#/components/responses/ErrorResponse' }
+
+  # ---------- Invoices ----------
+  /invoices:
+    get:
+      tags: [User — Invoices]
+      summary: List invoices accessible to current user
+      description: Users can see invoices for their cases (based on permissions)
+      security: [ { BearerAuth: [] } ]
+      parameters:
+        - $ref: '#/components/parameters/PageNumber'
+        - $ref: '#/components/parameters/PageSize'
+        - in: query
+          name: caseId
+          schema: { type: string }
+        - in: query
+          name: clientId
+          schema: { type: string }
+        - in: query
+          name: status
+          schema: { type: string, enum: [DRAFT, SENT, PAID, OVERDUE, CANCELLED] }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/Invoice' }
+                  meta:
+                    type: object
+                    properties:
+                      page: { type: integer }
+                      size: { type: integer }
+                      total: { type: integer }
+
+  /invoices/{invoiceId}:
+    get:
+      tags: [User — Invoices]
+      summary: Get invoice details
+      security: [ { BearerAuth: [] } ]
+      parameters:
+        - $ref: '#/components/parameters/InvoiceId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Invoice' }
+        '403': { $ref: '#/components/responses/ErrorResponse' }
+        '404': { $ref: '#/components/responses/ErrorResponse' }
+
+  # ---------- Notifications ----------
+  /notifications:
+    get:
+      tags: [User — Notifications]
+      summary: List notifications for current user
+      security: [ { BearerAuth: [] } ]
+      parameters:
+        - $ref: '#/components/parameters/PageNumber'
+        - $ref: '#/components/parameters/PageSize'
+        - in: query
+          name: read
+          schema: { type: boolean }
+        - in: query
+          name: type
+          schema: { type: string }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/Notification' }
+                  meta:
+                    type: object
+                    properties:
+                      page: { type: integer }
+                      size: { type: integer }
+                      total: { type: integer }
+                      unreadCount: { type: integer }
+
+  /notifications/{notificationId}/mark-read:
+    post:
+      tags: [User — Notifications]
+      summary: Mark notification as read
+      security: [ { BearerAuth: [] } ]
+      parameters:
+        - $ref: '#/components/parameters/NotificationId'
+      responses:
+        '200': { description: Marked as read }
+        '404': { $ref: '#/components/responses/ErrorResponse' }
+
+  /notifications/mark-all-read:
+    post:
+      tags: [User — Notifications]
+      summary: Mark all notifications as read
+      security: [ { BearerAuth: [] } ]
+      responses:
+        '200': { description: All notifications marked as read }
+
+  # ---------- Collaboration (Comments) ----------
+  /cases/{caseId}/comments:
+    get:
+      tags: [User — Collaboration]
+      summary: List comments on a case
+      security: [ { BearerAuth: [] } ]
+      parameters:
+        - $ref: '#/components/parameters/CaseId'
+        - $ref: '#/components/parameters/PageNumber'
+        - $ref: '#/components/parameters/PageSize'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/Comment' }
+    post:
+      tags: [User — Collaboration]
+      summary: Add a comment to a case
+      security: [ { BearerAuth: [] } ]
+      parameters:
+        - $ref: '#/components/parameters/CaseId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CreateCommentRequest' }
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Comment' }
+
+  /documents/{documentId}/comments:
+    get:
+      tags: [User — Collaboration]
+      summary: List comments on a document
+      security: [ { BearerAuth: [] } ]
+      parameters:
+        - $ref: '#/components/parameters/DocumentId'
+        - $ref: '#/components/parameters/PageNumber'
+        - $ref: '#/components/parameters/PageSize'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/Comment' }
+    post:
+      tags: [User — Collaboration]
+      summary: Add a comment to a document
+      security: [ { BearerAuth: [] } ]
+      parameters:
+        - $ref: '#/components/parameters/DocumentId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CreateCommentRequest' }
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Comment' }
+
+  /comments/{commentId}:
+    patch:
+      tags: [User — Collaboration]
+      summary: Edit a comment
+      description: Users can only edit their own comments
+      security: [ { BearerAuth: [] } ]
+      parameters:
+        - $ref: '#/components/parameters/CommentId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [content]
+              properties:
+                content: { type: string }
+      responses:
+        '200':
+          description: Updated
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Comment' }
+        '403': { $ref: '#/components/responses/ErrorResponse' }
+    delete:
+      tags: [User — Collaboration]
+      summary: Delete a comment
+      description: Users can only delete their own comments
+      security: [ { BearerAuth: [] } ]
+      parameters:
+        - $ref: '#/components/parameters/CommentId'
+      responses:
+        '204': { description: Deleted }
+        '403': { $ref: '#/components/responses/ErrorResponse' }

@@ -1,0 +1,71 @@
+---
+id: update-document-metadata
+title: "Update document metadata"
+description: "Update document metadata"
+sidebar_label: "Update document metadata"
+hide_title: true
+hide_table_of_contents: true
+api: eJytVt1u2zYUfhXi3KwFWDvdul3oznGU1UPiGIrTYnCMgpaOZTYSqZGUXc8QsIfYE+5JhkNJ/qmVrh3qG1Pk4cfz+52zAydSC8EMHiwa9s9ff7MrHZc5KmdhzsFiXBrpthDMdnCJwqAZlG4FwWxezTkUwogcHRrrBaSCAArhVsBBiRwhgKRBGyXAweAfpTSYQOBMiRxsvMJcQLADty1I2jojVQoVYZMwWnepky1JfH431sqhcnQkiiKTsXBSq/5HqxXtnUHrxUeMHXAojC7QOImWTms1zxTgkKCNjSwItPM8Fg5Tbbadh9YJV9rzIw6oypzcfRUNrqfAIQrfjcL3wOF6NB7cAIdBNHw7ehdewbziTXD2KMIYsQUO0mHegV7VP3KdLbSytYU/XlzQ34k98FAkwiHF5Dv5USadjvh/7uWgyiwTiwzraHt3Wxx1vNElmsk64b4O97kwHmI1uQkHV6Pxr8Dh9m46uhsDh/Dd6CocD0PgMLwbT6PBcOqXURTeT+7G7dloPA2jOrB307dh5KO6lBlO/Vvnb56G6XZ0GzISYdow/ORQWTpoMO7ln8cYUjlM0ZyBkBiTii22Dm2dndqIFB9M9t8a3MtUYcIeohu21IYleqMyLRKCWaOxp+E71mApysxB8Pp7VcMRZiNecSgLUgaTy+4yPByPn8vDb60wDjk6kQjXWRMiSSQ5TmSTo+poU80g1dzAdXliqU0uyDaqy1dO5lgbkHzbFbJIOspvaHkcak54c/HTOQ2ExmjDCrH1Mf1uZBDrpNvbOVor0ucYwQmZfU0wnnl1KTHrZqHnn23o0neaLsZoj+vOM6stOwDOOeAnkRcZHsyGSRjdju7vR3fjD1fheBReHV0I4HddskQzpR1biTWyAk0uLRUSc5qJOEZrmVtJywxaXZoY4URDWn948/MvcBRqH8aoIX1omkAX4bO2HbN9FvuEXumk7twxtW7fwQPot8K2vzu08QpoKjDrtueXxCKwcq6wQb8vCtlrPNKLdd5fv4bqaIy4pwSqo3U8TOy9TjDQzAX0vfBCwJvFdZvxv72f+tBQYkaHOSE8xKIZP55htf32gf4Pey1d7VmpHZEaCaJwqZba691E4EZs2LU0OfNj1EQbJzI2mIzgiCbhde+id3GmC914tRSxVClDlRRaKmc92WZis0VjOaMxK8NUZJYzoRJmnVguKV1yoUSKzK1QGpYImW3ZRpun4FFRv7Sc1b3Q8n3gCaHwbzRfxBvMGRE/SZVytpBZ5hf0TqypW2rjWaD3qB7VoM5PaZmNdYEJW2xZadH8YNmSzM8xX6CxK1l4gENyW7aWgt3o1GkWXQ6GvUdFhlsWC8W0yrZt6rdZb9lGupVUjXGE/sK+9KgLYTFhuj1KjVAOTx7rPfomWWjrcqGO8uELZdA9kTj85PpFJqQHLOuWWRfIbD/cWuAQHE26cw4rbR2J7Hak7YPJqoq2/yiRkm0257AWRtajyGwHibS0TiBYiszimTZ7YoYXUUNHLxmlZpeWLX0qIs+1yEr6Ag5PuD2dyCtK5RWKBI3XohYY1m+98iPKAeCsIVS8vUFZUbgvys6PeGYymA7fUlE3o31e86YRG6I6sam11d54zxV+bweZUGlZs2gNShQgThnkM8bwZnX6Y7erJab6CVVV7d3j6Js8U1X/AryZes0=
+sidebar_class_name: "patch api-method"
+info_path: docs/user-api/law-firm-user-portal-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Update document metadata"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"patch"}
+  path={"/documents/{documentId}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Update document metadata
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"in":"path","name":"documentId","required":true,"schema":{"type":"string"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"required":true,"content":{"application/json":{"schema":{"type":"object","properties":{"name":{"type":"string"},"description":{"type":"string"},"category":{"type":"string"},"status":{"type":"string","enum":["DRAFT","REVIEW","FINAL","ARCHIVED"]},"tags":{"type":"array","items":{"type":"string"}}}}}}}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Updated","content":{"application/json":{"schema":{"type":"object","properties":{"id":{"type":"string"},"name":{"type":"string"},"description":{"type":"string","nullable":true},"caseId":{"type":"string","nullable":true},"clientId":{"type":"string","nullable":true},"category":{"type":"string","enum":["PLEADING","MOTION","EVIDENCE","CONTRACT","CORRESPONDENCE","INTERNAL","OTHER"]},"fileType":{"type":"string","description":"MIME type or extension"},"fileSize":{"type":"integer","description":"Size in bytes"},"storageUrl":{"type":"string","description":"Signed URL for download"},"version":{"type":"integer","default":1},"status":{"type":"string","enum":["DRAFT","REVIEW","FINAL","ARCHIVED"],"default":"DRAFT"},"uploadedBy":{"type":"string"},"uploadedByName":{"type":"string"},"tags":{"type":"array","items":{"type":"string"}},"metadata":{"type":"object","additionalProperties":true},"createdAt":{"type":"string","format":"date-time"},"updatedAt":{"type":"string","format":"date-time"}},"title":"Document"}}}},"403":{"description":"Error payload","content":{"application/json":{"schema":{"type":"object","properties":{"code":{"type":"string"},"message":{"type":"string"},"details":{"type":"array","items":{"type":"object","properties":{"field":{"type":"string"},"message":{"type":"string"}}}},"requestId":{"type":"string"}},"required":["code","message"],"example":{"code":"PERMISSION_DENIED","message":"You do not have permission to access this resource","requestId":"req_456"},"title":"ErrorResponse"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

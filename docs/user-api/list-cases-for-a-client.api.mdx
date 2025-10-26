@@ -1,0 +1,71 @@
+---
+id: list-cases-for-a-client
+title: "List cases for a client"
+description: "List cases for a client"
+sidebar_label: "List cases for a client"
+hide_title: true
+hide_table_of_contents: true
+api: eJydVttu2zgQ/RViXrYF2NgpsC96Ux0n8da1A8dpsUiMYiKNZSYSqZJUEq8hYD9iv3C/ZDGU7TiJ3GzjF5OaC+dy5rICj5mD6BIuHFnx79//iF6uSHsHMwmOksoqv4TocgWfCC3ZuPILiC5n9UxCiRYL8mRdYFAaIijRL0CCxoIggiToGqQgwdKPSllKIfK2IgkuWVCBEK3AL0vmdd4qnUFdy7WqHxXZ5aOuEjO61FVxTXYGLfJKe8rIgoRCaVVUBUSHElKaY5V7iA5/rtipv+gX1Bb40Jw/drs7j/zerTkwllxptCPHej52u/yXkkusKr0ybML4M0hIjPakPVOxLHOVIFM7N45ZVi9NMdc3lHiQUFpTkvWqeSBFv8uF1iJ7pzwV7nVplbbkQEKCjkYh2K1kr3xOrZQnfj6nS9BVnuM1yzIMagnOo69cGytpDvAlDEbT+HMfJMS96eArH876o6PB6AQknPen02H/CCT0huPzcIgnvdPB1/4RzGr2VZkGwfv1D8ffQMKX/tHg4gtIOB2cnIKEi8lJfzTlKthmd8MT9GLiVUKxpRYMt7i5rYTWYAfiKMCxhZwTprH3xmpa7tGwy7JXDzqnMk3pF+K8urdjpnJk9xiSKlfmuN8Ga9pws5OMfhySeH4+7g3iach2PImH/ZN4yPm+ODsbT6Ywq+uaA2cq6wd6btpsfpqD5z4E0b1mvgL/myrNWt14kfebyiqXqqS9HoITqiiN9aj9EXpqjf7PPZmrnFKWbTNobmyBjN2UGVoM9FZh/mbpUL2exvOhKpQP/cu9URmH4lrludLZ2zK6Fp4Gof0IOx1fTIZ/goTjYTz9ftxniPXGo+lgdNIf9ZhwNhl//zQejUMHWZjK5svJU5+aMdQWkHmO/pgoLkzVdPZXJXgKKJ2RTpZnZBPSHrP/8xbHqxner5bx42iFxBJ6SmP/aoY+eFUQg70q018TeZwP0EPHH5rfs+EAQ+W84EpzYm6sQNH0QR615BcmhQgyCt2Hl4oIOg3ddVabblp3gjjPbbJ3m0WksjlEsPC+dFGng6U6oAcsypwOElN07g6h3tltznnKNgDa3XC2nrKazV7A9+vABHJ9ON74/8e3afBcbbC7jsAQ78WxsoUIC9YZV3ou4rMBSGCDm0gcHnQPuvA8PizxYY6J0pkgnZZGad+EKsf7JVknBa9gOWWYOylQp8J5nM+FN6JAjRkJvyBlRYoqX4p7Y2+jKx0iJtexdlKkJqmK5ohleGN942QKbzG5VTqTYl1ezTuJYSwaGyr+4Epf6ThJyDmhnHCJKSkV10vBc+I3J+bsftEMnYUqg4KSbKEcu+/EnUIxNJk3YvIp7h1caXbciQS1MDpfCmxUW3Kmsgk5ca/8Qum1c6z9nXsftF6jo1SYDSmzqD09eezgSof5bZwvMHTk9Ra4H4ztG42nB98pc1RBX4Dcag3Uy/VAZ1xGOytwg9UZ9xTnmW21YoMvbF7X/LnZSxnBqXJc6SlEc8wdSbil5csV+A7zik0B3mx/JrJZbh8FZnyxqmknbQ8+c3q7qsK7yXqRfy9Atgdj0430cvfNjUXbgNShvRKmPGQvV2sy46j0O4IvVmM2ftsgTvpTkIBPa/ZZjQbtrUatVg3H1NySruutjZ7vbGBd/wepz3hp
+sidebar_class_name: "get api-method"
+info_path: docs/user-api/law-firm-user-portal-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"List cases for a client"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/clients/{clientId}/cases"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+List cases for a client
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"in":"path","name":"clientId","required":true,"schema":{"type":"string"}},{"in":"query","name":"page[number]","schema":{"type":"integer","minimum":1,"default":1}},{"in":"query","name":"page[size]","schema":{"type":"integer","minimum":1,"maximum":200,"default":50}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"OK","content":{"application/json":{"schema":{"type":"object","properties":{"data":{"type":"array","items":{"type":"object","properties":{"id":{"type":"string"},"caseNumber":{"type":"string"},"title":{"type":"string"},"description":{"type":"string","nullable":true},"status":{"type":"string","enum":["INTAKE","ACTIVE","PENDING","SETTLED","CLOSED","ARCHIVED"]},"priority":{"type":"string","enum":["LOW","MEDIUM","HIGH","URGENT"],"default":"MEDIUM"},"practiceArea":{"type":"string","nullable":true},"clientId":{"type":"string"},"clientName":{"type":"string"},"leadAttorneyId":{"type":"string"},"leadAttorneyName":{"type":"string"},"assignedMembers":{"type":"array","items":{"type":"object","properties":{"userId":{"type":"string"},"displayName":{"type":"string"},"role":{"type":"string","enum":["LEAD","ASSOCIATE","PARALEGAL","SUPPORT"]}}}},"courtInfo":{"type":"object","nullable":true,"properties":{"courtName":{"type":"string"},"caseNumber":{"type":"string"},"judge":{"type":"string","nullable":true},"jurisdiction":{"type":"string"}}},"importantDates":{"type":"object","nullable":true,"properties":{"filedDate":{"type":"string","format":"date","nullable":true},"trialDate":{"type":"string","format":"date","nullable":true},"statuteOfLimitationsDate":{"type":"string","format":"date","nullable":true}}},"billingInfo":{"type":"object","nullable":true,"properties":{"billingType":{"type":"string","enum":["HOURLY","FLAT_FEE","CONTINGENCY","PRO_BONO"]},"hourlyRate":{"type":"number","nullable":true},"flatFeeAmount":{"type":"number","nullable":true},"contingencyPercentage":{"type":"number","nullable":true}}},"tags":{"type":"array","items":{"type":"string"}},"createdAt":{"type":"string","format":"date-time"},"updatedAt":{"type":"string","format":"date-time"}},"title":"Case"}}}}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

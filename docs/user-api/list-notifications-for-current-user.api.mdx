@@ -1,0 +1,71 @@
+---
+id: list-notifications-for-current-user
+title: "List notifications for current user"
+description: "List notifications for current user"
+sidebar_label: "List notifications for current user"
+hide_title: true
+hide_table_of_contents: true
+api: eJyVVt1uIjcUfhXr3LSVvISs1BvuZsNsQhsgAtJVRVB0mDmANx57anuSUDRSH6JP2CepjgcoIWQ3zQXx+Pz7fP6ONxBw6aEzhVtPTvzz199iYINaqAyDssbDTIKnrHIqrKEz3cAnQkcuqcIKOtNZPZNQosOCAjkfFZSBDvxRkVuDBIMFQQdKXNLUVMWc3Awk+GxFBUJnA2FdslyZQEtyIKFQRhVVAZ1zCTktsNIBOud1Lb/h2Ks/6X+4LfC5WX9stw+C/Nx+M4ojzE/5n1urCQ28aRj1Thj64JRZQs3H58iX1njyLP/YbvO/nHzmVMkdgA4MfwUJmTWBTGAplqXe9ufsq2eVzesQdv6VsgASSmdLckE1AXIMh1roHHK+KlDhv2+t8hNFyO3GsUACGT7mKVwk4/Q+GY97l4O0C7L5vr3pJpMUJHSHF7f9dDC5H18loyhPbm6GvcEkbo7Sfm/QTUdsNuzHLf7pDQdsmibd696AnV0M+73BJUjop+Nxcpnej9KLtPdb9Df+fTxJ+zDjVFXQJ3KtJRTkPS5Py0qnbHMD3i7yevgFJAyGo35yDRKuepdXfHn2+NqJatng6TWMDpQXqD3VEjDjLt86fSqyqbTGOZcTXEXyCDVdolJoZR5EsMKRxkC5cORt5TJqsoh7o+3W5I0mvozy2q53AhMnrAoKeAS+PcgwzxVnjfrmAG5bw8wRh0vCqTAL6wrkw80x0IegCuLLuOsyHFJZFHAW34d5+RIHOxqpJTDVnJYEG1CfFlWGG35hKxNOKez+jht4rXwQ5pCMxcI6kVXOkQmi8g2zUVjZHDqwpFgIMjHD2Qs7piByjzuGrhhOsAqh9J2zMyxVi56xKDW1MlucPZ5DfUD6YyaW5lgOqX9fBrvZUVwEc1QCuV183jXoly+T2AFlFjaab1t0jU/is3KFiPPnxrqAWiQ3PZDACTdHcd5qt9pwfEBs8WGBmTJLQSYvrTKhOSONT2tyXgqeTZqWqL0UaHLhAy4WfCEKNLgkEVaknMhR6bV4su6hc2cy9OSlyLQiE7wUuc2qolliGWNsvxhtIjjMHpRZSjFXWscFx8ksw9+6eP6tO3Nnkiwj74Xywme2pFzM17GFP3ix4PIL4unoV6qMDkpyhfI+dv1Robi2y2DF6FNy0bozXLgXGRphjV4LbFzv7rYXTyqslNkWx95/9D9Fr3P0lAu7Ey0dGmaFg2CtOxMJz/pQYJws21H2PjS+aNAeI4Gew1mpUUXfVcNmDVKnYI6fGyvrAws2G0731um65u1mtDJ+c+WZWvItTUp4oPXrR8Yj6oqDAw/nb5nsng/vMdi+BN6jup39/6nO+MOphhWnPIxWhDm5WFNjwyApw4HVq1HPXvZX/jKdMHu+vJBHFzB63017sz7wvdk0GhP7QKauYZ84f0M9q+v6X/s/cUA=
+sidebar_class_name: "get api-method"
+info_path: docs/user-api/law-firm-user-portal-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"List notifications for current user"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/notifications"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+List notifications for current user
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"in":"query","name":"page[number]","schema":{"type":"integer","minimum":1,"default":1}},{"in":"query","name":"page[size]","schema":{"type":"integer","minimum":1,"maximum":200,"default":50}},{"in":"query","name":"read","schema":{"type":"boolean"}},{"in":"query","name":"type","schema":{"type":"string"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"OK","content":{"application/json":{"schema":{"type":"object","properties":{"data":{"type":"array","items":{"type":"object","properties":{"id":{"type":"string"},"type":{"type":"string","enum":["CASE_ASSIGNED","CASE_UPDATE","DOCUMENT_SHARED","APPOINTMENT_REMINDER","COMMENT_MENTION","DEADLINE_UPCOMING","MESSAGE_RECEIVED","SYSTEM"]},"title":{"type":"string"},"message":{"type":"string"},"priority":{"type":"string","enum":["LOW","NORMAL","HIGH"],"default":"NORMAL"},"read":{"type":"boolean","default":false},"actionUrl":{"type":"string","nullable":true,"description":"Deep link to related resource"},"relatedResourceType":{"type":"string","nullable":true},"relatedResourceId":{"type":"string","nullable":true},"metadata":{"type":"object","additionalProperties":true},"createdAt":{"type":"string","format":"date-time"}},"title":"Notification"}},"meta":{"type":"object","properties":{"page":{"type":"integer"},"size":{"type":"integer"},"total":{"type":"integer"},"unreadCount":{"type":"integer"}}}}}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

@@ -1,0 +1,71 @@
+---
+id: get-invoice-details
+title: "Get invoice details"
+description: "Get invoice details"
+sidebar_label: "Get invoice details"
+hide_title: true
+hide_table_of_contents: true
+api: eJztV81u20YQfpXFXJoAG8lp0x54UyI5UOs6hmy3KGQhGJEjaePlLrM7lC0IBPoQfcI+STEkJUs2jTRob+2JS87vzu/HLTAuIyRTuI4U1J+//6HGbu1NShFmGiKlZTC8gWS6hbeEgcKg5BUk01k101BgwJyYQqwZjIMECuQVaHCYEyRgGmXjDDQE+lyaQBkkHErSENMV5QjJFnhTCHPkYNwSKlEdKBbeRYpC//bkRB4ZxTSYgo0XQx9+Ag2pd0yOhYpFYU2KQu1/isKyfWrCzz9RyqChCL6gwKYxYLION/TO+/Myn1Po5EgxyuWeI53XUegiWkOOn5Osic/KmhhLGiJ3UDUsfMiRIYFMGCoN2VfwRkYuYxcruTKXKhlOBqdXoOFydC6Pi8F4CBo+/DKaDK9HoOHd4Pzd6OxsNIRZpcEaR2Om/FAlhoAb0GAeff+6zByVQgf9c4mO68LdE12TxUpDOI7HAwFzXzbF9ITEJqeR47DpypkGV1qLc0tNbVdVJdEs5+wZbbc+vJ90uvFEV807eMazLu5nbTbXu8CjmO4VZbTA0jIkJ3vWYdkdJ+eZOsvkiTMFbnJyfEUh/5sC2eI62C+zPioBuDRLR5m6npyphQ/qYniqMn/nrMesbqlAyJQN+It98EoyLSJlkX2dSF0lLA5CO0OhKYQ3J989HV+jEHxQBW5qF/+1SZb6rHtq5BQjLrtpGTEa+w+6dGHIdjfq82br0MhOoNg9CKvDlTFtbvagcKaB7jEvLD1cGy5Gk5/Hl5fjD+cfh6Pz8Wh4IJDAb75UmVfOs1rhmlRBITcxGu8Ue4VpSjEqXpmoAkVfhpTgyEM5f3zz/Q9wkOk6jZN2We3z/eb/fP9n8v14G8F7YtUiB7WLtLjFKy9Kl1THU2BSAv2WMfa3e6hUgQCvsN7BqlLmIayYi5j0+1iYXhuIXurz/vo1VAdI7VLqpknSIV7bB1vUQIu95H1eM4FuD6e7ufbjr1d1Roxb+Fq8vf8Z3qlTE3JV48ULHxitGlyMQYM43ETgde+kdwKP4yISrxaYGrdU5LLCG8exntYW7zYUolYCKC0t0Uat0GUqMi4WkqwcHS5J8YpMUBkau1F3PtwmN05gVtSqwUxRq8ynZd4csahttG8ypBUHTG+NW2o1N9bWB7GTetktPtQ92LtxN27QVIeJKqa+oEzNN6qMFL6JaiHXz0mWYVyZolbwUFpRrQ2qM79kryZvB+96N04uHlWKTnlnN7vC29VcVHeGV8a1lxPtL+LLWuscI2XK70jLgI7pyFjvxkl1Fj5yjvXgaIF3dxF2wyame+4XFk2tq2zWb1Og0x0GFunkAc3PNKx8ZGHYbsXN62CrSj5/LinI/8JMwxqDaTb2dAuZiXLOIFmgjY/39/ZhHsKLSTsFXirQ3T7uppaTmbVGKzgFQMMtbY5+OipBoSvCTOD7dNvSJbcFH0g+GcDSUfuGfT8SqIvHffSob2rtnV5ttw3Hlb8lV1V7J1nexcGq+guZfqUT
+sidebar_class_name: "get api-method"
+info_path: docs/user-api/law-firm-user-portal-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Get invoice details"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/invoices/{invoiceId}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Get invoice details
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"in":"path","name":"invoiceId","required":true,"schema":{"type":"string"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"OK","content":{"application/json":{"schema":{"type":"object","properties":{"id":{"type":"string"},"invoiceNumber":{"type":"string"},"caseId":{"type":"string"},"caseName":{"type":"string"},"clientId":{"type":"string"},"clientName":{"type":"string"},"issueDate":{"type":"string","format":"date"},"dueDate":{"type":"string","format":"date"},"status":{"type":"string","enum":["DRAFT","SENT","PAID","OVERDUE","CANCELLED"]},"lineItems":{"type":"array","items":{"type":"object","properties":{"id":{"type":"string"},"description":{"type":"string"},"quantity":{"type":"number"},"rate":{"type":"number"},"amount":{"type":"number"},"timeEntryId":{"type":"string","nullable":true}}}},"subtotal":{"type":"number"},"taxRate":{"type":"number","nullable":true},"taxAmount":{"type":"number","nullable":true},"total":{"type":"number"},"amountPaid":{"type":"number","default":0},"amountDue":{"type":"number"},"notes":{"type":"string","nullable":true},"paymentTerms":{"type":"string","nullable":true},"pdfUrl":{"type":"string","nullable":true,"description":"Signed URL for PDF download"},"createdAt":{"type":"string","format":"date-time"},"updatedAt":{"type":"string","format":"date-time"}},"title":"Invoice"}}}},"403":{"description":"Error payload","content":{"application/json":{"schema":{"type":"object","properties":{"code":{"type":"string"},"message":{"type":"string"},"details":{"type":"array","items":{"type":"object","properties":{"field":{"type":"string"},"message":{"type":"string"}}}},"requestId":{"type":"string"}},"required":["code","message"],"example":{"code":"PERMISSION_DENIED","message":"You do not have permission to access this resource","requestId":"req_456"},"title":"ErrorResponse"}}}},"404":{"description":"Error payload","content":{"application/json":{"schema":{"type":"object","properties":{"code":{"type":"string"},"message":{"type":"string"},"details":{"type":"array","items":{"type":"object","properties":{"field":{"type":"string"},"message":{"type":"string"}}}},"requestId":{"type":"string"}},"required":["code","message"],"example":{"code":"PERMISSION_DENIED","message":"You do not have permission to access this resource","requestId":"req_456"},"title":"ErrorResponse"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

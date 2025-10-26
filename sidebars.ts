@@ -63,6 +63,9 @@ const sidebars: SidebarsConfig = {
   // Separate API Reference sidebar (only APIs, no specs or guides)
   apiSidebar: require('./docs/admin-api/sidebar.ts'),
 
+  // User API Reference sidebar
+  userApiSidebar: require('./docs/user-api/sidebar.ts'),
+
   // Separate C4 Models sidebar (architecture diagrams)
   c4Sidebar: [
     {

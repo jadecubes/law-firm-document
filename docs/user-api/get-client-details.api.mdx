@@ -1,0 +1,71 @@
+---
+id: get-client-details
+title: "Get client details"
+description: "Get client details"
+sidebar_label: "Get client details"
+hide_title: true
+hide_table_of_contents: true
+api: eJztV1Fv2zYQ/ivEvawFWDvdsj3ozUnc1luWFnHSYXCM4iydLDYSyfKopJ4hYD9iv3C/ZDhZdhJX2VJgb9tTKN/x7vjdx4+XNURcMiQzuGQK6s/f/1DHpSEbGeYamNI6mLiCZLaGI8JAYVTHApLZvJlr8BiwokiBWwdjIQGPsQANFiuCBNI21iQDDYE+1SZQBkkMNWngtKAKIVlDXHnx5RiMXUIjkQOxd5aJxf7twYH8yYjTYHw0TvK8/Qk0pM5GslGs6H1pUhTr8COLy/rLFG7xkdIIGnxwnkI0mwQm6ylDdz/sGzSQrStBbHJ2Mnk/ObkcnYKGo8vp5Gw8ncK80ZAZ9iWuzloQeiLnJnDst2qwdVnioqQNUI2GEr/COXWVR/tI6h5/qtCUfZ65CxVGSDqPnq2+cPZpSTDLAjH3deKh735nOAai2Ith2vKyx8ARYz/svxl/7LJ+W+pqG0NPRA0Z5ViXAsXlFJpG+ouR3uZHJshd+BvoxK8PD2b7z7jpPcaPbRpWPlI2rJCvKZOqrYvET2qBoFL3um7pPDq+mLwfg4bJ2W45Oj9+M3k/PhExuIOhM0tUV4f0CRzYP8sbd6s22qByV9tMxYJUbkLV3rtWkXYhMQRcgQYTqeo5gPQjDYSRslEPU/a68SKaiiRJ7bOv2yKFmSgHgo1CChUaDYcH332pTuMQXFAeV6XD7N8TqvQx9lbEjMt+W0YRTfkURB/Jmhsq+xXy8bQtNCL5xCL/vV27exFmm5PdBZxroM9Y+ZLujg3vxuc/T6bTyduzDyfjs8n45N6GBH51tcqcsi6qAm9IeQqVYTbOqugUpikxq1gYVoE62j6oUNYfDr//Ae41um3jefcW7fp9+H+//zP9bvaV6zXFrXJtgZaqYuEk5pJaOGUGSmC48ePhejsGNSAzVbjZTkx1KCGBIkbPyXCI3gw6FAapq4Y3L6G5N4RNhTSbDt0fxXZISxjo5ir5XrROoLvFq62m/fjLRdsOY3PXbu8Of4q36pUJlWonwXcuRCzV6N0ENEjBm+O/HBwMDmAfFNnxIsfU2KUim3lnbGSVu6BKvF1RYK1kVixpiSVrhTZTHDHPpVMVWlySPAAmqAxNuVK3LlwnVzZFJtYd2qxV5tK62izRtzm6LxFoFQOm18YutVqYsmwXkid18g650F7AwZW9sqMNNQwrTp2nTC1WqmYK33D7AqmKqgUFLoxvA9zxitWNQXXqltGp86PR8eDKysFZpWiVs+Vqy7ot4VjdmlgY2x1Ooj/j523UBTJlym1Ny4A20oNkgysr1PSOY4WtanQzdS8DH/RjR4lIn+PQl2jaUC3b1h07Z91sLpuT3Zg+11A4jmJer6XGy1A2jfz8qSaZjmZzDTcYzOZpn61l1JV1BkmOJe8/9Os7JYRn5939f65A91e41SsranWDZS1foOGaVvf/mWhkxi4IMwptDRuz9NXHexu/UF65Tbur+np8ARrw4R3auzNt9N6i1uuNx4W7Jts0uxqjfEuBTfMXoROVCw==
+sidebar_class_name: "get api-method"
+info_path: docs/user-api/law-firm-user-portal-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Get client details"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/clients/{clientId}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Get client details
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"in":"path","name":"clientId","required":true,"schema":{"type":"string"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"OK","content":{"application/json":{"schema":{"type":"object","properties":{"id":{"type":"string"},"type":{"type":"string","enum":["INDIVIDUAL","BUSINESS"]},"displayName":{"type":"string"},"firstName":{"type":"string","nullable":true},"lastName":{"type":"string","nullable":true},"companyName":{"type":"string","nullable":true},"email":{"type":"string","format":"email","nullable":true},"phone":{"type":"string","nullable":true},"address":{"type":"object","nullable":true,"properties":{"street":{"type":"string"},"city":{"type":"string"},"state":{"type":"string"},"zipCode":{"type":"string"},"country":{"type":"string","default":"US"}}},"dateOfBirth":{"type":"string","format":"date","nullable":true},"ssn":{"type":"string","nullable":true,"description":"Encrypted/masked"},"notes":{"type":"string","nullable":true},"status":{"type":"string","enum":["ACTIVE","INACTIVE","ARCHIVED"],"default":"ACTIVE"},"source":{"type":"string","nullable":true,"description":"How client found the firm"},"tags":{"type":"array","items":{"type":"string"}},"createdAt":{"type":"string","format":"date-time"},"updatedAt":{"type":"string","format":"date-time"}},"title":"Client"}}}},"403":{"description":"Error payload","content":{"application/json":{"schema":{"type":"object","properties":{"code":{"type":"string"},"message":{"type":"string"},"details":{"type":"array","items":{"type":"object","properties":{"field":{"type":"string"},"message":{"type":"string"}}}},"requestId":{"type":"string"}},"required":["code","message"],"example":{"code":"PERMISSION_DENIED","message":"You do not have permission to access this resource","requestId":"req_456"},"title":"ErrorResponse"}}}},"404":{"description":"Error payload","content":{"application/json":{"schema":{"type":"object","properties":{"code":{"type":"string"},"message":{"type":"string"},"details":{"type":"array","items":{"type":"object","properties":{"field":{"type":"string"},"message":{"type":"string"}}}},"requestId":{"type":"string"}},"required":["code","message"],"example":{"code":"PERMISSION_DENIED","message":"You do not have permission to access this resource","requestId":"req_456"},"title":"ErrorResponse"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

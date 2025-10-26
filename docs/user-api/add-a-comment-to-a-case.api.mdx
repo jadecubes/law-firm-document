@@ -1,0 +1,71 @@
+---
+id: add-a-comment-to-a-case
+title: "Add a comment to a case"
+description: "Add a comment to a case"
+sidebar_label: "Add a comment to a case"
+hide_title: true
+hide_table_of_contents: true
+api: eJylVttu2zgQ/RViXrYFGDvZR705rgt4kaaB42CxcIzFWBpLbChSJSm7hiFgP2K/cL9kMZTsyI1doLtPksjhXA7PnNEeAuYekgU8eXLin7/+FmOrNa6sw6CsgaUET2ntVNhBstjDLaEjN6pDAcli2SwlVOiwpEDORwNlIIEKQwESDJYECaToaZqBBEdfa+UogyS4miT4tKASIdlD2FVs6YNTJoeG/bIx+XBrsx1bfH82tSaQCbyFVaVVGvMdfvHW8Nob13b1hdJwksTi6ITLcLYiFxR5PtTzfpqahFKZOzI5A3DTSCjJcGDfM0XncAcSVKDSn3ORkU+dqiLASYv89IOHpmkkBBU0G48dYaCxLTnArMWCLRquwFfW+DbTX69v+HHqsj3MkP9nmE7xUNmZW4qZ2NqlNI8bbwslU5eM83j0OAEJHz6Pnz5N7ucgYT79NPlzcj+f/QESxndTXl32PE7PB8Q6FNb9cPM+ku7i9kNhg31y+ly6pmbqM/zMsUZepsHPXfwFUGtPl0rJlK807i7UElmAIWBacBb/I4UL92ouYVifA67NR/lJpph0r/srazWhiYxfY60DJGvUPiLbMnR0tsXW1pUYIIEMA10FVVKMXWU/d6TfTW0fxVSb7xtwlGUCRdqaiGD5Az1xr1MobMaCZn0Ej3UtgSFv++G+FbZm2B31wGLpNgcpjGBBEULlk+EQKzWgb1hWmgapLYebG2h66vrIndheSl9jj5WyG+gkM2IbjUB2Lx8P9f/2+zxWzh0+e5XQSRv5RNt6mnbk8uKwyM2ozNrGFDoU73ArPipXiihZD9YF1GL0MAUJXHSL5s3genB9VuSu1pgqkwsyWWWVCV6srRMatztyXgoeJJpy1F4KNJnwAddrvo4SDeYkQkHKiQyV3omtdS/Js4n3IEWqFcMvRWbTumxfsYoxui8mhAgO0xdlcilWSuv4wnHS/sAbPJtnM0pT8l4oL3xqK8rEaie4WX/xYs3ll1SuyPlCVdFBRa5Unsv3YqNQ3Nk8WDG7HY0Hz4YL9yJFI6zRO4Gt64PMebFVoVCmK469v/Pvo9cVesqEPWzlDk2gk2CDZ8N9wdwsMcp5N3AvE/rkUo7cCvQtDCuNyvR6vOX6Ik5vZnZyHONHui8lFNwYyQL2e873yemm4eWvNTn+YVhK2KBTragu9qxr/J51QvAmoVduvpt1c/q9AHk+0YPkGRa8Deqav0DCC+1e/zoaJnJBmJGLGbSb4zbOVRxcr4ffjMhGHk4wJ6rwQ9tlTzAePj/ymFt1fy+lzfiMwy3/geC2TdRWxwkS1/ag0eQ15mzb+my6wdVX1dPOj1WdhWK/by3m9oVM0xyRCfzNwDTNv2Yecqo=
+sidebar_class_name: "post api-method"
+info_path: docs/user-api/law-firm-user-portal-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Add a comment to a case"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"post"}
+  path={"/cases/{caseId}/comments"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Add a comment to a case
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"in":"path","name":"caseId","required":true,"schema":{"type":"string"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"required":true,"content":{"application/json":{"schema":{"type":"object","required":["content"],"properties":{"content":{"type":"string","minLength":1},"mentions":{"type":"array","items":{"type":"string","description":"User IDs"}}},"title":"CreateCommentRequest"}}}}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"201":{"description":"Created","content":{"application/json":{"schema":{"type":"object","properties":{"id":{"type":"string"},"resourceType":{"type":"string","enum":["CASE","DOCUMENT","TIME_ENTRY","CLIENT"]},"resourceId":{"type":"string"},"authorId":{"type":"string"},"authorName":{"type":"string"},"authorPhotoUrl":{"type":"string","nullable":true},"content":{"type":"string"},"mentions":{"type":"array","items":{"type":"object","properties":{"userId":{"type":"string"},"displayName":{"type":"string"}}}},"attachments":{"type":"array","items":{"type":"object","properties":{"id":{"type":"string"},"name":{"type":"string"},"url":{"type":"string"}}}},"isEdited":{"type":"boolean","default":false},"createdAt":{"type":"string","format":"date-time"},"updatedAt":{"type":"string","format":"date-time"}},"title":"Comment"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

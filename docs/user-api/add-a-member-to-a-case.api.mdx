@@ -1,0 +1,71 @@
+---
+id: add-a-member-to-a-case
+title: "Add a member to a case"
+description: "Add a member to a case"
+sidebar_label: "Add a member to a case"
+hide_title: true
+hide_table_of_contents: true
+api: eJztVs1u4zYQfhViLt0FuLbTpnvQTUm8hYt0Y9gOisI2FmNpbHEjkVqSstcQBPQh+oR9kmIoOY5jbwv02vpiSkPOzzfffGINHjcOojk8OrLiz9//ELfoyMFSgqOkssrvIZrXcENoycaVzyCaL5ulhBItFuTJurBBaYigRJ+BBI0FQQQJOhqlIMHSl0pZSiHytiIJLsmoQIhq8PuSdzpvld5Aw355Mzl/Y9I973h9NjHak/ZswrLMVYJeGd3/7Izmd2euzeozJf4kiTlUjmybmcmJay2tKcl6RY6Pdubz/LoDZwYJpKuCPd8P4zuQEE+nD7ejeDYECeN4Et8Pf4rvQcL0cTx+mMxg2YQfZ+VKo10b9/vBFf+l5BKrSq4LIojTlFIOfT0YnFuH1horStznBrmgfw3PKQKJSS+U2UgoyDncXLal5FHl7oUNrcU9SFCeCvfPUdeK8suwfztsh2LgzMWeNaetD5UdHS4l0FcsyrarbdkwHk5+GU2no4ePn+6GH0fDuxcHIvjNVCI1QhsvMtySKMkWyjlltPBGYJKQc8JnyglLzlQ2ITjJkNefrn98z3V55Tly28ZJx4WuqOvBD//3+z/T74Dnq7kXKAoqVmRDIMF6GjLzmWG/pXEBUxbdCPpsdv26Vd2m3550wEJutweZrmwOEWTely7q97FUvQ6OXmKK/vYKmhfKP2X2tK16qf/PkLMb6OScn1dhE8hu8cHYAj1E8POvs9AXZuXkKO/DYyMOinsU1FZoWz1tJCi9NiFyB+A97sQHZQsRvltjYz3mIh6PQALX2kJ41Rv0BvAaWD7xbo2J0htBOi2N0t6JtbEix92erJOCv205bTB3UqBOhfO4XnMTCtS4IeEzUlakqPK92Bn7FC10QF+KJFekvZMiNUlVtEssQ4zuyauChLeYPCm9kWKl8jwsOE5i8hxXxoYh7i30QsctvZQTLjElpWK1FwzWd06sufyuy5kqg4MjN53YKhT3ZuONmNzEt72F5sKdSFALo/P9gbkH0jqxUz5TuiuOvb9xb4PXFTpKhTmYNha1p5NgvYXmLjEjCwzK090Bvsnik548M8rTV98vc1TBXSBr3RF8Hu4TzOfo+WJx4PhSQsbDEM2hrjnbR5s3Db/+UpHlG8xSwhatwhWzZ15DqhyvU4jWmDs6y+dZV+HNpFOTtwLk5TwP6qdZ+7aYV/wEEp5of7wGNctGQkaYkg0ZtMbbNs67Gbs4Hj7T8kYeTjAjSv+3e5cvRGL8MJ3xRHbXqaJVPIs7njHctYmaUHcY9PCuhhz1pmr1r/XJ84un4/9q3ENVF6Go63bHzDyRbppnZDw/MzBN8xd99JtF
+sidebar_class_name: "post api-method"
+info_path: docs/user-api/law-firm-user-portal-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Add a member to a case"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"post"}
+  path={"/cases/{caseId}/members"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Add a member to a case
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"in":"path","name":"caseId","required":true,"schema":{"type":"string"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"required":true,"content":{"application/json":{"schema":{"type":"object","required":["userId","role"],"properties":{"userId":{"type":"string"},"role":{"type":"string","enum":["LEAD","ASSOCIATE","PARALEGAL","SUPPORT"]}}}}}}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"201":{"description":"Added"},"400":{"description":"Error payload","content":{"application/json":{"schema":{"type":"object","properties":{"code":{"type":"string"},"message":{"type":"string"},"details":{"type":"array","items":{"type":"object","properties":{"field":{"type":"string"},"message":{"type":"string"}}}},"requestId":{"type":"string"}},"required":["code","message"],"example":{"code":"PERMISSION_DENIED","message":"You do not have permission to access this resource","requestId":"req_456"},"title":"ErrorResponse"}}}},"403":{"description":"Error payload","content":{"application/json":{"schema":{"type":"object","properties":{"code":{"type":"string"},"message":{"type":"string"},"details":{"type":"array","items":{"type":"object","properties":{"field":{"type":"string"},"message":{"type":"string"}}}},"requestId":{"type":"string"}},"required":["code","message"],"example":{"code":"PERMISSION_DENIED","message":"You do not have permission to access this resource","requestId":"req_456"},"title":"ErrorResponse"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

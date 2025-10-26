@@ -1,0 +1,71 @@
+---
+id: submit-time-entry-for-approval
+title: "Submit time entry for approval"
+description: "Submit time entry for approval"
+sidebar_label: "Submit time entry for approval"
+hide_title: true
+hide_table_of_contents: true
+api: eJytVt1u2zYUfhXiXGztwNrpsO1Cd4qjrhoS25CdFINjBLR0bLOhSJWknBqGgD3EnnBPMhxKTp1EQTFgV6LE83++cz4dwIuNg2gB1w4t++evv9lclsh+YOdSKak3sOTgMK+t9HuIFgc4R2HRxrXfQrRYNksOlbCiRI/WBQGpIYJK+C1w0KJEiMDLEhPt7T4tgIPFL7W0WEDkbY0cXL7FUkB0AL+vSNx5S54bMm7RVUY7dHT/89kZPQp0uZWVl4ZczepVKb1HMp0b7VF7EhJVpWQuSGj42ZHk4aUns/qMuQcOlTUVWi9bP7LoiYZDLhymr1+NQ7I9l7VD+4oeXb2qVwjfc8FhbWwpPEStQMNha2rrTiR1Xa7QAodSalnWJURnZO60bD3uVlIpsVKnLlfGKBQaSHktauXbnnUu1T57GuGjX10fTXXiojR125fnok+bORIqr5XwWEQsZMV+YieuGg7OC1+7vrKgpkwXcJHFH+bAYXZ9fpXO58kFcIin02xyE47p+GaSjpILQvZjVp1Sw0HqnZF5b5/78sq93Em/nwfB12PKklkSZ6OPwFtP6fh34DCaXGfzu3g6TeIsHo8S+nSZJuP53VWSdDLTj5NxcjeKLy+BQ3IVp/TMkps0+QQc5ll8k9CXyfxjksGSoGiR6hf770LnHc1lQGFV/DeVhoOXnuoA8+NsQ9PQ91/6ZjSx1lhWib0y4n+c09wU/ZNTonNi88pUoRdSnSJIWCv2wEF6LN33va4lqv5pft1tKA0tPnS+dxU0p3tx0Wb2zeCSA34VZdUOZ5s2TJPsKp3N0sn47iIZpwHcjxHAn6ZmhWHaeLYVO2QV2lI6J41m3jCR5+gc81vpmEVnapsjPImQzne//PobnPQ6tDHrNnJI6vla6bYxI5gwJFiwtbFMVJU1O6FChH5ryH5lXKgtMUUEQ9J4RxoS3fBwwhjN0AWbQERkd0eaqa2CCLbeVy4aDkUlB12FBrkph7v30Jww14wA1XbvlL8eu0BmoGOisPeCEPDu8OE4An98modWSb02Qb0rzKV4YB+kLVlg0amxXigWT1PgQAG3pXk/OBucvdh4pPFuLXKpNwx1URmpvQtFU+Jhj9ZxRgSrcCOU40zogjkv1mvqYim02CDzW5SWFUKqPXsw9j661cRHjrNcSdTecVaYvC7bo6iCj+4tNMpbkd9LveFs1bJ+6yc3tO2MDcM5uNW3Om5hIx1zuamwYKs9Iwr70bE1pV8ibXW3lVUw8A1zju2kYJdm4w3LzuPR4FZT4o7lQjOj1f6IyCMYHXuQfit1lxxZf+PeBqsr4bBg5ni1sUJ7fOJscKsJtoSwUoSN0v2IfBed/Rzp8asfVkrIYDYg79ABdwGnwAUO0dOfnQ67S2JM50n+cKAErq1qGvr8pUZLf1ZLDjthZcsuiwMU0tG5gGgtlMMXoT2uUHiTdYvjLQPeH/Jx0WlaczuhanoDDve4f/Z71hCFbFEUaEMYrQT1vfInui+2Nk3b42hPJzMiYPF0yJ4NVTDfG9jh0ErMzT3qpvkWJ71ThE3zL+FKp4U=
+sidebar_class_name: "post api-method"
+info_path: docs/user-api/law-firm-user-portal-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Submit time entry for approval"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"post"}
+  path={"/time-entries/{timeEntryId}/submit"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Submit time entry for approval
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"in":"path","name":"timeEntryId","required":true,"schema":{"type":"string"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Submitted","content":{"application/json":{"schema":{"type":"object","properties":{"id":{"type":"string"},"caseId":{"type":"string"},"caseName":{"type":"string"},"userId":{"type":"string"},"userName":{"type":"string"},"date":{"type":"string","format":"date"},"hours":{"type":"number","minimum":0},"description":{"type":"string"},"billable":{"type":"boolean","default":true},"hourlyRate":{"type":"number","nullable":true},"amount":{"type":"number","description":"Calculated: hours * hourlyRate"},"status":{"type":"string","enum":["DRAFT","SUBMITTED","APPROVED","INVOICED"],"default":"DRAFT"},"invoiceId":{"type":"string","nullable":true},"activityType":{"type":"string","enum":["RESEARCH","DRAFTING","COURT_APPEARANCE","CLIENT_MEETING","PHONE_CALL","EMAIL","REVIEW","TRAVEL","OTHER"]},"createdAt":{"type":"string","format":"date-time"},"updatedAt":{"type":"string","format":"date-time"}},"title":"TimeEntry"}}}},"400":{"description":"Error payload","content":{"application/json":{"schema":{"type":"object","properties":{"code":{"type":"string"},"message":{"type":"string"},"details":{"type":"array","items":{"type":"object","properties":{"field":{"type":"string"},"message":{"type":"string"}}}},"requestId":{"type":"string"}},"required":["code","message"],"example":{"code":"PERMISSION_DENIED","message":"You do not have permission to access this resource","requestId":"req_456"},"title":"ErrorResponse"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      
