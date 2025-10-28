@@ -13,7 +13,15 @@ build/
 
 # Misc
 .cache/
+
+# OpenAPI files are in openapi/ folder (not in static/)
+# static/*.yaml
+
+# Environment variables
+.env
 .env.local
+.env.dev
+.env.prod
 .env.development.local
 .env.test.local
 .env.production.local

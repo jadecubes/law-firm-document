@@ -616,7 +616,7 @@ GET /cases?page[number]=2&page[size]=50
 - **RLS**: Row-Level Security
 
 ### 16.2 References
-- [OpenAPI Specification](../openapi/user-apis.yaml)
-- [Database Schema](../database.dbml)
+- [OpenAPI Specification](/openapi/user-apis.yaml)
+- [Database Schema](/database.dbml)
 - [Logto Documentation](https://docs.logto.io)
 - [C4 Model Diagrams](./c4-user-api-models.md)

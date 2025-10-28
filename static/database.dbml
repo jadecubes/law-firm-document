@@ -1,0 +1,2172 @@
+/* ===========================================================
+   Law Firm Management System - Database Schema (DBML)
+   Generated: 2025-10-26
+   Version: Comprehensive Enterprise Edition
+
+   PRINCIPLES
+   - AUTH_USERS = cached mirror of Logto users (external auth)
+   - FIRM_USER_PROFILES = employees of a specific law firm
+   - Partner & Client portal users bind AUTH_USERS to domain identities
+   - Logto handles: Authentication, basic user management, organizations
+   - App handles: Fine-grained RBAC, resource-level permissions, business logic
+   - Matter sub-ledger: time, disbursements (client-billable expenses),
+     invoices, payments, partner bills. ERP owns firm OPEX & GL.
+   - Financial events are append-only; never mutate historical rows.
+   - Pricing: named rate plans; resolution = CASE > CLIENT > Lawyer default.
+   - Retainers/trust sub-ledger: OPTIONAL and *omitted* in this deployment.
+
+   RBAC (Logto-integrated)
+   - Logto: Organizations (maps to LAW_FIRMS), basic org roles (admin/member)
+   - App: PERMISSIONS (resourceCode + action), ROLES, USER_ROLE_ASSIGNMENTS
+   - RESOURCE_ACCESS_GRANTS: polymorphic ACL across *any* resource
+   - Registry tables: RESOURCE_TYPES (+ optional RESOURCE_SUBTYPES)
+   - Sync tables: Mirror Logto's orgs and memberships for performance
+
+   USER TYPES
+   1) Internal Staff User (Logto + FIRM_USER_PROFILES)
+   2) Partner Attorney Portal User (Logto + PARTNER_ATTORNEY_USERS)
+   3) Client Portal User (Logto + CLIENT_USERS)
+   4) Platform Admin (Logto with system roles)
+   =========================================================== */
+
+
+/* ===========================================================
+   SLICE 0 — LAW FIRMS (anchor / tenant boundary)
+   =========================================================== */
+Table LAW_FIRMS {
+  id bigint [pk]
+  name varchar
+  slug varchar
+  address varchar
+  phone varchar
+  email varchar
+  contacts varchar
+
+  // Logto integration
+  logto_org_id varchar [unique]         // Maps to Logto organization.id
+  logto_synced_at datetime              // Last sync from Logto
+
+  created_at datetime
+  updated_at datetime
+
+  indexes {
+    (slug) [unique]
+    (logto_org_id) [unique]
+  }
+}
+
+
+/* ===========================================================
+   SLICE 1 — AUTH USERS (Logto-integrated) & STAFF PROFILES
+   =========================================================== */
+
+/*
+  AUTH_USERS: Cache/mirror of Logto's user data
+  - Logto is the source of truth for authentication
+  - This table caches data for performance (avoid API calls)
+  - Never store passwords here (Logto handles that)
+*/
+Table AUTH_USERS {
+  id bigint [pk]                        // Internal DB primary key
+  logto_user_id varchar [unique]        // THE key: references Logto's users.id
+
+  // Cached fields from Logto (for performance)
+  email varchar
+  name varchar
+  phone varchar
+  email_verified boolean
+  phone_verified boolean
+  avatar_url varchar
+
+  // Logto sync tracking
+  logto_synced_at datetime              // Last time we fetched from Logto
+  logto_custom_data json                // Cache of Logto's custom_data if needed
+
+  // App-specific fields (NOT in Logto)
+  is_active boolean                     // Your app's active status
+  last_app_login_at datetime            // Track logins to YOUR app specifically
+  app_preferences json                  // App-specific user preferences
+
+  created_at datetime
+  updated_at datetime
+
+  indexes {
+    (logto_user_id) [unique]
+    (email)
+    (is_active)
+  }
+
+  Note: '''
+  REMOVED from original AUTH_USERS:
+  - password (Logto handles authentication)
+  - email_verified_at (use email_verified boolean)
+  - remember_token (Logto handles sessions/tokens)
+  '''
+}
+
+/*
+  LOGTO_ORGANIZATIONS: Mirror of Logto's organizations
+  - Maps to LAW_FIRMS in your domain model
+  - Cached for performance and offline queries
+*/
+Table LOGTO_ORGANIZATIONS {
+  id bigint [pk]                        // Internal DB primary key
+  logto_org_id varchar [unique]         // Logto's organization.id
+  name varchar
+  description text
+
+  // Map to your domain model
+  law_firm_id bigint [unique]           // -> LAW_FIRMS.id
+
+  // Logto metadata
+  logto_branding json                   // Store Logto's branding config
+  logto_synced_at datetime              // Last sync timestamp
+
+  created_at datetime
+  updated_at datetime
+
+  indexes {
+    (logto_org_id) [unique]
+    (law_firm_id) [unique]
+  }
+}
+
+/*
+  LOGTO_ORG_MEMBERSHIPS: Mirror of Logto's organization memberships
+  - Tracks which users belong to which organizations
+  - Base for role mapping and access control
+*/
+Table LOGTO_ORG_MEMBERSHIPS {
+  id bigint [pk]
+  logto_org_id varchar                  // -> LOGTO_ORGANIZATIONS.logto_org_id
+  logto_user_id varchar                 // -> AUTH_USERS.logto_user_id
+
+  // Logto's basic organization role
+  logto_org_role varchar                // admin|member|guest (from Logto)
+
+  // Sync tracking
+  logto_synced_at datetime
+  joined_at datetime                    // When user joined the org
+
+  created_at datetime
+  updated_at datetime
+
+  indexes {
+    (logto_org_id, logto_user_id) [unique]
+    (logto_user_id)
+    (logto_org_role)
+  }
+}
+
+Table FIRM_USER_PROFILES {
+  id bigint [pk]
+  auth_user_id bigint                   // -> AUTH_USERS.id (internal)
+  logto_user_id varchar                 // -> AUTH_USERS.logto_user_id (for validation)
+  law_firm_id bigint                    // -> LAW_FIRMS.id
+
+  display_name varchar
+  job_title varchar
+  bio text
+  photo_url varchar
+  office_location varchar
+  visibility varchar                    // public|internal|hidden
+  listed boolean
+  listed_order smallint
+  is_lawyer boolean
+  practice_title varchar
+  practice_start_date date
+  is_active boolean
+
+  created_at datetime
+  updated_at datetime
+
+  indexes {
+    (auth_user_id, law_firm_id) [unique]
+    (logto_user_id, law_firm_id) [unique]
+    (law_firm_id, is_active)
+  }
+}
+
+Table LAWYER_LICENSES {
+  id bigint [pk]
+  firm_user_profile_id bigint           // -> FIRM_USER_PROFILES.id
+  jurisdiction_code varchar
+  bar_number varchar
+  admitted_at date
+  status varchar
+  created_at datetime
+  updated_at datetime
+}
+
+Table LOCALES {
+  code varchar [pk]
+  name varchar
+  created_at datetime
+  updated_at datetime
+}
+
+Table USER_PROFILE_TRANSLATIONS {
+  id bigint [pk]
+  firm_user_profile_id bigint
+  locale_code varchar
+  display_name varchar
+  job_title varchar
+  slug varchar
+  bio text
+  created_at datetime
+  updated_at datetime
+}
+
+/* Refs for SLICE 1 */
+Ref: LAW_FIRMS.id                      < LOGTO_ORGANIZATIONS.law_firm_id
+Ref: LOGTO_ORGANIZATIONS.logto_org_id  < LOGTO_ORG_MEMBERSHIPS.logto_org_id
+Ref: AUTH_USERS.logto_user_id          < LOGTO_ORG_MEMBERSHIPS.logto_user_id
+Ref: AUTH_USERS.id                     < FIRM_USER_PROFILES.auth_user_id
+Ref: AUTH_USERS.logto_user_id          < FIRM_USER_PROFILES.logto_user_id
+Ref: LAW_FIRMS.id                      < FIRM_USER_PROFILES.law_firm_id
+Ref: FIRM_USER_PROFILES.id             < LAWYER_LICENSES.firm_user_profile_id
+Ref: FIRM_USER_PROFILES.id             < USER_PROFILE_TRANSLATIONS.firm_user_profile_id
+Ref: LOCALES.code                      < USER_PROFILE_TRANSLATIONS.locale_code
+
+
+/* ===========================================================
+   SLICE 2 — ORG STRUCTURE & POSITIONS (with CATEGORY_DIMENSIONS)
+   =========================================================== */
+Table ORG_UNITS {
+  id bigint [pk]
+  law_firm_id bigint
+  name varchar
+  slug varchar
+  parent_id bigint
+  created_at datetime
+  updated_at datetime
+}
+
+Table POSITIONS {
+  id bigint [pk]
+  name varchar
+  slug varchar
+  rank int
+  created_at datetime
+  updated_at datetime
+}
+
+Table CATEGORY_DIMENSIONS {
+  id bigint [pk]
+  code varchar
+  name varchar
+  description text
+  allows_multiple boolean
+  is_active boolean
+  created_at datetime
+  updated_at datetime
+  indexes { (code) [unique] }
+}
+
+Table POSITION_CATEGORIES {
+  id bigint [pk]
+  dimension_id bigint
+  code varchar
+  name varchar
+  slug varchar
+  description text
+  rank smallint
+  parent_id bigint
+  is_active boolean
+  created_at datetime
+  updated_at datetime
+  indexes { (dimension_id, code) [unique] }
+}
+
+Table POSITION_CATEGORY_POSITION {
+  position_id bigint
+  category_id bigint
+  dimension_id bigint
+  is_primary boolean
+  created_at datetime
+  updated_at datetime
+  indexes {
+    (position_id, category_id) [pk]
+    (position_id, dimension_id) [unique]
+  }
+}
+
+Table USER_POSITIONS {
+  id bigint [pk]
+  user_id bigint
+  position_id bigint
+  org_unit_id bigint
+  starts_at date
+  ends_at date
+  created_at datetime
+  updated_at datetime
+}
+
+Table USER_ORG_UNITS {
+  id bigint [pk]
+  user_id bigint
+  org_unit_id bigint
+  role varchar
+  starts_at date
+  ends_at date
+  created_at datetime
+  updated_at datetime
+}
+
+Table REPORTING_LINES {
+  id bigint [pk]
+  manager_user_id bigint
+  subordinate_user_id bigint
+  org_unit_id bigint
+  relation_type varchar
+  fte_percent tinyint
+  starts_at date
+  ends_at date
+  created_at datetime
+  updated_at datetime
+}
+
+/* Refs */
+Ref: LAW_FIRMS.id            < ORG_UNITS.law_firm_id
+Ref: ORG_UNITS.id            < ORG_UNITS.parent_id
+Ref: CATEGORY_DIMENSIONS.id  < POSITION_CATEGORIES.dimension_id
+Ref: POSITION_CATEGORIES.id  < POSITION_CATEGORIES.parent_id
+Ref: POSITIONS.id            < POSITION_CATEGORY_POSITION.position_id
+Ref: POSITION_CATEGORIES.id  < POSITION_CATEGORY_POSITION.category_id
+Ref: CATEGORY_DIMENSIONS.id  < POSITION_CATEGORY_POSITION.dimension_id
+Ref: AUTH_USERS.id           < USER_POSITIONS.user_id
+Ref: POSITIONS.id            < USER_POSITIONS.position_id
+Ref: ORG_UNITS.id            < USER_POSITIONS.org_unit_id
+Ref: AUTH_USERS.id           < USER_ORG_UNITS.user_id
+Ref: ORG_UNITS.id            < USER_ORG_UNITS.org_unit_id
+Ref: AUTH_USERS.id           < REPORTING_LINES.manager_user_id
+Ref: AUTH_USERS.id           < REPORTING_LINES.subordinate_user_id
+Ref: ORG_UNITS.id            < REPORTING_LINES.org_unit_id
+
+
+/* ===========================================================
+   SLICE 3 — ARTICLES, SPECIALTIES & I18N
+   =========================================================== */
+Table SPECIALTIES {
+  id bigint [pk]
+  name varchar
+  slug varchar
+  description text
+  created_at datetime
+  updated_at datetime
+}
+
+Table FIRM_USER_SPECIALTIES {
+  specialty_id bigint
+  firm_user_profile_id bigint
+  proficiency tinyint
+  years smallint
+  indexes { (specialty_id, firm_user_profile_id) [pk] }
+}
+
+Table ARTICLES {
+  id bigint [pk]
+  law_firm_id bigint
+  title varchar
+  slug varchar
+  excerpt text
+  body text
+  status varchar
+  published_at datetime
+  created_by bigint
+  updated_by bigint
+  created_at datetime
+  updated_at datetime
+}
+
+Table ARTICLE_AUTHORS {
+  article_id bigint
+  firm_user_profile_id bigint
+  author_order smallint
+  indexes { (article_id, firm_user_profile_id) [pk] }
+}
+
+Table ARTICLE_SPECIALTY {
+  article_id bigint
+  specialty_id bigint
+  indexes { (article_id, specialty_id) [pk] }
+}
+
+Table ARTICLE_TRANSLATIONS {
+  id bigint [pk]
+  article_id bigint
+  locale_code varchar
+  title varchar
+  slug varchar
+  excerpt text
+  body text
+  created_at datetime
+  updated_at datetime
+}
+
+/* Refs */
+Ref: SPECIALTIES.id          < FIRM_USER_SPECIALTIES.specialty_id
+Ref: FIRM_USER_PROFILES.id   < FIRM_USER_SPECIALTIES.firm_user_profile_id
+Ref: LAW_FIRMS.id            < ARTICLES.law_firm_id
+Ref: AUTH_USERS.id           < ARTICLES.created_by
+Ref: AUTH_USERS.id           < ARTICLES.updated_by
+Ref: ARTICLES.id             < ARTICLE_AUTHORS.article_id
+Ref: FIRM_USER_PROFILES.id   < ARTICLE_AUTHORS.firm_user_profile_id
+Ref: ARTICLES.id             < ARTICLE_SPECIALTY.article_id
+Ref: SPECIALTIES.id          < ARTICLE_SPECIALTY.specialty_id
+Ref: LOCALES.code            < ARTICLE_TRANSLATIONS.locale_code
+Ref: ARTICLES.id             < ARTICLE_TRANSLATIONS.article_id
+
+
+/* ===========================================================
+   SLICE 4 — PERFORMANCE & BONUS
+   =========================================================== */
+Table PERFORMANCE_CYCLES {
+  id bigint [pk]
+  law_firm_id bigint
+  name varchar
+  starts_at date
+  ends_at date
+  status varchar
+  created_at datetime
+  updated_at datetime
+}
+
+Table PERFORMANCE_METRICS {
+  id bigint [pk]
+  law_firm_id bigint
+  name varchar
+  slug varchar
+  weight smallint
+  description text
+  created_at datetime
+  updated_at datetime
+}
+
+Table PERFORMANCE_REVIEWS {
+  id bigint [pk]
+  user_id bigint
+  reviewer_user_id bigint
+  law_firm_id bigint
+  cycle_id bigint
+  org_unit_id bigint
+  position_id bigint
+  overall_rating tinyint
+  rating_scale varchar
+  comments text
+  submitted_at datetime
+  finalized_at datetime
+  created_at datetime
+  updated_at datetime
+}
+
+Table PERFORMANCE_REVIEW_METRICS {
+  review_id bigint
+  metric_id bigint
+  score tinyint
+  weight smallint
+  comments text
+  indexes { (review_id, metric_id) [pk] }
+}
+
+Table BONUS_PLANS {
+  id bigint [pk]
+  law_firm_id bigint
+  name varchar
+  slug varchar
+  description text
+  currency_code varchar
+  is_prorated boolean
+  payout_rule text
+  created_at datetime
+  updated_at datetime
+}
+
+Table BONUS_AWARDS {
+  id bigint [pk]
+  user_id bigint
+  law_firm_id bigint
+  bonus_plan_id bigint
+  cycle_id bigint
+  org_unit_id bigint
+  amount decimal
+  currency_code varchar
+  reason text
+  status varchar
+  approved_by bigint
+  approved_at datetime
+  paid_at datetime
+  created_at datetime
+  updated_at datetime
+}
+
+Table BONUS_AWARD_REVISIONS {
+  id bigint [pk]
+  bonus_award_id bigint
+  changed_by bigint
+  change_reason text
+  old_amount decimal
+  new_amount decimal
+  created_at datetime
+}
+
+/* Refs */
+Ref: LAW_FIRMS.id              < PERFORMANCE_CYCLES.law_firm_id
+Ref: LAW_FIRMS.id              < PERFORMANCE_METRICS.law_firm_id
+Ref: AUTH_USERS.id             < PERFORMANCE_REVIEWS.user_id
+Ref: AUTH_USERS.id             < PERFORMANCE_REVIEWS.reviewer_user_id
+Ref: LAW_FIRMS.id              < PERFORMANCE_REVIEWS.law_firm_id
+Ref: PERFORMANCE_CYCLES.id     < PERFORMANCE_REVIEWS.cycle_id
+Ref: ORG_UNITS.id              < PERFORMANCE_REVIEWS.org_unit_id
+Ref: POSITIONS.id              < PERFORMANCE_REVIEWS.position_id
+Ref: PERFORMANCE_REVIEWS.id    < PERFORMANCE_REVIEW_METRICS.review_id
+Ref: PERFORMANCE_METRICS.id    < PERFORMANCE_REVIEW_METRICS.metric_id
+Ref: LAW_FIRMS.id              < BONUS_PLANS.law_firm_id
+Ref: AUTH_USERS.id             < BONUS_AWARDS.user_id
+Ref: LAW_FIRMS.id              < BONUS_AWARDS.law_firm_id
+Ref: BONUS_PLANS.id            < BONUS_AWARDS.bonus_plan_id
+Ref: PERFORMANCE_CYCLES.id     < BONUS_AWARDS.cycle_id
+Ref: ORG_UNITS.id              < BONUS_AWARDS.org_unit_id
+Ref: AUTH_USERS.id             < BONUS_AWARDS.approved_by
+Ref: BONUS_AWARDS.id           < BONUS_AWARD_REVISIONS.bonus_award_id
+Ref: AUTH_USERS.id             < BONUS_AWARD_REVISIONS.changed_by
+
+
+/* ===========================================================
+   SLICE 5A — CLIENTS & CASES (core entities)
+   =========================================================== */
+Table CLIENTS {
+  id bigint [pk]
+  law_firm_id bigint
+  name varchar
+  kind varchar                   // company|individual|gov
+  email varchar
+  phone varchar
+  address varchar
+  created_at datetime
+  updated_at datetime
+}
+
+Table CLIENT_CONTACTS {
+  id bigint [pk]
+  client_id bigint
+  name varchar
+  email varchar
+  phone varchar
+  title varchar
+  is_primary boolean
+  created_at datetime
+  updated_at datetime
+}
+
+Table CASES {
+  id bigint [pk]
+  law_firm_id bigint
+  org_unit_id bigint
+  case_number varchar
+  title varchar
+  description text
+  case_type varchar
+  status varchar                 // open|closed|on_hold
+  opened_at date
+  closed_at date
+  created_by bigint
+  updated_by bigint
+  created_at datetime
+  updated_at datetime
+}
+
+Table CASE_SPECIALTY {
+  case_id bigint
+  specialty_id bigint
+  indexes { (case_id, specialty_id) [pk] }
+}
+
+/* Planning/guardrails — NOT ledger */
+Table CASE_BUDGETS {
+  id bigint [pk]
+  case_id bigint
+  fee_cap_amount decimal
+  flat_fee_amount decimal
+  budget_hours decimal
+  budget_amount decimal
+  expected_settlement decimal
+  contingency_pct decimal
+  notes text
+  created_at datetime
+  updated_at datetime
+}
+
+/* Refs */
+Ref: LAW_FIRMS.id           < CLIENTS.law_firm_id
+Ref: CLIENTS.id             < CLIENT_CONTACTS.client_id
+Ref: LAW_FIRMS.id           < CASES.law_firm_id
+Ref: ORG_UNITS.id           < CASES.org_unit_id
+Ref: AUTH_USERS.id          < CASES.created_by
+Ref: AUTH_USERS.id          < CASES.updated_by
+Ref: CASES.id               < CASE_SPECIALTY.case_id
+Ref: SPECIALTIES.id         < CASE_SPECIALTY.specialty_id
+Ref: CASES.id               < CASE_BUDGETS.case_id
+
+
+/* ===========================================================
+   SLICE 5 — CLIENT USERS (portal login link)
+   =========================================================== */
+Table CLIENT_USERS {
+  id bigint [pk]
+  user_id bigint
+  client_contact_id bigint
+  status varchar
+  invited_at datetime
+  accepted_at datetime
+  revoked_at datetime
+  last_login_at datetime
+  created_at datetime
+  updated_at datetime
+  indexes {
+    (user_id, client_contact_id) [unique]
+    client_contact_id [unique]
+  }
+}
+
+/* Refs */
+Ref: AUTH_USERS.id        < CLIENT_USERS.user_id
+Ref: CLIENT_CONTACTS.id   < CLIENT_USERS.client_contact_id
+
+
+/* ===========================================================
+   SLICE 6 — PARTNER FIRMS & STANDING COOPERATION
+   =========================================================== */
+Table PARTNER_FIRMS {
+  id bigint [pk]
+  law_firm_id bigint
+  name varchar
+  slug varchar
+  address varchar
+  phone varchar
+  email varchar
+  notes varchar
+  status varchar
+  created_at datetime
+  updated_at datetime
+}
+
+Table PARTNER_FIRM_CONTACTS {
+  id bigint [pk]
+  partner_firm_id bigint
+  name varchar
+  email varchar
+  phone varchar
+  title varchar
+  is_primary boolean
+  created_at datetime
+  updated_at datetime
+}
+
+Table PARTNER_ATTORNEYS {
+  id bigint [pk]
+  partner_firm_id bigint
+  name varchar
+  email varchar
+  jurisdiction_code varchar
+  bar_number varchar
+  title varchar
+  created_at datetime
+  updated_at datetime
+}
+
+Table FIRM_PARTNER_RELATIONSHIPS {
+  id bigint [pk]
+  law_firm_id bigint
+  partner_firm_id bigint
+  relationship_type varchar
+  status varchar
+  starts_at date
+  ends_at date
+  notes text
+  created_at datetime
+  updated_at datetime
+}
+
+Table FIRM_PARTNER_AGREEMENTS {
+  id bigint [pk]
+  firm_partner_relationship_id bigint
+  agreement_type varchar
+  agreement_doc_url varchar
+  effective_at date
+  expires_at date
+  termination_notice_days smallint
+  is_active boolean
+  created_at datetime
+  updated_at datetime
+}
+
+Table FIRM_PARTNER_RATE_CARDS {
+  id bigint [pk]
+  firm_partner_relationship_id bigint
+  role_name varchar
+  activity_code_id bigint
+  currency_code varchar
+  hourly_rate decimal
+  effective_at date
+  expires_at date
+  created_at datetime
+  updated_at datetime
+}
+
+Table FIRM_PARTNER_JURISDICTIONS {
+  firm_partner_relationship_id bigint
+  jurisdiction_code varchar
+  indexes { (firm_partner_relationship_id, jurisdiction_code) [pk] }
+}
+
+/* Refs */
+Ref: LAW_FIRMS.id                 < PARTNER_FIRMS.law_firm_id
+Ref: PARTNER_FIRMS.id             < PARTNER_FIRM_CONTACTS.partner_firm_id
+Ref: PARTNER_FIRMS.id             < PARTNER_ATTORNEYS.partner_firm_id
+Ref: LAW_FIRMS.id                 < FIRM_PARTNER_RELATIONSHIPS.law_firm_id
+Ref: PARTNER_FIRMS.id             < FIRM_PARTNER_RELATIONSHIPS.partner_firm_id
+Ref: FIRM_PARTNER_RELATIONSHIPS.id< FIRM_PARTNER_AGREEMENTS.firm_partner_relationship_id
+Ref: FIRM_PARTNER_RELATIONSHIPS.id< FIRM_PARTNER_RATE_CARDS.firm_partner_relationship_id
+Ref: BILLING_ACTIVITY_CODES.id    < FIRM_PARTNER_RATE_CARDS.activity_code_id
+
+
+/* ===========================================================
+   SLICE 7 — CASE ROLE CATALOGS
+   =========================================================== */
+Table CASE_ATTORNEY_ROLE_TYPES {
+  id bigint [pk]
+  code varchar [unique]
+  name varchar
+  description text
+  is_billable boolean
+  default_allocation_percent tinyint
+  is_active boolean
+  created_at datetime
+  updated_at datetime
+}
+
+Table CASE_PARTY_ROLE_TYPES {
+  id bigint [pk]
+  code varchar [unique]
+  name varchar
+  description text
+  is_billing_candidate boolean
+  is_active boolean
+  created_at datetime
+  updated_at datetime
+}
+
+Table CASE_FIRM_ROLE_TYPES {
+  id bigint [pk]
+  code varchar [unique]
+  name varchar
+  description text
+  is_lead_candidate boolean
+  is_active boolean
+  created_at datetime
+  updated_at datetime
+}
+
+
+/* ===========================================================
+   SLICE 8 — CASE TABLES USING ROLE CATALOGS
+   =========================================================== */
+Table CASE_ATTORNEYS {
+  case_id bigint
+  firm_user_profile_id bigint
+  case_attorney_role_type_id bigint
+  assignment_role varchar      // deprecated
+  allocation_percent tinyint
+  starts_at date
+  ends_at date
+  indexes { (case_id, firm_user_profile_id) [pk] }
+}
+
+Table CASE_PARTNER_ATTORNEYS {
+  case_id bigint
+  partner_attorney_id bigint
+  case_attorney_role_type_id bigint
+  assignment_role varchar      // deprecated
+  allocation_percent tinyint
+  starts_at date
+  ends_at date
+  indexes { (case_id, partner_attorney_id) [pk] }
+}
+
+Table CASE_CLIENTS {
+  case_id bigint
+  client_id bigint
+  party_role_type_id bigint
+  role varchar                 // deprecated
+  is_billing_client boolean
+  starts_at date
+  ends_at date
+  indexes { (case_id, client_id) [pk] }
+}
+
+Table CASE_PARTNER_FIRMS {
+  case_id bigint
+  partner_firm_id bigint
+  firm_partner_relationship_id bigint
+  firm_role_type_id bigint
+  role varchar                 // deprecated
+  fee_split_percent tinyint
+  is_lead_firm boolean
+  agreement_doc_url varchar
+  starts_at date
+  ends_at date
+  indexes { (case_id, partner_firm_id) [pk] }
+}
+
+/* Refs */
+Ref: CASES.id                    < CASE_ATTORNEYS.case_id
+Ref: FIRM_USER_PROFILES.id       < CASE_ATTORNEYS.firm_user_profile_id
+Ref: CASE_ATTORNEY_ROLE_TYPES.id < CASE_ATTORNEYS.case_attorney_role_type_id
+Ref: CASES.id                    < CASE_PARTNER_ATTORNEYS.case_id
+Ref: PARTNER_ATTORNEYS.id        < CASE_PARTNER_ATTORNEYS.partner_attorney_id
+Ref: CASE_ATTORNEY_ROLE_TYPES.id < CASE_PARTNER_ATTORNEYS.case_attorney_role_type_id
+Ref: CASES.id                    < CASE_CLIENTS.case_id
+Ref: CLIENTS.id                  < CASE_CLIENTS.client_id
+Ref: CASE_PARTY_ROLE_TYPES.id    < CASE_CLIENTS.party_role_type_id
+Ref: CASES.id                    < CASE_PARTNER_FIRMS.case_id
+Ref: PARTNER_FIRMS.id            < CASE_PARTNER_FIRMS.partner_firm_id
+Ref: FIRM_PARTNER_RELATIONSHIPS.id < CASE_PARTNER_FIRMS.firm_partner_relationship_id
+Ref: CASE_FIRM_ROLE_TYPES.id     < CASE_PARTNER_FIRMS.firm_role_type_id
+
+
+/* ===========================================================
+   SLICE 9 — PARTNER ATTORNEY LOGINS (AuthN)
+   =========================================================== */
+Table PARTNER_ATTORNEY_USERS {
+  id bigint [pk]
+  user_id bigint
+  partner_attorney_id bigint
+  status varchar
+  invited_at datetime
+  accepted_at datetime
+  revoked_at datetime
+  last_login_at datetime
+  created_at datetime
+  updated_at datetime
+  indexes {
+    (user_id, partner_attorney_id) [unique]
+    partner_attorney_id [unique]
+  }
+}
+
+/* Refs */
+Ref: AUTH_USERS.id         < PARTNER_ATTORNEY_USERS.user_id
+Ref: PARTNER_ATTORNEYS.id  < PARTNER_ATTORNEY_USERS.partner_attorney_id
+
+
+/* ===========================================================
+   SLICE 10 — AUTHORIZATION (Logto-integrated RBAC)
+
+   STRATEGY:
+   - Logto: Authentication, Organizations, basic org roles
+   - Your App: Fine-grained permissions, resource access, field policies
+   - Bridge: LOGTO_ORG_ROLE_MAPPINGS connects Logto roles to app roles
+   =========================================================== */
+
+/*
+  PERMISSIONS: Your app's fine-grained permissions
+  - Examples: CASE.UPDATE, INVOICE.APPROVE, TIME_ENTRY.SUBMIT
+*/
+Table PERMISSIONS {
+  id bigint [pk]
+  code varchar [unique]                 // e.g., CASE.UPDATE
+  name varchar
+  description text
+  resource_type varchar                 // CASE, CLIENT, INVOICE, etc.
+  action varchar                        // CREATE, READ, UPDATE, DELETE, APPROVE
+
+  // Field-level policy (template defaults)
+  default_fields_mode varchar           // ALL|ONLY|EXCEPT
+  default_fields json                   // ["title","status","budget.*"]
+  default_condition_json json           // JSON-Logic policy
+
+  created_at datetime
+  updated_at datetime
+
+  indexes {
+    (code) [unique]
+    (resource_type, action)
+  }
+}
+
+/*
+  ROLES: Your app's custom roles
+  - More granular than Logto's admin/member/guest
+  - Examples: CASE_MANAGER, BILLING_ADMIN, PARALEGAL, PARTNER
+*/
+Table ROLES {
+  id bigint [pk]
+  code varchar [unique]                 // e.g., CASE_MANAGER
+  name varchar
+  description text
+  scope_type varchar                    // GLOBAL|FIRM|ORG_UNIT|CASE
+
+  // Logto integration flags
+  is_logto_synced boolean               // If true, auto-assigned from Logto org role
+  logto_org_role_mapping varchar        // Maps to: admin|member|guest (nullable)
+
+  is_system boolean                     // System-defined vs custom
+  is_active boolean
+
+  created_at datetime
+  updated_at datetime
+
+  indexes {
+    (code) [unique]
+    (scope_type)
+    (is_logto_synced)
+  }
+}
+
+/*
+  ROLE_PERMISSIONS: Define what each role can do
+*/
+Table ROLE_PERMISSIONS {
+  role_id bigint
+  permission_id bigint
+
+  // Per-role override of permission defaults
+  fields_mode varchar                   // TEMPLATE|ALL|ONLY|EXCEPT
+  fields json                           // Field restrictions
+  condition_json json                   // Additional conditions (JSON-Logic)
+
+  created_at datetime
+  updated_at datetime
+
+  indexes {
+    (role_id, permission_id) [pk]
+    (permission_id, role_id)
+  }
+}
+
+/*
+  USER_ROLE_ASSIGNMENTS: Assign roles to users
+  - Can be assigned manually or auto-synced from Logto
+  - Supports multiple scopes (global, firm, org unit, case)
+*/
+Table USER_ROLE_ASSIGNMENTS {
+  id bigint [pk]
+  auth_user_id bigint                   // -> AUTH_USERS.id (internal)
+  logto_user_id varchar                 // -> AUTH_USERS.logto_user_id (for sync)
+  role_id bigint                        // -> ROLES.id
+
+  // Scope (where this role applies)
+  law_firm_id bigint                    // nullable unless scope_type = FIRM
+  logto_org_id varchar                  // Link to Logto organization
+  org_unit_id bigint                    // nullable unless scope_type = ORG_UNIT
+  case_id bigint                        // nullable unless scope_type = CASE
+
+  // Assignment metadata
+  assigned_by bigint                    // -> AUTH_USERS.id (who assigned)
+  assignment_source varchar             // MANUAL|LOGTO_ORG_ROLE|AUTO|CASE_MEMBER|SYSTEM
+
+  // Temporal
+  starts_at datetime
+  ends_at datetime
+
+  created_at datetime
+  updated_at datetime
+
+  indexes {
+    (auth_user_id, role_id, law_firm_id, org_unit_id, case_id) [unique]
+    (logto_user_id, role_id)
+    (auth_user_id, ends_at)
+    (law_firm_id, auth_user_id)
+    (logto_org_id, auth_user_id)
+    (assignment_source)
+  }
+}
+
+/*
+  LOGTO_ORG_ROLE_MAPPINGS: Bridge between Logto roles and app roles
+  - Example: Logto "admin" → Your "FIRM_ADMIN" + "CASE_MANAGER" roles
+  - Enables auto-role-assignment when user joins organization
+*/
+Table LOGTO_ORG_ROLE_MAPPINGS {
+  id bigint [pk]
+  logto_org_role varchar                // admin|member|guest
+  app_role_id bigint                    // -> ROLES.id
+  law_firm_id bigint                    // optional: firm-specific mapping
+
+  // Automatic assignment settings
+  auto_assign boolean                   // Auto-create USER_ROLE_ASSIGNMENTS
+  scope_type varchar                    // FIRM|ORG_UNIT|GLOBAL
+
+  is_active boolean
+  created_at datetime
+  updated_at datetime
+
+  indexes {
+    (logto_org_role, app_role_id, law_firm_id) [unique]
+    (logto_org_role, is_active)
+  }
+}
+
+/*
+  RESOURCE_TYPES: Registry of domain resource kinds
+  - Same as your original design
+*/
+Table RESOURCE_TYPES {
+  code varchar [pk]                     // CASE, CLIENT, INVOICE, etc.
+  name varchar
+  scope_type varchar                    // GLOBAL|FIRM|ORG_UNIT|CASE
+  id_format varchar                     // 'int64' | 'uuid' | 'string'
+  is_active boolean
+  created_at datetime
+  updated_at datetime
+}
+
+Table RESOURCE_SUBTYPES {
+  resource_type_code varchar
+  code varchar                          // NOTE, LINE_ITEM, TRANSLATION
+  name varchar
+  id_format varchar
+  is_active boolean
+  created_at datetime
+  updated_at datetime
+
+  indexes {
+    (resource_type_code, code) [pk]
+  }
+}
+
+/*
+  RESOURCE_ACCESS_GRANTS: Polymorphic ACL across all resources
+  - Enhanced with Logto user tracking
+  - Supports both internal user_id and logto_user_id
+*/
+Table RESOURCE_ACCESS_GRANTS {
+  id bigint [pk]
+  resource_type varchar
+  resource_id varchar
+  subresource_type varchar
+  subresource_id varchar
+
+  // User references (both for flexibility)
+  auth_user_id bigint                   // -> AUTH_USERS.id
+  logto_user_id varchar                 // -> AUTH_USERS.logto_user_id
+
+  access_level varchar                  // VIEW|EDIT|UPLOAD|ADMIN
+  grant_source varchar                  // MANUAL|ROLE|CASE_MEMBER|PARTNER_MEMBER|SYSTEM|LOGTO_ORG_ADMIN
+
+  // Temporal
+  starts_at datetime
+  ends_at datetime
+
+  // Multi-tenant
+  law_firm_id bigint
+  logto_org_id varchar                  // Link to Logto organization
+
+  created_at datetime
+  updated_at datetime
+
+  indexes {
+    (resource_type, resource_id, subresource_type, subresource_id, auth_user_id, access_level) [pk]
+    (resource_type, resource_id)
+    (resource_type, resource_id, subresource_type, subresource_id)
+    (auth_user_id)
+    (logto_user_id)
+    (auth_user_id, access_level)
+    (law_firm_id, resource_type)
+    (law_firm_id, resource_type, access_level)
+    (logto_org_id, resource_type)
+  }
+}
+
+/*
+  LOGTO_SYNC_LOG: Track synchronization with Logto
+  - Audit trail for webhooks and scheduled syncs
+*/
+Table LOGTO_SYNC_LOG {
+  id bigint [pk]
+  sync_type varchar                     // USERS|ORGANIZATIONS|ORG_MEMBERSHIPS|ORG_ROLES
+  sync_method varchar                   // WEBHOOK|SCHEDULED|MANUAL
+  sync_status varchar                   // SUCCESS|FAILED|PARTIAL
+  records_synced int
+  records_failed int
+  error_message text
+  error_details json
+  started_at datetime
+  completed_at datetime
+  created_at datetime
+
+  indexes {
+    (sync_type, started_at)
+    (sync_status)
+  }
+}
+
+/* ------------------- Refs for SLICE 10 ------------------- */
+
+Ref: ROLES.id                          > ROLE_PERMISSIONS.role_id
+Ref: PERMISSIONS.id                    > ROLE_PERMISSIONS.permission_id
+
+Ref: AUTH_USERS.id                     > USER_ROLE_ASSIGNMENTS.auth_user_id
+Ref: AUTH_USERS.logto_user_id          > USER_ROLE_ASSIGNMENTS.logto_user_id
+Ref: ROLES.id                          > USER_ROLE_ASSIGNMENTS.role_id
+Ref: LAW_FIRMS.id                      > USER_ROLE_ASSIGNMENTS.law_firm_id
+Ref: LOGTO_ORGANIZATIONS.logto_org_id  > USER_ROLE_ASSIGNMENTS.logto_org_id
+Ref: ORG_UNITS.id                      > USER_ROLE_ASSIGNMENTS.org_unit_id
+Ref: CASES.id                          > USER_ROLE_ASSIGNMENTS.case_id
+Ref: AUTH_USERS.id                     > USER_ROLE_ASSIGNMENTS.assigned_by
+
+Ref: ROLES.id                          > LOGTO_ORG_ROLE_MAPPINGS.app_role_id
+Ref: LAW_FIRMS.id                      > LOGTO_ORG_ROLE_MAPPINGS.law_firm_id
+
+Ref: RESOURCE_TYPES.code               > RESOURCE_SUBTYPES.resource_type_code
+
+Ref: AUTH_USERS.id                     > RESOURCE_ACCESS_GRANTS.auth_user_id
+Ref: AUTH_USERS.logto_user_id          > RESOURCE_ACCESS_GRANTS.logto_user_id
+Ref: LAW_FIRMS.id                      > RESOURCE_ACCESS_GRANTS.law_firm_id
+Ref: LOGTO_ORGANIZATIONS.logto_org_id  > RESOURCE_ACCESS_GRANTS.logto_org_id
+
+
+/* ===========================================================
+   SLICE 11 — BILLING CATALOGS (activities, expenses, tax)
+   =========================================================== */
+Table BILLING_ACTIVITY_CODES {
+  id bigint [pk]
+  code varchar [unique]
+  name varchar
+  description text
+  is_active boolean
+  created_at datetime
+  updated_at datetime
+}
+
+Table EXPENSE_CATEGORIES {
+  id bigint [pk]
+  code varchar [unique]
+  name varchar
+  description text
+  is_taxable boolean
+  is_reimbursable boolean
+  is_active boolean
+  created_at datetime
+  updated_at datetime
+}
+
+Table FIRM_TAX_RATES {
+  id bigint [pk]
+  law_firm_id bigint
+  code varchar
+  name varchar
+  percent decimal              // 5.00 = 5%
+  effective_at date
+  expires_at date
+  is_active boolean
+  created_at datetime
+  updated_at datetime
+  indexes { (law_firm_id, code, effective_at) [unique] }
+}
+
+/* Refs */
+Ref: LAW_FIRMS.id < FIRM_TAX_RATES.law_firm_id
+
+
+/* ===========================================================
+   SLICE 12 — RATES & PRICING (named plans + selections)
+   =========================================================== */
+Table LAWYER_RATE_PLANS {
+  id bigint [pk]
+  law_firm_id bigint
+  firm_user_profile_id bigint
+  name varchar
+  currency_code varchar
+  status varchar            // draft|active|retired
+  effective_at date
+  expires_at date
+  is_default boolean
+  created_by bigint
+  created_at datetime
+  updated_at datetime
+  indexes {
+    (firm_user_profile_id, is_default)
+    (law_firm_id, status)
+  }
+}
+
+Table LAWYER_RATE_PLAN_RATES {
+  id bigint [pk]
+  plan_id bigint
+  case_attorney_role_type_id bigint   // nullable
+  activity_code_id bigint             // nullable
+  bill_unit varchar                   // 'hour' | 'unit'
+  hourly_rate decimal
+  unit_price decimal
+  min_increment_minutes smallint
+  created_at datetime
+  updated_at datetime
+  indexes { (plan_id, case_attorney_role_type_id, activity_code_id) [unique] }
+}
+
+Table CLIENT_RATE_PLAN_SELECTIONS {
+  id bigint [pk]
+  client_id bigint
+  firm_user_profile_id bigint
+  plan_id bigint
+  effective_at date
+  expires_at date
+  is_primary boolean
+  selected_by bigint
+  selected_at datetime
+  created_at datetime
+  updated_at datetime
+  indexes { (client_id, firm_user_profile_id, effective_at) }
+}
+
+Table CASE_RATE_PLAN_SELECTIONS {
+  id bigint [pk]
+  case_id bigint
+  firm_user_profile_id bigint
+  plan_id bigint
+  selected_by bigint
+  selected_at datetime
+  created_at datetime
+  updated_at datetime
+  indexes { (case_id, firm_user_profile_id) [unique] }
+}
+
+/* Partner attorney mirrors */
+Table PARTNER_RATE_PLANS {
+  id bigint [pk]
+  partner_attorney_id bigint
+  name varchar
+  currency_code varchar
+  status varchar            // draft|active|retired
+  effective_at date
+  expires_at date
+  is_default boolean
+  created_at datetime
+  updated_at datetime
+  indexes { (partner_attorney_id, is_default) }
+}
+
+Table PARTNER_RATE_PLAN_RATES {
+  id bigint [pk]
+  plan_id bigint
+  case_attorney_role_type_id bigint   // nullable
+  activity_code_id bigint             // nullable
+  bill_unit varchar                   // 'hour' | 'unit'
+  hourly_rate decimal
+  unit_price decimal
+  created_at datetime
+  updated_at datetime
+  indexes { (plan_id, case_attorney_role_type_id, activity_code_id) [unique] }
+}
+
+Table CASE_PARTNER_RATE_SELECTIONS {
+  id bigint [pk]
+  case_id bigint
+  partner_attorney_id bigint
+  plan_id bigint
+  selected_at datetime
+  created_at datetime
+  updated_at datetime
+  indexes { (case_id, partner_attorney_id) [unique] }
+}
+
+/* Refs */
+Ref: LAW_FIRMS.id                < LAWYER_RATE_PLANS.law_firm_id
+Ref: FIRM_USER_PROFILES.id       < LAWYER_RATE_PLANS.firm_user_profile_id
+Ref: AUTH_USERS.id               < LAWYER_RATE_PLANS.created_by
+Ref: LAWYER_RATE_PLANS.id        < LAWYER_RATE_PLAN_RATES.plan_id
+Ref: CASE_ATTORNEY_ROLE_TYPES.id < LAWYER_RATE_PLAN_RATES.case_attorney_role_type_id
+Ref: BILLING_ACTIVITY_CODES.id   < LAWYER_RATE_PLAN_RATES.activity_code_id
+Ref: CLIENTS.id                  < CLIENT_RATE_PLAN_SELECTIONS.client_id
+Ref: FIRM_USER_PROFILES.id       < CLIENT_RATE_PLAN_SELECTIONS.firm_user_profile_id
+Ref: LAWYER_RATE_PLANS.id        < CLIENT_RATE_PLAN_SELECTIONS.plan_id
+Ref: AUTH_USERS.id               < CLIENT_RATE_PLAN_SELECTIONS.selected_by
+Ref: CASES.id                    < CASE_RATE_PLAN_SELECTIONS.case_id
+Ref: FIRM_USER_PROFILES.id       < CASE_RATE_PLAN_SELECTIONS.firm_user_profile_id
+Ref: LAWYER_RATE_PLANS.id        < CASE_RATE_PLAN_SELECTIONS.plan_id
+Ref: AUTH_USERS.id               < CASE_RATE_PLAN_SELECTIONS.selected_by
+Ref: PARTNER_ATTORNEYS.id        < PARTNER_RATE_PLANS.partner_attorney_id
+Ref: PARTNER_RATE_PLANS.id       < PARTNER_RATE_PLAN_RATES.plan_id
+Ref: CASE_ATTORNEY_ROLE_TYPES.id < PARTNER_RATE_PLAN_RATES.case_attorney_role_type_id
+Ref: BILLING_ACTIVITY_CODES.id   < PARTNER_RATE_PLAN_RATES.activity_code_id
+Ref: CASES.id                    < CASE_PARTNER_RATE_SELECTIONS.case_id
+Ref: PARTNER_ATTORNEYS.id        < CASE_PARTNER_RATE_SELECTIONS.partner_attorney_id
+Ref: PARTNER_RATE_PLANS.id       < CASE_PARTNER_RATE_SELECTIONS.plan_id
+
+
+/* ===========================================================
+   SLICE 13 — TIME & EXPENSE ENTRIES (work + costs)
+   =========================================================== */
+Table LAWYER_TIME_ENTRIES {
+  id bigint [pk]
+  case_id bigint
+  firm_user_profile_id bigint
+  appointment_id bigint        // optional -> APPOINTMENTS.id
+  work_date date
+  minutes int
+  activity_code_id bigint
+  narrative text
+  is_billable boolean
+  billable_minutes int
+  status varchar               // draft|submitted|approved|rejected|locked|invoiced
+  created_by bigint
+  approved_by bigint
+  approved_at datetime
+  created_at datetime
+  updated_at datetime
+  indexes {
+    (case_id, work_date)
+    (firm_user_profile_id, work_date)
+    (appointment_id)
+  }
+}
+
+Table PARTNER_TIME_ENTRIES {
+  id bigint [pk]
+  case_id bigint
+  partner_attorney_id bigint
+  appointment_id bigint
+  work_date date
+  minutes int
+  activity_code_id bigint
+  narrative text
+  is_billable boolean
+  billable_minutes int
+  status varchar               // draft|submitted|approved|locked|invoiced
+  created_by bigint
+  approved_by bigint
+  approved_at datetime
+  created_at datetime
+  updated_at datetime
+  indexes {
+    (case_id, work_date)
+    (partner_attorney_id, work_date)
+    (appointment_id)
+  }
+}
+
+Table EXPENSE_ENTRIES {
+  id bigint [pk]
+  case_id bigint
+  expense_date date
+  expense_category_id bigint
+  description text
+  quantity decimal
+  unit_cost decimal
+  currency_code varchar
+  tax_rate_id bigint
+  is_billable boolean
+  status varchar               // draft|submitted|approved|locked|invoiced
+  receipt_url varchar
+  payee_type varchar           // FIRM|PARTNER_FIRM|PARTNER_ATTORNEY|VENDOR
+  payee_id bigint
+  created_by bigint
+  approved_by bigint
+  approved_at datetime
+  created_at datetime
+  updated_at datetime
+  indexes { (case_id, expense_date) }
+}
+
+/* Refs */
+Ref: CASES.id                  < LAWYER_TIME_ENTRIES.case_id
+Ref: FIRM_USER_PROFILES.id     < LAWYER_TIME_ENTRIES.firm_user_profile_id
+Ref: APPOINTMENTS.id           < LAWYER_TIME_ENTRIES.appointment_id
+Ref: BILLING_ACTIVITY_CODES.id < LAWYER_TIME_ENTRIES.activity_code_id
+Ref: AUTH_USERS.id             < LAWYER_TIME_ENTRIES.created_by
+Ref: AUTH_USERS.id             < LAWYER_TIME_ENTRIES.approved_by
+
+Ref: CASES.id                  < PARTNER_TIME_ENTRIES.case_id
+Ref: PARTNER_ATTORNEYS.id      < PARTNER_TIME_ENTRIES.partner_attorney_id
+Ref: APPOINTMENTS.id           < PARTNER_TIME_ENTRIES.appointment_id
+Ref: BILLING_ACTIVITY_CODES.id < PARTNER_TIME_ENTRIES.activity_code_id
+Ref: AUTH_USERS.id             < PARTNER_TIME_ENTRIES.created_by
+Ref: AUTH_USERS.id             < PARTNER_TIME_ENTRIES.approved_by
+
+Ref: CASES.id                  < EXPENSE_ENTRIES.case_id
+Ref: EXPENSE_CATEGORIES.id     < EXPENSE_ENTRIES.expense_category_id
+Ref: FIRM_TAX_RATES.id         < EXPENSE_ENTRIES.tax_rate_id
+Ref: AUTH_USERS.id             < EXPENSE_ENTRIES.created_by
+Ref: AUTH_USERS.id             < EXPENSE_ENTRIES.approved_by
+
+
+/* ===========================================================
+   SLICE 14 — INVOICING, CREDIT NOTES & PAYMENTS (A/R)
+   =========================================================== */
+Table CASE_BILLING_SETTINGS {
+  id bigint [pk]
+  case_id bigint
+  billing_model varchar       // HOURLY|FIXED|CONTINGENCY|MIXED
+  currency_code varchar
+  default_tax_rate_id bigint
+  invoice_terms varchar
+  notes text
+  effective_at date
+  created_at datetime
+  updated_at datetime
+}
+
+Table INVOICES {
+  id bigint [pk]
+  law_firm_id bigint
+  client_id bigint
+  currency_code varchar
+  invoice_number varchar [unique]
+  status varchar              // draft|issued|partially_paid|paid|void
+  issue_date date
+  due_date date
+  subtotal_time decimal
+  subtotal_expense decimal
+  discount_amount decimal
+  tax_amount decimal
+  total_amount decimal
+  balance_amount decimal
+  notes text
+  created_by bigint
+  approved_by bigint
+  external_id varchar
+  created_at datetime
+  updated_at datetime
+}
+
+Table INVOICE_LINE_ITEMS {
+  id bigint [pk]
+  invoice_id bigint
+  line_type varchar           // TIME|EXPENSE|ADJUSTMENT|FIXEDFEE
+  description text
+  case_id bigint              // optional multi-matter invoice
+  activity_code_id bigint     // for TIME
+  expense_category_id bigint  // for EXPENSE
+  quantity decimal            // hours or units
+  unit_price decimal
+  tax_rate_id bigint          // optional -> FIRM_TAX_RATES.id
+  amount decimal
+  source_type varchar         // LAWYER_TIME|PARTNER_TIME|EXPENSE|MANUAL
+  source_id bigint            // id of source entry if applicable
+  created_at datetime
+  updated_at datetime
+  indexes {
+    (invoice_id)
+    (source_type, source_id) [unique]
+  }
+}
+
+Table CREDIT_NOTES {
+  id bigint [pk]
+  law_firm_id bigint
+  client_id bigint
+  currency_code varchar
+  credit_number varchar [unique]
+  status varchar              // draft|issued|applied|void
+  issue_date date
+  total_amount decimal
+  notes text
+  created_by bigint
+  external_id varchar
+  created_at datetime
+  updated_at datetime
+}
+
+Table CREDIT_NOTE_LINES {
+  id bigint [pk]
+  credit_note_id bigint
+  description text
+  case_id bigint
+  amount decimal
+  created_at datetime
+  updated_at datetime
+}
+
+Table CREDIT_NOTE_ALLOCATIONS {
+  id bigint [pk]
+  credit_note_id bigint
+  invoice_id bigint
+  amount decimal
+  allocated_at datetime
+}
+
+Table PAYMENT_METHODS {
+  id bigint [pk]
+  client_id bigint                 // -> CLIENTS.id
+  kind varchar                     // card|ach|wire|paypal|cash|check|other
+  display_last4 varchar
+  display_last5 varchar
+  card_brand varchar               // visa|mastercard|amex...
+  exp_month smallint
+  exp_year smallint
+  bank_account_last5 varchar       // ACH/Wire last 5 (masked)
+  wallet_provider varchar          // paypal|apple_pay|google_pay
+  payer_email varchar              // for wallets/PayPal
+  gateway_customer_id varchar
+  gateway_payment_method_id varchar
+  is_default boolean
+  created_at datetime
+  updated_at datetime
+}
+Ref: CLIENTS.id < PAYMENT_METHODS.client_id
+
+Table PAYMENTS {
+  id bigint [pk]
+  law_firm_id bigint               // -> LAW_FIRMS.id
+  client_id bigint                 // -> CLIENTS.id
+  currency_code varchar
+  payment_date date                // business date
+  amount decimal
+  method varchar                   // card|ach|wire|paypal|cash|check|other
+  payment_method_id bigint         // -> PAYMENT_METHODS.id (nullable)
+  instrument_last5 varchar         // masked PAN/account tail
+  instrument_ref varchar           // IBAN tail / check no. / payer email
+  gateway varchar                  // stripe|adyen|paypal|bank|...
+  gateway_txn_id varchar           // provider transaction id
+  status varchar                   // initiated|authorized|captured|settled|failed|void|refunded
+  reference varchar                // human memo
+  external_id varchar              // ERP/gateway mapping (optional)
+  created_by bigint                // -> AUTH_USERS.id
+  created_at datetime
+  updated_at datetime
+  indexes {
+    (law_firm_id, payment_date)
+    (client_id, payment_date)
+    (gateway, gateway_txn_id)
+  }
+}
+
+Table PAYMENT_ALLOCATIONS {
+  id bigint [pk]
+  payment_id bigint
+  invoice_id bigint
+  amount decimal
+  allocated_at datetime
+}
+
+Table PAYMENT_EVENTS {
+  id bigint [pk]
+  payment_id bigint
+  event_type varchar           // initiated|authorized|captured|failed|refunded|voided|settled
+  gateway varchar              // stripe|adyen|local_bank|paypal
+  gateway_txn_id varchar
+  raw_payload json
+  occurred_at datetime
+  created_at datetime
+}
+
+/* Refs */
+Ref: CASES.id                  < CASE_BILLING_SETTINGS.case_id
+Ref: FIRM_TAX_RATES.id         < CASE_BILLING_SETTINGS.default_tax_rate_id
+Ref: LAW_FIRMS.id              < INVOICES.law_firm_id
+Ref: CLIENTS.id                < INVOICES.client_id
+Ref: AUTH_USERS.id             < INVOICES.created_by
+Ref: AUTH_USERS.id             < INVOICES.approved_by
+Ref: INVOICES.id               < INVOICE_LINE_ITEMS.invoice_id
+Ref: CASES.id                  < INVOICE_LINE_ITEMS.case_id
+Ref: BILLING_ACTIVITY_CODES.id < INVOICE_LINE_ITEMS.activity_code_id
+Ref: EXPENSE_CATEGORIES.id     < INVOICE_LINE_ITEMS.expense_category_id
+Ref: FIRM_TAX_RATES.id         < INVOICE_LINE_ITEMS.tax_rate_id
+Ref: LAW_FIRMS.id              < CREDIT_NOTES.law_firm_id
+Ref: CLIENTS.id                < CREDIT_NOTES.client_id
+Ref: AUTH_USERS.id             < CREDIT_NOTES.created_by
+Ref: CREDIT_NOTES.id           < CREDIT_NOTE_LINES.credit_note_id
+Ref: CASES.id                  < CREDIT_NOTE_LINES.case_id
+Ref: CREDIT_NOTES.id           < CREDIT_NOTE_ALLOCATIONS.credit_note_id
+Ref: INVOICES.id               < CREDIT_NOTE_ALLOCATIONS.invoice_id
+Ref: LAW_FIRMS.id              < PAYMENTS.law_firm_id
+Ref: CLIENTS.id                < PAYMENTS.client_id
+Ref: PAYMENT_METHODS.id        < PAYMENTS.payment_method_id
+Ref: AUTH_USERS.id             < PAYMENTS.created_by
+Ref: PAYMENTS.id               < PAYMENT_ALLOCATIONS.payment_id
+Ref: INVOICES.id               < PAYMENT_ALLOCATIONS.invoice_id
+Ref: PAYMENTS.id               < PAYMENT_EVENTS.payment_id
+
+
+/* ===========================================================
+   SLICE 16 — PARTNER AP (optional)
+   =========================================================== */
+Table PARTNER_BILLS {
+  id bigint [pk]
+  partner_firm_id bigint
+  bill_number varchar
+  status varchar
+  bill_date date
+  currency_code varchar
+  subtotal_time decimal
+  subtotal_expense decimal
+  tax_amount decimal
+  total_amount decimal
+  notes text
+  external_id varchar
+  created_at datetime
+  updated_at datetime
+}
+
+Table PARTNER_BILL_LINES {
+  id bigint [pk]
+  partner_bill_id bigint
+  source_type varchar      // PARTNER_TIME|EXPENSE|MANUAL
+  source_id bigint
+  description text
+  quantity decimal
+  unit_price decimal
+  amount decimal
+  created_at datetime
+  updated_at datetime
+}
+
+/* Refs */
+Ref: PARTNER_FIRMS.id  < PARTNER_BILLS.partner_firm_id
+Ref: PARTNER_BILLS.id  < PARTNER_BILL_LINES.partner_bill_id
+
+
+/* ===========================================================
+   SLICE 17 — ERP INTEGRATION (outbox & mapping)
+   =========================================================== */
+Table ERP_EXPORT_QUEUE {
+  id bigint [pk]
+  object_type varchar      // INVOICE|PAYMENT|CREDIT|PARTNER_BILL|OPEX
+  object_id bigint
+  action varchar           // create|update|void
+  payload json
+  status varchar           // pending|sent|acked|failed
+  attempts int
+  last_error text
+  external_id varchar
+  created_at datetime
+  updated_at datetime
+  indexes { (object_type, object_id) [unique] }
+}
+
+Table ERP_ACCOUNT_MAPPINGS {
+  id bigint [pk]
+  law_firm_id bigint
+  purpose varchar          // AR|REVENUE_FEES|REVENUE_EXP_RECOVERY|TAX_PAYABLE|CASH
+  erp_account_code varchar
+  effective_at date
+  created_at datetime
+  updated_at datetime
+}
+Ref: LAW_FIRMS.id < ERP_ACCOUNT_MAPPINGS.law_firm_id
+
+/* Optional rules-based mapping for real-world flexibility */
+Table ERP_POSTING_RULES {
+  id bigint [pk]
+  law_firm_id bigint                // -> LAW_FIRMS.id
+  purpose varchar                   // invoice_receipt|refund|oexp_reimb|other (nullable=any)
+  method_kind varchar               // card|ach|wire|paypal|cash|check|other (nullable=any)
+  currency_code varchar             // nullable=any
+  ar_account_code varchar
+  cash_account_code varchar
+  revenue_account_code varchar
+  expense_recovery_account_code varchar
+  tax_account_code varchar
+  priority smallint                 // lower wins
+  effective_at date
+  expires_at date
+  is_active boolean
+  created_at datetime
+  updated_at datetime
+  indexes { (law_firm_id, is_active, priority) }
+}
+Ref: LAW_FIRMS.id < ERP_POSTING_RULES.law_firm_id
+
+
+/* ===========================================================
+   SLICE 18 — (Optional) FIRM OPEX (non-matter AP)
+   =========================================================== */
+Table VENDORS {
+  id bigint [pk]
+  name varchar
+  tax_id varchar
+  email varchar
+  phone varchar
+  address varchar
+  created_at datetime
+  updated_at datetime
+}
+
+Table FIRM_OPEX {
+  id bigint [pk]
+  vendor_id bigint
+  expense_date date
+  category varchar
+  description text
+  amount decimal
+  currency_code varchar
+  tax_rate_id bigint
+  invoice_number varchar
+  status varchar
+  created_at datetime
+  updated_at datetime
+}
+
+/* Refs */
+Ref: VENDORS.id        < FIRM_OPEX.vendor_id
+Ref: FIRM_TAX_RATES.id < FIRM_OPEX.tax_rate_id
+
+
+/* ===========================================================
+   SLICE 19 — APPOINTMENTS (scheduling, attendees, notes, consents)
+   =========================================================== */
+Table APPOINTMENTS {
+  id bigint [pk]
+  law_firm_id bigint
+  title varchar
+  purpose varchar              // discovery|update|strategy|billing|other
+  channel varchar              // in_person|phone|video
+  location varchar
+  conference_url varchar
+  timezone varchar
+
+  scheduled_start_at datetime
+  scheduled_end_at datetime
+
+  client_id bigint            // optional for intro meetings
+  case_id bigint              // optional link to case
+  created_by bigint
+  updated_by bigint
+
+  actual_start_at datetime
+  actual_end_at datetime
+  agreed_minutes int
+  final_status varchar        // scheduled|cancelled|held|finalized|disputed
+
+  created_at datetime
+  updated_at datetime
+
+  indexes {
+    (law_firm_id, scheduled_start_at)
+    (client_id)
+    (case_id)
+    (final_status)
+  }
+}
+
+Table APPOINTMENT_ATTENDEES {
+  appointment_id bigint
+  attendee_type varchar       // FIRM_USER|CLIENT_CONTACT|PARTNER_ATTORNEY
+  attendee_id bigint
+  role varchar                // lead|support|observer
+  is_primary boolean
+  invited_at datetime
+  responded_at datetime
+  response_status varchar     // none|accepted|declined|tentative
+  created_at datetime
+  updated_at datetime
+
+  indexes {
+    (appointment_id, attendee_type, attendee_id) [pk]
+    (response_status)
+  }
+}
+
+Table APPOINTMENT_NOTES {
+  id bigint [pk]
+  appointment_id bigint
+  author_user_id bigint
+  is_client_visible boolean
+  note text
+  created_at datetime
+  updated_at datetime
+  indexes {
+   (appointment_id)
+   (author_user_id)
+  }
+}
+
+Table APPOINTMENT_CONSENTS {
+  id bigint [pk]
+  appointment_id bigint
+  principal_type varchar      // AUTH_USER|CLIENT_CONTACT
+  principal_id bigint
+  consented boolean
+  comment text
+  consented_at datetime
+  created_at datetime
+  indexes {
+    (appointment_id)
+    (appointment_id, principal_type, principal_id) [unique]
+  }
+}
+
+Table APPOINTMENT_EVENTS {
+  id bigint [pk]
+  appointment_id bigint
+  event_type varchar          // created|invited|accepted|rescheduled|started|ended|finalized|cancelled
+  payload json
+  occurred_at datetime
+  created_by bigint
+  created_at datetime
+  indexes { (appointment_id, occurred_at) }
+}
+
+/* Refs */
+Ref: LAW_FIRMS.id    < APPOINTMENTS.law_firm_id
+Ref: CLIENTS.id      < APPOINTMENTS.client_id
+Ref: CASES.id        < APPOINTMENTS.case_id
+Ref: AUTH_USERS.id   < APPOINTMENTS.created_by
+Ref: AUTH_USERS.id   < APPOINTMENTS.updated_by
+
+Ref: APPOINTMENTS.id < APPOINTMENT_NOTES.appointment_id
+Ref: AUTH_USERS.id   < APPOINTMENT_NOTES.author_user_id
+
+Ref: APPOINTMENTS.id < APPOINTMENT_CONSENTS.appointment_id
+
+Ref: APPOINTMENTS.id < APPOINTMENT_EVENTS.appointment_id
+Ref: AUTH_USERS.id   < APPOINTMENT_EVENTS.created_by
+
+
+
+/* ===========================================================
+   SLICE 20 — MULTIPLE USER ACCESS LOCK
+   =========================================================== */
+
+Table SUPPORT_ACCESS_SESSIONS {
+  id bigint [pk]
+  law_firm_id bigint                 // -> LAW_FIRMS.id
+  target_user_id bigint              // -> AUTH_USERS.id
+  actor_admin_user_id bigint         // -> AUTH_USERS.id
+  scopes json                        // optional narrowed scopes
+  token_jti varchar                  // delegated token JTI for instant revocation
+  started_at datetime
+  expires_at datetime
+  revoked_at datetime
+  status varchar                     // active|revoked|expired
+  reason text
+  created_at datetime
+  updated_at datetime
+
+  indexes {
+  // Emulate "unique where status='active'":
+  // this allows exactly one row per (law_firm_id, target_user_id, status),
+  // so only one can be 'active' for a pair.
+  (law_firm_id, target_user_id, status) [unique]
+
+  (actor_admin_user_id)
+  (status, expires_at)
+  (token_jti) [unique]   // single-column unique must be tuple syntax in DBML
+  }
+}
+
+Ref: LAW_FIRMS.id     < SUPPORT_ACCESS_SESSIONS.law_firm_id
+Ref: AUTH_USERS.id    < SUPPORT_ACCESS_SESSIONS.target_user_id
+Ref: AUTH_USERS.id    < SUPPORT_ACCESS_SESSIONS.actor_admin_user_id
+
+
+
+Table ADMIN_RESOURCE_LOCKS {
+  id bigint [pk]
+  resource_type varchar              // e.g., "CASE_CAPS", "BILLING_PANEL"
+  resource_id varchar                // nullable if lock is "global" for the type
+  law_firm_id bigint                 // -> LAW_FIRMS.id
+  lock_owner_session_id bigint       // -> SUPPORT_ACCESS_SESSIONS.id
+  lock_owner_admin_user_id bigint    // -> AUTH_USERS.id (redundant but handy)
+  acquired_at datetime
+  expires_at datetime
+  reason text
+  status varchar                     // active|released|expired
+
+  indexes {
+    // Emulate "unique where status='active'":
+    (resource_type, resource_id, law_firm_id, status) [unique]
+    (lock_owner_session_id)
+    (expires_at)
+  }
+}
+
+Ref: LAW_FIRMS.id  < ADMIN_RESOURCE_LOCKS.law_firm_id
+Ref: AUTH_USERS.id < ADMIN_RESOURCE_LOCKS.lock_owner_admin_user_id
+Ref: SUPPORT_ACCESS_SESSIONS.id < ADMIN_RESOURCE_LOCKS.lock_owner_session_id
+
+
+/* ===========================================================
+   SLICE 21 — DOCUMENTS & FILE MANAGEMENT
+   =========================================================== */
+
+Table DOCUMENTS {
+  id bigint [pk]
+  law_firm_id bigint
+  case_id bigint
+  title varchar
+  description text
+  file_url varchar
+  file_name varchar
+  file_size bigint
+  file_type varchar
+  file_hash varchar
+  category varchar
+  is_privileged boolean
+  is_confidential boolean
+  version_number int
+  parent_document_id bigint
+  uploaded_by bigint
+  is_deleted boolean
+  deleted_at datetime
+  deleted_by bigint
+  created_at datetime
+  updated_at datetime
+
+  indexes {
+    law_firm_id
+    case_id
+    category
+    (file_hash, law_firm_id)
+  }
+
+  Note: 'Document storage with versioning and access control. Categories: PLEADING, EVIDENCE, CONTRACT, CORRESPONDENCE, etc.'
+}
+
+/* Refs */
+Ref: LAW_FIRMS.id          < DOCUMENTS.law_firm_id
+Ref: CASES.id              < DOCUMENTS.case_id
+Ref: DOCUMENTS.id          < DOCUMENTS.parent_document_id
+Ref: FIRM_USER_PROFILES.id < DOCUMENTS.uploaded_by
+Ref: FIRM_USER_PROFILES.id < DOCUMENTS.deleted_by
+
+
+/* ===========================================================
+   SLICE 22 — NOTIFICATIONS
+   =========================================================== */
+
+Table NOTIFICATIONS {
+  id bigint [pk]
+  law_firm_id bigint
+  recipient_user_id bigint
+  type varchar
+  title varchar
+  message text
+  resource_type varchar
+  resource_id bigint
+  action_url varchar
+  priority varchar
+  channel varchar
+  is_read boolean
+  read_at datetime
+  expires_at datetime
+  metadata json
+  created_at datetime
+
+  indexes {
+    recipient_user_id
+    (recipient_user_id, is_read)
+    created_at
+  }
+
+  Note: 'Real-time user notifications. Channels: IN_APP, EMAIL, SMS, PUSH. Polymorphic resource references.'
+}
+
+/* Refs */
+Ref: LAW_FIRMS.id          < NOTIFICATIONS.law_firm_id
+Ref: FIRM_USER_PROFILES.id < NOTIFICATIONS.recipient_user_id
+
+
+/* ===========================================================
+   SLICE 23 — COLLABORATION (Comments)
+   =========================================================== */
+
+Table COMMENTS {
+  id bigint [pk]
+  law_firm_id bigint
+  resource_type varchar
+  resource_id bigint
+  content text
+  author_user_id bigint
+  mentions json
+  parent_comment_id bigint
+  is_edited boolean
+  edited_at datetime
+  is_deleted boolean
+  deleted_at datetime
+  created_at datetime
+  updated_at datetime
+
+  indexes {
+    (resource_type, resource_id)
+    author_user_id
+    parent_comment_id
+    created_at
+  }
+
+  Note: 'Unified commenting system. Resource types: CASE, DOCUMENT, TIME_ENTRY, CLIENT, APPOINTMENT, INVOICE, etc. Supports @mentions and threading.'
+}
+
+/* Refs */
+Ref: LAW_FIRMS.id          < COMMENTS.law_firm_id
+Ref: FIRM_USER_PROFILES.id < COMMENTS.author_user_id
+Ref: COMMENTS.id           < COMMENTS.parent_comment_id
+
+
+/* ========================= TABLE GROUPS ========================= */
+
+TableGroup "SLICE 0 — LAW FIRMS (anchor / tenant boundary)" {
+  LAW_FIRMS
+}
+
+TableGroup "SLICE 1 — AUTH USERS (Logto-integrated) & STAFF PROFILES" {
+  AUTH_USERS
+  LOGTO_ORGANIZATIONS
+  LOGTO_ORG_MEMBERSHIPS
+  FIRM_USER_PROFILES
+  LAWYER_LICENSES
+  LOCALES
+  USER_PROFILE_TRANSLATIONS
+}
+
+TableGroup "SLICE 2 — ORG STRUCTURE & POSITIONS (with CATEGORY_DIMENSIONS)" {
+  ORG_UNITS
+  POSITIONS
+  CATEGORY_DIMENSIONS
+  POSITION_CATEGORIES
+  POSITION_CATEGORY_POSITION
+  USER_POSITIONS
+  USER_ORG_UNITS
+  REPORTING_LINES
+}
+
+TableGroup "SLICE 3 — ARTICLES, SPECIALTIES & I18N" {
+  SPECIALTIES
+  FIRM_USER_SPECIALTIES
+  ARTICLES
+  ARTICLE_AUTHORS
+  ARTICLE_SPECIALTY
+  ARTICLE_TRANSLATIONS
+}
+
+TableGroup "SLICE 4 — PERFORMANCE & BONUS" {
+  PERFORMANCE_CYCLES
+  PERFORMANCE_METRICS
+  PERFORMANCE_REVIEWS
+  PERFORMANCE_REVIEW_METRICS
+  BONUS_PLANS
+  BONUS_AWARDS
+  BONUS_AWARD_REVISIONS
+}
+
+TableGroup "SLICE 5 — CLIENT USERS (portal login link)" {
+  CLIENT_USERS
+}
+
+TableGroup "SLICE 5A — CLIENTS & CASES (core entities)" {
+  CLIENTS
+  CLIENT_CONTACTS
+  CASES
+  CASE_SPECIALTY
+  CASE_BUDGETS
+}
+
+TableGroup "SLICE 6 — PARTNER FIRMS & STANDING COOPERATION" {
+  PARTNER_FIRMS
+  PARTNER_FIRM_CONTACTS
+  PARTNER_ATTORNEYS
+  FIRM_PARTNER_RELATIONSHIPS
+  FIRM_PARTNER_AGREEMENTS
+  FIRM_PARTNER_RATE_CARDS
+  FIRM_PARTNER_JURISDICTIONS
+}
+
+TableGroup "SLICE 7 — CASE ROLE CATALOGS" {
+  CASE_ATTORNEY_ROLE_TYPES
+  CASE_PARTY_ROLE_TYPES
+  CASE_FIRM_ROLE_TYPES
+}
+
+TableGroup "SLICE 8 — CASE TABLES USING ROLE CATALOGS" {
+  CASE_ATTORNEYS
+  CASE_PARTNER_ATTORNEYS
+  CASE_CLIENTS
+  CASE_PARTNER_FIRMS
+}
+
+TableGroup "SLICE 9 — PARTNER ATTORNEY LOGINS (AuthN)" {
+  PARTNER_ATTORNEY_USERS
+}
+
+TableGroup "SLICE 10 — AUTHORIZATION (Logto-integrated RBAC)" {
+  PERMISSIONS
+  ROLES
+  ROLE_PERMISSIONS
+  USER_ROLE_ASSIGNMENTS
+  LOGTO_ORG_ROLE_MAPPINGS
+  RESOURCE_TYPES
+  RESOURCE_SUBTYPES
+  RESOURCE_ACCESS_GRANTS
+  LOGTO_SYNC_LOG
+}
+
+TableGroup "SLICE 11 — BILLING CATALOGS (activities, expenses, tax)" {
+  BILLING_ACTIVITY_CODES
+  EXPENSE_CATEGORIES
+  FIRM_TAX_RATES
+}
+
+TableGroup "SLICE 12 — RATES & PRICING (named plans + selections)" {
+  LAWYER_RATE_PLANS
+  LAWYER_RATE_PLAN_RATES
+  CLIENT_RATE_PLAN_SELECTIONS
+  CASE_RATE_PLAN_SELECTIONS
+  PARTNER_RATE_PLANS
+  PARTNER_RATE_PLAN_RATES
+  CASE_PARTNER_RATE_SELECTIONS
+}
+
+TableGroup "SLICE 13 — TIME & EXPENSE ENTRIES (work + costs)" {
+  LAWYER_TIME_ENTRIES
+  PARTNER_TIME_ENTRIES
+  EXPENSE_ENTRIES
+}
+
+TableGroup "SLICE 14 — INVOICING, CREDIT NOTES & PAYMENTS (A/R)" {
+  CASE_BILLING_SETTINGS
+  INVOICES
+  INVOICE_LINE_ITEMS
+  CREDIT_NOTES
+  CREDIT_NOTE_LINES
+  CREDIT_NOTE_ALLOCATIONS
+  PAYMENT_METHODS
+  PAYMENTS
+  PAYMENT_ALLOCATIONS
+  PAYMENT_EVENTS
+}
+
+TableGroup "SLICE 16 — PARTNER AP (optional)" {
+  PARTNER_BILLS
+  PARTNER_BILL_LINES
+}
+
+TableGroup "SLICE 17 — ERP INTEGRATION (outbox & mapping)" {
+  ERP_EXPORT_QUEUE
+  ERP_ACCOUNT_MAPPINGS
+  ERP_POSTING_RULES
+}
+
+TableGroup "SLICE 18 — (Optional) FIRM OPEX (non-matter AP)" {
+  VENDORS
+  FIRM_OPEX
+}
+
+TableGroup "SLICE 19 — APPOINTMENTS (scheduling, attendees, notes, consents)" {
+  APPOINTMENTS
+  APPOINTMENT_ATTENDEES
+  APPOINTMENT_NOTES
+  APPOINTMENT_CONSENTS
+  APPOINTMENT_EVENTS
+}
+
+TableGroup "SLICE 20 — MULTIPLE USER ACCESS LOCK" {
+  SUPPORT_ACCESS_SESSIONS
+  ADMIN_RESOURCE_LOCKS
+}
+
+TableGroup "SLICE 21 — DOCUMENTS & FILE MANAGEMENT" {
+  DOCUMENTS
+}
+
+TableGroup "SLICE 22 — NOTIFICATIONS" {
+  NOTIFICATIONS
+}
+
+TableGroup "SLICE 23 — COLLABORATION (Comments)" {
+  COMMENTS
+}
+
+
+/* ========================= END OF FILE ========================= */

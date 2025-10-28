@@ -5,7 +5,7 @@ Welcome to the architecture documentation for the Law Firm Management System. Th
 ## 📚 Documentation Index
 
 ### 1. Database Design
-- **[Database Schema (DBML)](../../database.dbml)** - Complete entity-relationship diagram with 23 slices covering all system entities
+- **[Database Schema (DBML)](/database.dbml)** - Complete entity-relationship diagram with 23 slices covering all system entities
   - Multi-tenant law firm management
   - Logto-integrated authentication & RBAC
   - Case & client management
@@ -26,13 +26,13 @@ Welcome to the architecture documentation for the Law Firm Management System. Th
   - Security considerations
   - Deployment & monitoring
 
-- **[User API OpenAPI Spec](../../openapi/user-apis.yaml)** - Machine-readable OpenAPI 3.1 specification
+- **[User API OpenAPI Spec](/openapi/user-apis.yaml)** - Machine-readable OpenAPI 3.1 specification
   - 40+ endpoints
   - Request/response schemas
   - Authentication flows
   - Interactive documentation (Swagger UI / ReDoc)
 
-- **[Admin API OpenAPI Spec](../../openapi/admin-api.yaml)** - Administrative operations API
+- **[Admin API OpenAPI Spec](/openapi/admin-api.yaml)** - Administrative operations API
   - Firm provisioning
   - User management
   - System configuration
@@ -300,11 +300,11 @@ AUTH_USERS (1) ──── (*) FIRM_USER_PROFILES
 
 1. **Read the API Specification**
    - [User API Specification](./user-api-specification.md)
-   - [OpenAPI Spec](../../openapi/user-apis.yaml)
+   - [OpenAPI Spec](/openapi/user-apis.yaml)
 
 2. **Understand the Architecture**
    - [C4 Models](./c4-user-api-models.md)
-   - [Database Schema](../../database.dbml)
+   - [Database Schema](/database.dbml)
 
 3. **Set Up Local Environment**
    ```bash
@@ -329,9 +329,9 @@ AUTH_USERS (1) ──── (*) FIRM_USER_PROFILES
 ### For Architects
 
 1. Review [C4 Architecture Models](./c4-user-api-models.md)
-2. Examine [Database Schema](../../database.dbml) - visualize at https://dbdiagram.io
+2. Examine [Database Schema](/database.dbml) - visualize at https://dbdiagram.io
 3. Study authentication flow in [User API Spec](./user-api-specification.md#2-authentication--authorization)
-4. Understand RBAC system in [Database Schema - Slice 10](../../database.dbml)
+4. Understand RBAC system in [Database Schema - Slice 10](/database.dbml)
 
 ### For Product Managers
 
