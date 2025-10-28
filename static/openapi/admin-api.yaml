@@ -1,0 +1,1562 @@
+openapi: 3.1.0
+info:
+  title: Law Firm Admin Provisioning API (Logto-managed RBAC)
+  version: "1.3.0"
+  description: |
+    Admin-facing endpoints to create Law Firms, provision Lawyers (AUTH_USERS + FIRM_USER_PROFILES + optional LAWYER_LICENSES),
+    and manage **RBAC via Logto** (organizations, members, org-role bindings). App keeps optional fine-grained RESOURCE_ACCESS_GRANTS.
+
+    v1.2.0 adds:
+    - GET /admin/auth-users (search by logtoUserId/email) to resolve internal user id.
+    - GET /admin/law-firms/{lawFirmId}/users/{userId}/resource-policies (effective field policies).
+    - (Optional) GET /admin/law-firms/{lawFirmId}/users/{userId}/capabilities (aggregate scopes + policies + caseId sets).
+
+    v1.3.0 adds:
+    - **Support Access (act-as)**: start/list/get/revoke short-lived admin support sessions that return a delegated token:
+      - POST /admin/support-access/requests
+      - GET  /admin/support-access/sessions
+      - GET  /admin/support-access/sessions/{id}
+      - DELETE /admin/support-access/sessions/{id}
+    - **Generic staff listing**:
+      - GET /admin/law-firms/{lawFirmId}/profiles (filterable by role/credential)
+    - **Generic user provisioning** (role/credential–driven):
+      - POST /admin/law-firms/{lawFirmId}/users
+      - POST /admin/law-firms/{lawFirmId}/users/{userId}/credentials
+      - GET  /admin/law-firms/{lawFirmId}/users/{userId}/credentials
+      - DELETE /admin/law-firms/{lawFirmId}/users/{userId}/credentials/{credentialId}
+
+servers:
+  - url: https://api.example.com/v1
+
+tags:
+  - name: Admin — Law Firms
+  - name: Admin — Users & Lawyers
+  - name: Admin — Logto Bridge
+  - name: Admin — Access Grants
+  - name: Admin — Capabilities
+  - name: Admin — Support Access
+
+security:
+  - BearerAuth: []
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  headers:
+    X-Request-Id:
+      description: Correlation id for logs/tracing.
+      schema: { type: string }
+
+  parameters:
+    LawFirmId:
+      in: path
+      name: lawFirmId
+      required: true
+      schema: { type: string }
+
+    UserId:
+      in: path
+      name: userId
+      required: true
+      schema: { type: string }
+
+    PageNumber:
+      in: query
+      name: page[number]
+      schema: { type: integer, minimum: 1, default: 1 }
+
+    PageSize:
+      in: query
+      name: page[size]
+      schema: { type: integer, minimum: 1, maximum: 200, default: 50 }
+
+    IdempotencyKey:
+      in: header
+      name: Idempotency-Key
+      required: false
+      description: Provide for safely retryable POSTs.
+      schema: { type: string, maxLength: 64 }
+
+    RoleId:
+      in: path
+      name: roleId
+      required: true
+      schema: { type: string }
+
+    PermissionId:
+      in: path
+      name: permissionId
+      required: true
+      schema: { type: string }
+
+    AssignmentId:
+      in: path
+      name: assignmentId
+      required: true
+      schema: { type: string }
+
+    ResourceType:
+      in: path
+      name: resourceType
+      required: true
+      description: Domain resource code (NOT a table name), e.g., CASE, CLIENT, ORG_UNIT, ARTICLE, INVOICE, APPOINTMENT.
+      schema:
+        type: string
+        pattern: '^[A-Z][A-Z0-9_]*$'
+
+    ResourceId:
+      in: path
+      name: resourceId
+      required: true
+      schema: { type: string }
+
+    SubresourceType:
+      in: path
+      name: subresourceType
+      required: true
+      description: Optional subresource code for fine-grained grants, e.g., NOTE, LINE_ITEM, TRANSLATION.
+      schema:
+        type: string
+        pattern: '^[A-Z][A-Z0-9_]*$'
+
+    SubresourceId:
+      in: path
+      name: subresourceId
+      required: true
+      schema: { type: string }
+
+    AccessLevelParam:
+      in: path
+      name: accessLevel
+      required: true
+      schema: { type: string, enum: [VIEW, EDIT, UPLOAD, ADMIN] }
+
+  responses:
+    ErrorResponse:
+      description: Error payload
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        code: { type: string }
+        message: { type: string }
+        details:
+          type: array
+          items:
+            type: object
+            properties:
+              field: { type: string }
+              message: { type: string }
+        requestId: { type: string }
+      required: [code, message]
+      example:
+        code: "SUPPORT_SESSION_EXISTS"
+        message: "An active session already exists for this target"
+        requestId: "req_123"
+
+    # ---------- Firms & Users ----------
+    LawFirm:
+      type: object
+      properties:
+        id: { type: string }
+        name: { type: string }
+        slug: { type: string }
+        address: { type: string, nullable: true }
+        phone: { type: string, nullable: true }
+        email: { type: string, format: email, nullable: true }
+        contacts: { type: string, nullable: true }
+        # Logto bridge
+        logtoOrgId: { type: string, nullable: true }
+        logtoSyncedAt: { type: string, format: date-time, nullable: true }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+
+    CreateLawFirmRequest:
+      type: object
+      required: [name, slug]
+      properties:
+        name: { type: string, minLength: 1 }
+        slug: { type: string, pattern: '^[a-z0-9-]+$' }
+        address: { type: string }
+        phone: { type: string }
+        email: { type: string, format: email }
+        contacts: { type: string }
+        metadata: { type: object, additionalProperties: true }
+        logto:
+          type: object
+          description: If provided, also create a Logto Organization and bind it.
+          properties:
+            createOrganization: { type: boolean, default: true }
+            orgDisplayName: { type: string }
+            orgId: { type: string, description: 'Bind to existing Logto org id instead of creating' }
+
+    AuthUser:
+      type: object
+      properties:
+        id: { type: string }
+        logtoUserId: { type: string, nullable: true }
+        name: { type: string }
+        email: { type: string, format: email }
+        emailVerified: { type: boolean, nullable: true }
+        isActive: { type: boolean, default: true }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+
+    FirmUserProfile:
+      type: object
+      properties:
+        id: { type: string }
+        userId: { type: string }
+        lawFirmId: { type: string }
+        displayName: { type: string }
+        jobTitle: { type: string, nullable: true }
+        photoUrl: { type: string, nullable: true }
+        officeLocation: { type: string, nullable: true }
+        visibility: { type: string, enum: [public, internal, hidden], default: internal }
+        listed: { type: boolean, default: false }
+        listedOrder: { type: integer, nullable: true }
+        roles:
+          type: array
+          description: Functional roles this person has in the firm.
+          items:
+            type: string
+            enum: [LAWYER, PARALEGAL, RECEPTIONIST, BILLING_ADMIN, IT_ADMIN, INTERN, OTHER]
+        isLawyer:
+          type: boolean
+          deprecated: true
+          description: Use roles[] (contains LAWYER) instead.
+        practiceTitle: { type: string, nullable: true }
+        practiceStartDate: { type: string, format: date, nullable: true }
+        isActive: { type: boolean }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+
+    # Generalized professional credentials
+    ProfessionalCredential:
+      type: object
+      properties:
+        id: { type: string }
+        type: { type: string, enum: [BAR_LICENSE, NOTARY, OTHER] }
+        jurisdictionCode: { type: string, nullable: true }
+        number: { type: string, nullable: true }
+        issuedAt: { type: string, format: date, nullable: true }
+        status: { type: string, nullable: true }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+
+    # Kept for legacy clients (use ProfessionalCredential instead)
+    LawyerLicense:
+      type: object
+      deprecated: true
+      description: Replaced by ProfessionalCredential (type=BAR_LICENSE).
+      properties:
+        id: { type: string }
+        firmUserProfileId: { type: string }
+        jurisdictionCode: { type: string }
+        barNumber: { type: string }
+        admittedAt: { type: string, format: date }
+        status: { type: string }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+
+    # Generic user provisioning (role/credential–driven)
+    ProvisionUserProfile:
+      type: object
+      required: [displayName]
+      properties:
+        displayName: { type: string }
+        jobTitle: { type: string, nullable: true }
+        officeLocation: { type: string, nullable: true }
+        visibility: { type: string, enum: [public, internal, hidden], default: internal }
+        listed: { type: boolean, default: false }
+        listedOrder: { type: integer, nullable: true }
+        isActive: { type: boolean, default: true }
+
+    ProvisionUserIdentity:
+      type: object
+      properties:
+        logtoUserId: { type: string, description: 'Link existing Logto user' }
+        createInLogto: { type: boolean, default: true }
+        email: { type: string, format: email }
+        name: { type: string }
+        invite:
+          type: object
+          properties:
+            send: { type: boolean, default: false }
+            locale: { type: string, default: en-US }
+            redirectUri: { type: string }
+      oneOf:
+        - required: [logtoUserId]
+        - required: [createInLogto, email, name]
+
+    AddCredentialRequest:
+      type: object
+      required: [type]
+      properties:
+        type: { type: string, enum: [BAR_LICENSE, NOTARY, OTHER] }
+        jurisdictionCode: { type: string }
+        number: { type: string }
+        issuedAt: { type: string, format: date }
+        status: { type: string }
+
+    ProvisionUserRequest:
+      type: object
+      required: [identity, profile]
+      properties:
+        identity:
+          $ref: '#/components/schemas/ProvisionUserIdentity'
+        profile:
+          $ref: '#/components/schemas/ProvisionUserProfile'
+        roles:
+          type: array
+          description: e.g., ["LAWYER"], ["PARALEGAL"], etc.
+          items:
+            type: string
+            enum: [LAWYER, PARALEGAL, RECEPTIONIST, BILLING_ADMIN, IT_ADMIN, INTERN, OTHER]
+        credentials:
+          type: array
+          description: Optional initial professional credentials for the user.
+          items: { $ref: '#/components/schemas/AddCredentialRequest' }
+        logtoOrgRoles:
+          type: array
+          description: e.g., ["admin"] or ["member"]
+          items: { type: string }
+        metadata:
+          type: object
+          additionalProperties: true
+
+    ProvisionUserResponse:
+      type: object
+      properties:
+        user: { $ref: '#/components/schemas/AuthUser' }
+        firmUserProfile: { $ref: '#/components/schemas/FirmUserProfile' }
+        credentials:
+          type: array
+          items: { $ref: '#/components/schemas/ProfessionalCredential' }
+
+    # Keep existing lawyer/staff requests for shim endpoints (deprecated)
+    ProvisionLawyerRequest:
+      deprecated: true
+      description: Use ProvisionUserRequest with roles=["LAWYER"] and a BAR_LICENSE credential.
+      type: object
+      properties:
+        identity:
+          type: object
+          properties:
+            logtoUserId: { type: string, description: 'Link existing Logto user' }
+            createInLogto: { type: boolean, default: true }
+            email: { type: string, format: email }
+            name: { type: string }
+            invite:
+              type: object
+              properties:
+                send: { type: boolean, default: false }
+                locale: { type: string, default: en-US }
+                redirectUri: { type: string }
+          oneOf:
+            - required: [logtoUserId]
+            - required: [createInLogto, email, name]
+        profile:
+          type: object
+          required: [displayName, isLawyer]
+          properties:
+            displayName: { type: string }
+            jobTitle: { type: string }
+            officeLocation: { type: string }
+            visibility: { type: string, enum: [public, internal, hidden], default: internal }
+            listed: { type: boolean, default: false }
+            listedOrder: { type: integer }
+            isLawyer: { type: boolean, const: true }
+            practiceTitle: { type: string }
+            practiceStartDate: { type: string, format: date }
+            isActive: { type: boolean, default: true }
+        licenses:
+          type: array
+          items:
+            type: object
+            required: [jurisdictionCode, barNumber]
+            properties:
+              jurisdictionCode: { type: string }
+              barNumber: { type: string }
+              admittedAt: { type: string, format: date }
+              status: { type: string, default: active }
+        logtoOrgRoles:
+          type: array
+          description: e.g., ["admin"] or ["member"]
+          items: { type: string }
+        metadata:
+          type: object
+          additionalProperties: true
+      required: [identity, profile]
+
+    ProvisionLawyerResponse:
+      deprecated: true
+      description: Use ProvisionUserResponse; LawyerLicense replaced by ProfessionalCredential.
+      type: object
+      properties:
+        user: { $ref: '#/components/schemas/AuthUser' }
+        firmUserProfile: { $ref: '#/components/schemas/FirmUserProfile' }
+        licenses:
+          type: array
+          items: { $ref: '#/components/schemas/LawyerLicense' }
+        logto:
+          type: object
+          properties:
+            logtoUserId: { type: string }
+            logtoOrgId: { type: string }
+            assignedOrgRoles:
+              type: array
+              items: { type: string }
+
+    # ---------- NEW (optional): generic staff provisioning (legacy shim shape) ----------
+    ProvisionStaffProfile:
+      type: object
+      description: Firm profile for a non-lawyer staff member.
+      required: [displayName, isLawyer]
+      properties:
+        displayName: { type: string }
+        jobTitle: { type: string, nullable: true }
+        officeLocation: { type: string, nullable: true }
+        visibility: { type: string, enum: [public, internal, hidden], default: internal }
+        listed: { type: boolean, default: false }
+        listedOrder: { type: integer, nullable: true }
+        isLawyer:
+          type: boolean
+          const: false
+        isActive: { type: boolean, default: true }
+
+    ProvisionStaffRequest:
+      type: object
+      required: [identity, profile]
+      properties:
+        identity:
+          $ref: '#/components/schemas/ProvisionLawyerRequest/properties/identity'
+        profile:
+          $ref: '#/components/schemas/ProvisionStaffProfile'
+        logtoOrgRoles:
+          type: array
+          description: e.g., ["admin"] or ["member"]
+          items: { type: string }
+        metadata:
+          type: object
+          additionalProperties: true
+
+    ProvisionStaffResponse:
+      type: object
+      properties:
+        user: { $ref: '#/components/schemas/AuthUser' }
+        firmUserProfile: { $ref: '#/components/schemas/FirmUserProfile' }
+
+    # ---------- Logto Bridge ----------
+    LogtoOrg:
+      type: object
+      properties:
+        logtoOrgId: { type: string }
+        displayName: { type: string }
+        lawFirmId: { type: string, nullable: true }
+        syncedAt: { type: string, format: date-time, nullable: true }
+
+    OrgMember:
+      type: object
+      properties:
+        logtoUserId: { type: string }
+        email: { type: string, format: email, nullable: true }
+        name: { type: string, nullable: true }
+        orgRoles:
+          type: array
+          items: { type: string }
+        joinedAt: { type: string, format: date-time, nullable: true }
+        lastSyncedAt: { type: string, format: date-time, nullable: true }
+
+    UpsertOrgMemberRequest:
+      type: object
+      properties:
+        logtoUserId: { type: string, description: 'Prefer this if known' }
+        email: { type: string, format: email, description: 'If no logtoUserId, invite by email' }
+        name: { type: string, description: 'Optional, for invites' }
+        orgRoles:
+          type: array
+          items: { type: string }
+        invite:
+          type: object
+          properties:
+            send: { type: boolean, default: false }
+            locale: { type: string, default: en-US }
+            redirectUri: { type: string }
+      oneOf:
+        - required: [logtoUserId]
+        - required: [email]
+
+    ReplaceMemberRolesRequest:
+      type: object
+      required: [orgRoles]
+      properties:
+        orgRoles:
+          type: array
+          items: { type: string }
+
+    # ---------- Resource Registries ----------
+    ResourceType:
+      type: object
+      properties:
+        code: { type: string, example: "CASE" }
+        name: { type: string }
+        scopeType: { type: string, enum: [GLOBAL, FIRM, ORG_UNIT, CASE] }
+        idFormat: { type: string, enum: [int64, uuid, string] }
+        isActive: { type: boolean }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+
+    ResourceSubtype:
+      type: object
+      properties:
+        resourceTypeCode: { type: string, example: "INVOICE" }
+        code: { type: string, example: "LINE_ITEM" }
+        name: { type: string }
+        idFormat: { type: string, enum: [int64, uuid, string] }
+        isActive: { type: boolean }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+
+    # ---------- App-side (optional) Access Grants ----------
+    ResourceAccessGrant:
+      type: object
+      properties:
+        resourceType: { type: string, example: "CASE" }
+        resourceId: { type: string }
+        subresourceType: { type: string, nullable: true, example: "NOTE" }
+        subresourceId: { type: string, nullable: true }
+        authUserId: { type: string }
+        accessLevel: { type: string, enum: [VIEW, EDIT, UPLOAD, ADMIN] }
+        grantSource: { type: string, enum: [MANUAL, ROLE, CASE_MEMBER, PARTNER_MEMBER, SYSTEM] }
+        startsAt: { type: string, format: date-time }
+        endsAt: { type: string, format: date-time, nullable: true }
+        lawFirmId: { type: string, nullable: true }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+
+    CreateResourceAccessGrantRequest:
+      type: object
+      required: [authUserId, accessLevel, startsAt]
+      properties:
+        authUserId: { type: string }
+        accessLevel: { type: string, enum: [VIEW, EDIT, UPLOAD, ADMIN] }
+        startsAt: { type: string, format: date-time }
+        endsAt: { type: string, format: date-time, nullable: true }
+        subresourceType: { type: string }
+        subresourceId: { type: string }
+
+    # ---------- NEW: Capabilities / Policies ----------
+    ResourceActionPolicy:
+      type: object
+      properties:
+        fieldMode:
+          type: string
+          enum: [ALL, ONLY, EXCEPT]
+        fields:
+          type: array
+          items: { type: string }
+      required: [fieldMode]
+
+    ResourcePoliciesResponse:
+      type: object
+      description: Effective resource field policies for a specific user in a firm.
+      properties:
+        resources:
+          type: object
+          additionalProperties:
+            type: object
+            description: Actions for a given resource code (e.g., CASE, INVOICE)
+            additionalProperties:
+              $ref: '#/components/schemas/ResourceActionPolicy'
+      example:
+        resources:
+          CASE:
+            read:   { fieldMode: ALL }
+            update: { fieldMode: EXCEPT, fields: ["budget.*","settlement_terms"] }
+
+    CapabilitiesResponse:
+      type: object
+      description: Aggregate of scopes + resource field policies + selected resource id grants.
+      properties:
+        scopes:
+          type: array
+          items: { type: string }
+        resources:
+          $ref: '#/components/schemas/ResourcePoliciesResponse/properties/resources'
+        caseIds:
+          type: object
+          properties:
+            view:  { type: array, items: { type: integer } }
+            edit:  { type: array, items: { type: integer } }
+            admin: { type: array, items: { type: integer } }
+      example:
+        scopes: ["cases:read","cases:write","invoices:read"]
+        resources:
+          CASE:
+            read:   { fieldMode: ALL }
+            update: { fieldMode: EXCEPT, fields: ["budget.*","settlement_terms"] }
+        caseIds:
+          view:  [101,102,123]
+          edit:  [101,123]
+          admin: [123]
+
+    # ---------- NEW: Support Access (act-as) ----------
+    SupportAccessRequest:
+      type: object
+      properties:
+        id: { type: string }
+        lawFirmId: { type: string }
+        targetUserId: { type: string, description: "Internal user id being supported" }
+        actorAdminUserId: { type: string, description: "Admin initiating support" }
+        reason: { type: string }
+        requestedAt: { type: string, format: date-time }
+        status: { type: string, enum: [approved, rejected, expired] }
+
+    SupportAccessSession:
+      type: object
+      properties:
+        id: { type: string }
+        lawFirmId: { type: string }
+        targetUserId: { type: string }
+        actorAdminUserId: { type: string }
+        startedAt: { type: string, format: date-time }
+        expiresAt: { type: string, format: date-time }
+        status: { type: string, enum: [active, revoked, expired] }
+        tokenJti: { type: string, description: "JTI of delegated token for instant revocation" }
+        locks:
+          type: array
+          description: "Present only if requested via include=locks"
+          items:
+            $ref: '#/components/schemas/AdminResourceLock'
+
+    StartSupportAccessRequest:
+      type: object
+      required: [lawFirmId, targetUserId, reason, ttlMinutes]
+      properties:
+        lawFirmId: { type: string }
+        targetUserId: { type: string }
+        reason: { type: string, minLength: 5 }
+        ttlMinutes: { type: integer, minimum: 5, maximum: 120, default: 30 }
+        scopes:
+          type: array
+          description: "Optional scope narrowing for delegated token; omit to inherit target user's effective scopes."
+          items: { type: string }
+
+    StartSupportAccessResponse:
+      type: object
+      properties:
+        session: { $ref: '#/components/schemas/SupportAccessSession' }
+        delegatedToken:
+          type: string
+          description: |
+            JWT to use in Authorization: Bearer <delegatedToken>.
+            SHOULD include claims:
+            - sub  = targetUserId
+            - act  = {"actorUserId": "<adminId>"}
+            - ctx  = {"lawFirmId": "<firmId>"}
+            - scope = limited scopes (if provided)
+            - act_as = true
+            - jti  = token id
+            - sid  = support session id
+        tokenJti: { type: string, description: "JTI of delegated token for revocation" }
+        uiSwitchUrl:
+          type: string
+          description: "Optional convenience link for SPA to switch into support mode."
+
+    AdminResourceLock:
+      type: object
+      properties:
+        id: { type: string }
+        resourceType: { type: string }
+        resourceId: { type: string, nullable: true }
+        lawFirmId: { type: string }
+        lockOwnerSessionId: { type: string }
+        lockOwnerAdminUserId: { type: string }
+        acquiredAt: { type: string, format: date-time }
+        expiresAt: { type: string, format: date-time }
+        status: { type: string, enum: [active, released, expired] }
+        reason: { type: string, nullable: true }
+
+paths:
+  # ---------- NEW: Resolve internal user by Logto user id/email ----------
+  /admin/auth-users:
+    get:
+      tags: [Admin — Users & Lawyers]
+      summary: Search auth users (use logtoUserId to resolve the caller)
+      security: [ { BearerAuth: [] } ]
+      parameters:
+        - in: query
+          name: logtoUserId
+          schema: { type: string }
+        - in: query
+          name: email
+          schema: { type: string, format: email }
+        - $ref: '#/components/parameters/PageNumber'
+        - $ref: '#/components/parameters/PageSize'
+      responses:
+        '200':
+          description: Results (use the first match to obtain userId for subsequent calls)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/AuthUser' }
+                  meta:
+                    type: object
+                    properties:
+                      page: { type: integer }
+                      size: { type: integer }
+                      total: { type: integer }
+
+  # ---------- Law Firms ----------
+  /admin/law-firms:
+    post:
+      tags: [Admin — Law Firms]
+      summary: Create a new law firm (tenant) and optionally its Logto organization
+      description: Creates a LAW_FIRMS record and, if requested, a Logto Organization bound via logtoOrgId.
+      parameters: [ { $ref: '#/components/parameters/IdempotencyKey' } ]
+      security: [ { BearerAuth: [] } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CreateLawFirmRequest' }
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/LawFirm' }
+        '400': { $ref: '#/components/responses/ErrorResponse' }
+        '401': { $ref: '#/components/responses/ErrorResponse' }
+        '403': { $ref: '#/components/responses/ErrorResponse' }
+        '409': { $ref: '#/components/responses/ErrorResponse' }
+    get:
+      tags: [Admin — Law Firms]
+      summary: List law firms
+      security: [ { BearerAuth: [] } ]
+      parameters: [ { $ref: '#/components/parameters/PageNumber' }, { $ref: '#/components/parameters/PageSize' } ]
+      responses:
+        '200':
+          description: Paged firms
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/LawFirm' }
+                  meta:
+                    type: object
+                    properties:
+                      page: { type: integer }
+                      size: { type: integer }
+                      total: { type: integer }
+
+  /admin/law-firms/{lawFirmId}:
+    get:
+      tags: [Admin — Law Firms]
+      summary: Get a law firm
+      security: [ { BearerAuth: [] } ]
+      parameters: [ { $ref: '#/components/parameters/LawFirmId' } ]
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/LawFirm' }
+        '401': { $ref: '#/components/responses/ErrorResponse' }
+        '403': { $ref: '#/components/responses/ErrorResponse' }
+        '404': { $ref: '#/components/responses/ErrorResponse' }
+
+  # ---------- NEW: Generic user provisioning ----------
+  /admin/law-firms/{lawFirmId}/users:
+    post:
+      tags: [Admin — Users & Lawyers]
+      summary: Provision a user (identity + profile + roles + optional credentials)
+      description: Generic provisioning for any staff. Replaces lawyer/staff-specific endpoints.
+      security: [ { BearerAuth: [] } ]
+      parameters:
+        - $ref: '#/components/parameters/LawFirmId'
+        - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ProvisionUserRequest' }
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ProvisionUserResponse' }
+        '400': { $ref: '#/components/responses/ErrorResponse' }
+        '401': { $ref: '#/components/responses/ErrorResponse' }
+        '403': { $ref: '#/components/responses/ErrorResponse' }
+        '404': { $ref: '#/components/responses/ErrorResponse' }
+        '409': { $ref: '#/components/responses/ErrorResponse' }
+
+  # ---------- NEW: Manage professional credentials for a user ----------
+  /admin/law-firms/{lawFirmId}/users/{userId}/credentials:
+    get:
+      tags: [Admin — Users & Lawyers]
+      summary: List professional credentials for a user
+      security: [ { BearerAuth: [] } ]
+      parameters:
+        - $ref: '#/components/parameters/LawFirmId'
+        - $ref: '#/components/parameters/UserId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/ProfessionalCredential' }
+    post:
+      tags: [Admin — Users & Lawyers]
+      summary: Add a professional credential to a user
+      security: [ { BearerAuth: [] } ]
+      parameters:
+        - $ref: '#/components/parameters/LawFirmId'
+        - $ref: '#/components/parameters/UserId'
+        - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/AddCredentialRequest' }
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ProfessionalCredential' }
+        '400': { $ref: '#/components/responses/ErrorResponse' }
+        '409': { $ref: '#/components/responses/ErrorResponse' }
+
+  /admin/law-firms/{lawFirmId}/users/{userId}/credentials/{credentialId}:
+    delete:
+      tags: [Admin — Users & Lawyers]
+      summary: Remove a professional credential from a user
+      security: [ { BearerAuth: [] } ]
+      parameters:
+        - $ref: '#/components/parameters/LawFirmId'
+        - $ref: '#/components/parameters/UserId'
+        - in: path
+          name: credentialId
+          required: true
+          schema: { type: string }
+      responses:
+        '204': { description: No Content }
+        '404': { $ref: '#/components/responses/ErrorResponse' }
+
+  # ---------- NEW: Generic listing (filterable) ----------
+  /admin/law-firms/{lawFirmId}/profiles:
+    get:
+      tags: [Admin — Users & Lawyers]
+      summary: List user profiles in a firm (filterable by role/credential)
+      description: Returns FIRM_USER_PROFILES. Prefer role/credential filters over isLawyer.
+      security: [ { BearerAuth: [] } ]
+      parameters:
+        - $ref: '#/components/parameters/LawFirmId'
+        - $ref: '#/components/parameters/PageNumber'
+        - $ref: '#/components/parameters/PageSize'
+        - in: query
+          name: role
+          description: Filter by functional role (e.g., LAWYER, PARALEGAL)
+          schema: { type: string }
+        - in: query
+          name: credentialType
+          description: Filter by credential type (e.g., BAR_LICENSE)
+          schema: { type: string }
+        - in: query
+          name: jurisdiction
+          description: Filter by credential jurisdiction (e.g., CA, NY)
+          schema: { type: string }
+        - in: query
+          name: hasCredential
+          description: Filter by whether the user has any professional credential
+          schema: { type: boolean }
+        - in: query
+          name: isLawyer
+          deprecated: true
+          schema: { type: boolean }
+        - in: query
+          name: isActive
+          schema: { type: boolean }
+        - in: query
+          name: include
+          description: CSV of expansions (e.g., "credentials")
+          schema: { type: string, example: "credentials" }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data: { type: array, items: { $ref: '#/components/schemas/FirmUserProfile' } }
+                  meta:
+                    type: object
+                    properties:
+                      page: { type: integer }
+                      size: { type: integer }
+                      total: { type: integer }
+
+  # ---------- (Deprecated) lawyers listing ----------
+  /admin/law-firms/{lawFirmId}/lawyers:
+    get:
+      deprecated: true
+      tags: [Admin — Users & Lawyers]
+      summary: (Deprecated) List lawyers in a firm
+      description: Use GET /admin/law-firms/{lawFirmId}/profiles?role=LAWYER or ?credentialType=BAR_LICENSE.
+      security: [ { BearerAuth: [] } ]
+      parameters:
+        - $ref: '#/components/parameters/LawFirmId'
+        - $ref: '#/components/parameters/PageNumber'
+        - $ref: '#/components/parameters/PageSize'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data: { type: array, items: { $ref: '#/components/schemas/FirmUserProfile' } }
+                  meta:
+                    type: object
+                    properties:
+                      page: { type: integer }
+                      size: { type: integer }
+                      total: { type: integer }
+
+  # ---------- DEPRECATED SHIMS (still functional) ----------
+  /admin/law-firms/{lawFirmId}/provision-lawyer:
+    post:
+      deprecated: true
+      tags: [Admin — Users & Lawyers]
+      summary: (Deprecated) Provision a lawyer (use POST /users)
+      description: >
+        Deprecated shim. Calls generic provisioning with roles=["LAWYER"] and creates a BAR_LICENSE credential when present.
+      security: [ { BearerAuth: [] } ]
+      parameters: [ { $ref: '#/components/parameters/LawFirmId' }, { $ref: '#/components/parameters/IdempotencyKey' } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ProvisionLawyerRequest' }
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ProvisionLawyerResponse' }
+        '400': { $ref: '#/components/responses/ErrorResponse' }
+        '401': { $ref: '#/components/responses/ErrorResponse' }
+        '403': { $ref: '#/components/responses/ErrorResponse' }
+        '404': { $ref: '#/components/responses/ErrorResponse' }
+        '409': { $ref: '#/components/responses/ErrorResponse' }
+        '503': { $ref: '#/components/responses/ErrorResponse' }
+
+  /admin/law-firms/{lawFirmId}/provision-staff:
+    post:
+      deprecated: true
+      tags: [Admin — Users & Lawyers]
+      summary: (Deprecated) Provision a staff member (use POST /users)
+      description: Deprecated shim. Use generic provisioning with appropriate roles.
+      security: [ { BearerAuth: [] } ]
+      parameters: [ { $ref: '#/components/parameters/LawFirmId' }, { $ref: '#/components/parameters/IdempotencyKey' } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ProvisionStaffRequest' }
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ProvisionStaffResponse' }
+        '400': { $ref: '#/components/responses/ErrorResponse' }
+        '401': { $ref: '#/components/responses/ErrorResponse' }
+        '403': { $ref: '#/components/responses/ErrorResponse' }
+        '404': { $ref: '#/components/responses/ErrorResponse' }
+        '409': { $ref: '#/components/responses/ErrorResponse' }
+
+  # ---------- Logto Bridge (orgs, members, roles) ----------
+  /admin/logto/orgs:
+    get:
+      tags: [Admin — Logto Bridge]
+      summary: List Logto orgs known to the app
+      security: [ { BearerAuth: [] } ]
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/LogtoOrg' }
+
+  /admin/logto/orgs/{lawFirmId}/sync:
+    post:
+      tags: [Admin — Logto Bridge]
+      summary: Sync a firm's Logto organization and memberships into local mirrors
+      security: [ { BearerAuth: [] } ]
+      parameters: [ { $ref: '#/components/parameters/LawFirmId' }, { $ref: '#/components/parameters/IdempotencyKey' } ]
+      responses:
+        '202': { description: Sync started }
+        '404': { $ref: '#/components/responses/ErrorResponse' }
+
+  /admin/logto/orgs/{lawFirmId}/members:
+    get:
+      tags: [Admin — Logto Bridge]
+      summary: List org members (from Logto; locally cached)
+      security: [ { BearerAuth: [] } ]
+      parameters:
+        - $ref: '#/components/parameters/LawFirmId'
+        - $ref: '#/components/parameters/PageNumber'
+        - $ref: '#/components/parameters/PageSize'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data: { type: array, items: { $ref: '#/components/schemas/OrgMember' } }
+                  meta:
+                    type: object
+                    properties:
+                      page: { type: integer }
+                      size: { type: integer }
+                      total: { type: integer }
+    post:
+      tags: [Admin — Logto Bridge]
+      summary: Add or invite a member to the firm's Logto org
+      description: Creates membership and assigns org roles. If email provided, sends optional invite.
+      security: [ { BearerAuth: [] } ]
+      parameters: [ { $ref: '#/components/parameters/LawFirmId' }, { $ref: '#/components/parameters/IdempotencyKey' } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/UpsertOrgMemberRequest' }
+      responses:
+        '201':
+          description: Created/Invited
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/OrgMember' }
+        '400': { $ref: '#/components/responses/ErrorResponse' }
+        '404': { $ref: '#/components/responses/ErrorResponse' }
+        '409': { $ref: '#/components/responses/ErrorResponse' }
+
+  /admin/logto/orgs/{lawFirmId}/members/{logtoUserId}:
+    get:
+      tags: [Admin — Logto Bridge]
+      summary: Get a specific member
+      security: [ { BearerAuth: [] } ]
+      parameters:
+        - $ref: '#/components/parameters/LawFirmId'
+        - in: path
+          name: logtoUserId
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/OrgMember' }
+        '404': { $ref: '#/components/responses/ErrorResponse' }
+    delete:
+      tags: [Admin — Logto Bridge]
+      summary: Remove a member from the firm's Logto org
+      security: [ { BearerAuth: [] } ]
+      parameters:
+        - $ref: '#/components/parameters/LawFirmId'
+        - in: path
+          name: logtoUserId
+          required: true
+          schema: { type: string }
+      responses:
+        '204': { description: No Content }
+        '404': { $ref: '#/components/responses/ErrorResponse' }
+
+  /admin/logto/orgs/{lawFirmId}/members/{logtoUserId}/roles:
+    put:
+      tags: [Admin — Logto Bridge]
+      summary: Replace a member's Logto org roles
+      description: Idempotent replacement of org role set (e.g., ["admin"] or ["member"]).
+      security: [ { BearerAuth: [] } ]
+      parameters:
+        - $ref: '#/components/parameters/LawFirmId'
+        - in: path
+          name: logtoUserId
+          required: true
+          schema: { type: string }
+        - { $ref: '#/components/parameters/IdempotencyKey' }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ReplaceMemberRolesRequest' }
+      responses:
+        '200':
+          description: Updated
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/OrgMember' }
+        '400': { $ref: '#/components/responses/ErrorResponse' }
+        '404': { $ref: '#/components/responses/ErrorResponse' }
+
+  # Optional helper to surface Logto role catalog (org-level)
+  /admin/logto/org-roles:
+    get:
+      tags: [Admin — Logto Bridge]
+      summary: List available Logto org roles
+      security: [ { BearerAuth: [] } ]
+      responses:
+        '200':
+          description: Typically ["admin","member"]; may include custom roles if configured.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items: { type: string }
+
+  # ---------- Resource Registries ----------
+  /admin/resource-types:
+    get:
+      tags: [Admin — Access Grants]
+      summary: List allowed resource types (domain-level)
+      security: [ { BearerAuth: [] } ]
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/ResourceType' }
+
+  /admin/resource-types/{resourceType}/subtypes:
+    get:
+      tags: [Admin — Access Grants]
+      summary: List allowed subresource types for a resource type
+      security: [ { BearerAuth: [] } ]
+      parameters: [ { $ref: '#/components/parameters/ResourceType' } ]
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/ResourceSubtype' }
+
+  # ---------- App-side (optional) Access Grants ----------
+  /admin/resource-access-grants:
+    get:
+      tags: [Admin — Access Grants]
+      summary: Search resource access grants
+      security: [ { BearerAuth: [] } ]
+      parameters:
+        - in: query
+          name: resourceType
+          schema: { type: string }
+        - in: query
+          name: resourceId
+          schema: { type: string }
+        - in: query
+          name: subresourceType
+          schema: { type: string }
+        - in: query
+          name: subresourceId
+          schema: { type: string }
+        - in: query
+          name: authUserId
+          schema: { type: string }
+        - in: query
+          name: accessLevel
+          schema: { type: string, enum: [VIEW, EDIT, UPLOAD, ADMIN] }
+        - in: query
+          name: lawFirmId
+          schema: { type: string }
+        - $ref: '#/components/parameters/PageNumber'
+        - $ref: '#/components/parameters/PageSize'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data: { type: array, items: { $ref: '#/components/schemas/ResourceAccessGrant' } }
+                  meta:
+                    type: object
+                    properties:
+                      page: { type: integer }
+                      size: { type: integer }
+                      total: { type: integer }
+
+  /admin/resources/{resourceType}/{resourceId}/access-grants:
+    get:
+      tags: [Admin — Access Grants]
+      summary: List access grants for a resource (root-level)
+      security: [ { BearerAuth: [] } ]
+      parameters:
+        - $ref: '#/components/parameters/ResourceType'
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data: { type: array, items: { $ref: '#/components/schemas/ResourceAccessGrant' } }
+    post:
+      tags: [Admin — Access Grants]
+      summary: Create a manual access grant for a resource (root-level)
+      security: [ { BearerAuth: [] } ]
+      parameters:
+        - $ref: '#/components/parameters/ResourceType'
+        - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CreateResourceAccessGrantRequest' }
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ResourceAccessGrant' }
+        '400': { $ref: '#/components/responses/ErrorResponse' }
+        '409': { $ref: '#/components/responses/ErrorResponse' }
+
+  /admin/resources/{resourceType}/{resourceId}/access-grants/{authUserId}/{accessLevel}:
+    delete:
+      tags: [Admin — Access Grants]
+      summary: Revoke a manual access grant (root-level)
+      security: [ { BearerAuth: [] } ]
+      parameters:
+        - $ref: '#/components/parameters/ResourceType'
+        - $ref: '#/components/parameters/ResourceId'
+        - in: path
+          name: authUserId
+          required: true
+          schema: { type: string }
+        - $ref: '#/components/parameters/AccessLevelParam'
+      responses:
+        '204': { description: No Content }
+        '404': { $ref: '#/components/responses/ErrorResponse' }
+
+  /admin/resources/{resourceType}/{resourceId}/{subresourceType}/{subresourceId}/access-grants:
+    get:
+      tags: [Admin — Access Grants]
+      summary: List access grants for a subresource
+      security: [ { BearerAuth: [] } ]
+      parameters:
+        - $ref: '#/components/parameters/ResourceType'
+        - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/SubresourceType'
+        - $ref: '#/components/parameters/SubresourceId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data: { type: array, items: { $ref: '#/components/schemas/ResourceAccessGrant' } }
+    post:
+      tags: [Admin — Access Grants]
+      summary: Create a manual access grant for a subresource
+      security: [ { BearerAuth: [] } ]
+      parameters:
+        - $ref: '#/components/parameters/ResourceType'
+        - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/SubresourceType'
+        - $ref: '#/components/parameters/SubresourceId'
+        - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CreateResourceAccessGrantRequest' }
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ResourceAccessGrant' }
+        '400': { $ref: '#/components/responses/ErrorResponse' }
+        '409': { $ref: '#/components/responses/ErrorResponse' }
+
+  /admin/resources/{resourceType}/{resourceId}/{subresourceType}/{subresourceId}/access-grants/{authUserId}/{accessLevel}:
+    delete:
+      tags: [Admin — Access Grants]
+      summary: Revoke a manual access grant (subresource)
+      security: [ { BearerAuth: [] } ]
+      parameters:
+        - $ref: '#/components/parameters/ResourceType'
+        - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/SubresourceType'
+        - $ref: '#/components/parameters/SubresourceId'
+        - in: path
+          name: authUserId
+          required: true
+          schema: { type: string }
+        - $ref: '#/components/parameters/AccessLevelParam'
+      responses:
+        '204': { description: No Content }
+        '404': { $ref: '#/components/responses/ErrorResponse' }
+
+  # ---------- NEW: Effective resource policies ----------
+  /admin/law-firms/{lawFirmId}/users/{userId}/resource-policies:
+    get:
+      tags: [Admin — Capabilities]
+      summary: Get effective resource field policies for a user in a firm
+      description: |
+        Returns the merged, client-ready field policies, by resource code and action.
+        Example: CASE.read → ALL; CASE.update → EXCEPT["budget.*","settlement_terms"].
+      security: [ { BearerAuth: [] } ]
+      parameters:
+        - $ref: '#/components/parameters/LawFirmId'
+        - $ref: '#/components/parameters/UserId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ResourcePoliciesResponse' }
+
+  # ---------- NEW (Optional): One-call aggregate ----------
+  /admin/law-firms/{lawFirmId}/users/{userId}/capabilities:
+    get:
+      tags: [Admin — Capabilities]
+      summary: Get user capabilities (scopes + field policies + case id sets)
+      description: |
+        Convenience aggregator for SPA. Returns:
+        - scopes: the effective scopes for the user in this firm context,
+        - resources: field-level policies per resource/action,
+        - caseIds: arrays for view/edit/admin sets.
+      security: [ { BearerAuth: [] } ]
+      parameters:
+        - $ref: '#/components/parameters/LawFirmId'
+        - $ref: '#/components/parameters/UserId'
+        - in: query
+          name: include
+          description: Optional CSV to control included sections (scopes,resources,caseIds). Defaults to all.
+          schema: { type: string, example: "scopes,resources,caseIds" }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/CapabilitiesResponse' }
+
+  # ---------- NEW: Support Access (act-as) ----------
+  /admin/support-access/requests:
+    post:
+      tags: [Admin — Support Access]
+      summary: Start a support access session (act as target user)
+      description: >
+        Creates a short-lived support session and returns a delegated token that acts as the target user,
+        with actor metadata. If an active session exists for (lawFirmId,targetUserId) and takeover=false,
+        returns 409 SUPPORT_SESSION_EXISTS.
+      security: [ { BearerAuth: [] } ]
+      parameters:
+        - in: query
+          name: takeover
+          schema: { type: boolean, default: false }
+          description: Revoke any existing active session for this target and replace it.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/StartSupportAccessRequest' }
+      responses:
+        '201':
+          description: Created
+          headers:
+            X-Act-As:
+              description: "true when a delegated token is returned"
+              schema: { type: string }
+            X-Actor-Admin-UserId:
+              schema: { type: string }
+            X-Support-Session-Id:
+              schema: { type: string }
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/StartSupportAccessResponse' }
+        '400': { $ref: '#/components/responses/ErrorResponse' }
+        '403': { $ref: '#/components/responses/ErrorResponse' }
+        '409':
+          description: Conflict (session already active and takeover=false)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+
+  /admin/support-access/sessions:
+    get:
+      tags: [Admin — Support Access]
+      summary: List support access sessions
+      security: [ { BearerAuth: [] } ]
+      parameters:
+        - in: query
+          name: lawFirmId
+          schema: { type: string }
+        - in: query
+          name: actorAdminUserId
+          schema: { type: string }
+        - in: query
+          name: targetUserId
+          schema: { type: string }
+        - in: query
+          name: status
+          schema: { type: string, enum: [active, revoked, expired], default: active }
+        - in: query
+          name: include
+          schema: { type: string, example: "locks" }
+          description: CSV; when "locks" is present, each session may include `locks` array.
+        - $ref: '#/components/parameters/PageNumber'
+        - $ref: '#/components/parameters/PageSize'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data: { type: array, items: { $ref: '#/components/schemas/SupportAccessSession' } }
+                  meta:
+                    type: object
+                    properties:
+                      page: { type: integer }
+                      size: { type: integer }
+                      total: { type: integer }
+
+  /admin/support-access/sessions/{id}:
+    get:
+      tags: [Admin — Support Access]
+      summary: Get a support access session
+      security: [ { BearerAuth: [] } ]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+        - in: query
+          name: include
+          schema: { type: string, example: "locks" }
+          description: Include locks held by this session.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/SupportAccessSession' }
+        '404': { $ref: '#/components/responses/ErrorResponse' }
+
+    delete:
+      tags: [Admin — Support Access]
+      summary: Revoke a support access session
+      security: [ { BearerAuth: [] } ]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        '204': { description: No Content }
+        '404': { $ref: '#/components/responses/ErrorResponse' }
+
+  /admin/resource-locks:
+    post:
+      tags: [Admin — Support Access]
+      summary: Acquire an exclusive admin lock on a resource
+      security: [ { BearerAuth: [] } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [resourceType, lawFirmId]
+              properties:
+                resourceType: { type: string, description: "Domain-level code, e.g., BILLING_PANEL" }
+                resourceId: { type: string, nullable: true }
+                lawFirmId: { type: string }
+                ttlMinutes: { type: integer, minimum: 5, maximum: 120, default: 30 }
+                reason: { type: string }
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/AdminResourceLock' }
+        '400': { $ref: '#/components/responses/ErrorResponse' }
+        '403': { $ref: '#/components/responses/ErrorResponse' }
+        '409':
+          description: Conflict – someone else holds the lock
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /admin/resource-locks/{id}:
+    delete:
+      tags: [Admin — Support Access]
+      summary: Release a lock
+      security: [ { BearerAuth: [] } ]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        '204': { description: No Content }
+        '404': { $ref: '#/components/responses/ErrorResponse' }

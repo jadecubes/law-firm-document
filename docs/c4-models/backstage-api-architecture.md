@@ -1021,7 +1021,7 @@ graph TB
 
 ### Technical Specifications
 - [User API Technical Specification](/docs/specifications/user-api-specification) - Complete technical spec
-- [Database Schema](/database.dbml) - Complete ERD with 23 slices
+- [Database Schema](/docs/architecture/database-schema) - Complete ERD with 23 slices
 
 ### Architecture Documentation
 - [System Context](/docs/c4-models/system-context) - Overall system landscape

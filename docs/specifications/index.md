@@ -69,7 +69,7 @@ Complete OpenAPI documentation for all Backstage API endpoints:
   - Monitoring & observability stack
 
 ### Data & Schema
-- [Database Schema](/database.dbml) - Complete ERD with 23 slices and 100+ tables
+- [Database Schema](/docs/architecture/database-schema) - Complete ERD with 23 slices and 100+ tables
 - [API Spec Mapping](./api-spec-mapping.md) - Feature to endpoint mapping
 
 ### Getting Started
@@ -83,7 +83,7 @@ Complete OpenAPI documentation for all Backstage API endpoints:
 ### For Backend Developers
 - [Backstage API Technical Specification](./backstage-api-specification.md) - **Complete unified spec**
 - [User API Technical Specification](./user-api-specification.md) - User API deep-dive
-- [Database Schema](/database.dbml) - Data models
+- [Database Schema](/docs/architecture/database-schema) - Data models
 
 ### For Frontend Developers
 - [Admin API Reference](/docs/admin-api/law-firm-admin-provisioning-api-logto-managed-rbac) - Admin endpoints with examples

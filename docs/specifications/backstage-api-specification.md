@@ -98,7 +98,7 @@ Manage law firm tenants and their configurations.
 |--------|----------|-------------|
 | POST | `/firms` | Create a new law firm tenant |
 | GET | `/firms` | List all law firms (paginated) |
-| GET | `/firms/{firmId}` | Get law firm details |
+| GET | `/firms/\{firmId\}` | Get law firm details |
 
 **Key Features**:
 - Multi-tenant firm creation with isolated data
@@ -132,11 +132,11 @@ Provision and manage user accounts, including professional credentials for lawye
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | GET | `/users/search` | Search auth users (by email, name, Logto ID) |
-| POST | `/firms/{firmId}/users` | Provision a user (identity + profile + roles) |
-| GET | `/firms/{firmId}/users` | List user profiles in a firm |
-| GET | `/users/{userId}/credentials` | List professional credentials |
-| POST | `/users/{userId}/credentials` | Add a professional credential (bar license, etc.) |
-| DELETE | `/users/{userId}/credentials/{credId}` | Remove a credential |
+| POST | `/firms/\{firmId\}/users` | Provision a user (identity + profile + roles) |
+| GET | `/firms/\{firmId\}/users` | List user profiles in a firm |
+| GET | `/users/\{userId\}/credentials` | List professional credentials |
+| POST | `/users/\{userId\}/credentials` | Add a professional credential (bar license, etc.) |
+| DELETE | `/users/\{userId\}/credentials/\{credId\}` | Remove a credential |
 
 **Key Features**:
 - Logto identity creation with invitation emails
@@ -175,12 +175,12 @@ Sync and manage Logto organizations and memberships.
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | GET | `/logto/orgs` | List Logto organizations known to the app |
-| POST | `/firms/{firmId}/logto/sync` | Sync Logto org and memberships |
-| GET | `/firms/{firmId}/logto/members` | List org members (locally cached) |
-| POST | `/firms/{firmId}/logto/members` | Add/invite a member to Logto org |
-| GET | `/firms/{firmId}/logto/members/{memberId}` | Get a specific member |
-| DELETE | `/firms/{firmId}/logto/members/{memberId}` | Remove a member from Logto org |
-| PUT | `/firms/{firmId}/logto/members/{memberId}/roles` | Replace member's org roles |
+| POST | `/firms/\{firmId\}/logto/sync` | Sync Logto org and memberships |
+| GET | `/firms/\{firmId\}/logto/members` | List org members (locally cached) |
+| POST | `/firms/\{firmId\}/logto/members` | Add/invite a member to Logto org |
+| GET | `/firms/\{firmId\}/logto/members/\{memberId\}` | Get a specific member |
+| DELETE | `/firms/\{firmId\}/logto/members/\{memberId\}` | Remove a member from Logto org |
+| PUT | `/firms/\{firmId\}/logto/members/\{memberId\}/roles` | Replace member's org roles |
 | GET | `/logto/roles` | List available Logto org roles |
 
 **Key Features**:
@@ -196,14 +196,14 @@ Manage manual access grants for resources and subresources.
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | GET | `/access-control/resource-types` | List allowed resource types |
-| GET | `/access-control/resource-types/{type}/subresources` | List allowed subresource types |
+| GET | `/access-control/resource-types/\{type\}/subresources` | List allowed subresource types |
 | GET | `/access-grants/search` | Search access grants (by user, resource, etc.) |
-| GET | `/resources/{resourceType}/{resourceId}/grants` | List grants for a resource |
-| POST | `/resources/{resourceType}/{resourceId}/grants` | Create manual access grant |
-| DELETE | `/resources/{resourceType}/{resourceId}/grants/{grantId}` | Revoke access grant |
-| GET | `/resources/{resourceType}/{resourceId}/{subType}/{subId}/grants` | List grants for subresource |
-| POST | `/resources/{resourceType}/{resourceId}/{subType}/{subId}/grants` | Create subresource grant |
-| DELETE | `/resources/{resourceType}/{resourceId}/{subType}/{subId}/grants/{grantId}` | Revoke subresource grant |
+| GET | `/resources/\{resourceType\}/\{resourceId\}/grants` | List grants for a resource |
+| POST | `/resources/\{resourceType\}/\{resourceId\}/grants` | Create manual access grant |
+| DELETE | `/resources/\{resourceType\}/\{resourceId\}/grants/\{grantId\}` | Revoke access grant |
+| GET | `/resources/\{resourceType\}/\{resourceId\}/\{subType\}/\{subId\}/grants` | List grants for subresource |
+| POST | `/resources/\{resourceType\}/\{resourceId\}/\{subType\}/\{subId\}/grants` | Create subresource grant |
+| DELETE | `/resources/\{resourceType\}/\{resourceId\}/\{subType\}/\{subId\}/grants/\{grantId\}` | Revoke subresource grant |
 
 **Key Features**:
 - Fine-grained resource access control
@@ -217,8 +217,8 @@ Aggregate and resolve user capabilities.
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | `/firms/{firmId}/users/{userId}/field-policies` | Get effective field policies for a user |
-| GET | `/firms/{firmId}/users/{userId}/capabilities` | Get user capabilities (scopes + policies + case sets) |
+| GET | `/firms/\{firmId\}/users/\{userId\}/field-policies` | Get effective field policies for a user |
+| GET | `/firms/\{firmId\}/users/\{userId\}/capabilities` | Get user capabilities (scopes + policies + case sets) |
 
 **Key Features**:
 - Aggregates permissions from roles + manual grants
@@ -234,10 +234,10 @@ Act-as functionality for customer support.
 |--------|----------|-------------|
 | POST | `/support-access/sessions` | Start a support access session (act as user) |
 | GET | `/support-access/sessions` | List support access sessions |
-| GET | `/support-access/sessions/{sessionId}` | Get a support access session |
-| DELETE | `/support-access/sessions/{sessionId}` | Revoke a support access session |
+| GET | `/support-access/sessions/\{sessionId\}` | Get a support access session |
+| DELETE | `/support-access/sessions/\{sessionId\}` | Revoke a support access session |
 | POST | `/support-access/locks` | Acquire exclusive admin lock on resource |
-| DELETE | `/support-access/locks/{lockId}` | Release a lock |
+| DELETE | `/support-access/locks/\{lockId\}` | Release a lock |
 
 **Key Features**:
 - Time-limited sessions (default: 1 hour)
@@ -287,7 +287,7 @@ View firm members and their profiles.
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | GET | `/firm/members` | List members in user's firm |
-| GET | `/firm/members/{userId}` | Get a specific member's profile |
+| GET | `/firm/members/\{userId\}` | Get a specific member's profile |
 
 #### 3.2.3 Cases (7 endpoints)
 
@@ -297,11 +297,11 @@ Full case lifecycle management.
 |--------|----------|-------------|
 | GET | `/cases` | List cases accessible to current user |
 | POST | `/cases` | Create a new case |
-| GET | `/cases/{caseId}` | Get case details |
-| PATCH | `/cases/{caseId}` | Update case details |
-| GET | `/cases/{caseId}/members` | List members assigned to a case |
-| POST | `/cases/{caseId}/members` | Add a member to a case |
-| DELETE | `/cases/{caseId}/members/{userId}` | Remove a member from a case |
+| GET | `/cases/\{caseId\}` | Get case details |
+| PATCH | `/cases/\{caseId\}` | Update case details |
+| GET | `/cases/\{caseId\}/members` | List members assigned to a case |
+| POST | `/cases/\{caseId\}/members` | Add a member to a case |
+| DELETE | `/cases/\{caseId\}/members/\{userId\}` | Remove a member from a case |
 
 **Key Features**:
 - Case number auto-generation
@@ -317,8 +317,8 @@ Client relationship management (CRM).
 |--------|----------|-------------|
 | GET | `/clients` | List clients accessible to current user |
 | POST | `/clients` | Create a new client |
-| GET | `/clients/{clientId}` | Get client details |
-| PATCH | `/clients/{clientId}` | Update client details |
+| GET | `/clients/\{clientId\}` | Get client details |
+| PATCH | `/clients/\{clientId\}` | Update client details |
 
 **Key Features**:
 - Contact information management
@@ -334,9 +334,9 @@ Secure document management with S3 storage.
 |--------|----------|-------------|
 | GET | `/documents` | List documents accessible to current user |
 | POST | `/documents` | Upload a new document |
-| GET | `/documents/{docId}` | Get document metadata and download URL |
-| PATCH | `/documents/{docId}` | Update document metadata |
-| DELETE | `/documents/{docId}` | Delete a document (soft delete) |
+| GET | `/documents/\{docId\}` | Get document metadata and download URL |
+| PATCH | `/documents/\{docId\}` | Update document metadata |
+| DELETE | `/documents/\{docId\}` | Delete a document (soft delete) |
 
 **Key Features**:
 - Secure upload via presigned S3 URLs
@@ -353,10 +353,10 @@ Calendar and scheduling management.
 |--------|----------|-------------|
 | GET | `/appointments` | List appointments for current user |
 | POST | `/appointments` | Create a new appointment |
-| GET | `/appointments/{apptId}` | Get appointment details |
-| PATCH | `/appointments/{apptId}` | Update appointment |
-| DELETE | `/appointments/{apptId}` | Cancel appointment |
-| POST | `/appointments/{apptId}/responses` | Respond to appointment invitation |
+| GET | `/appointments/\{apptId\}` | Get appointment details |
+| PATCH | `/appointments/\{apptId\}` | Update appointment |
+| DELETE | `/appointments/\{apptId\}` | Cancel appointment |
+| POST | `/appointments/\{apptId\}/responses` | Respond to appointment invitation |
 
 **Key Features**:
 - Calendar integration (Google Calendar, Outlook)
@@ -372,10 +372,10 @@ Billable hours tracking and time entry management.
 |--------|----------|-------------|
 | GET | `/time-entries` | List time entries for current user |
 | POST | `/time-entries` | Create a new time entry |
-| GET | `/time-entries/{entryId}` | Get time entry details |
-| PATCH | `/time-entries/{entryId}` | Update time entry |
-| DELETE | `/time-entries/{entryId}` | Delete time entry |
-| POST | `/time-entries/{entryId}/submit` | Submit time entry for approval |
+| GET | `/time-entries/\{entryId\}` | Get time entry details |
+| PATCH | `/time-entries/\{entryId\}` | Update time entry |
+| DELETE | `/time-entries/\{entryId\}` | Delete time entry |
+| POST | `/time-entries/\{entryId\}/submit` | Submit time entry for approval |
 
 **Key Features**:
 - Timer functionality (start/stop/pause)
@@ -391,7 +391,7 @@ View invoices (read-only for non-admin users).
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | GET | `/invoices` | List invoices accessible to current user |
-| GET | `/invoices/{invoiceId}` | Get invoice details |
+| GET | `/invoices/\{invoiceId\}` | Get invoice details |
 
 **Key Features**:
 - Invoice line items (time entries, expenses)
@@ -406,7 +406,7 @@ In-app notification center.
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | GET | `/notifications` | List notifications for current user |
-| POST | `/notifications/{notifId}/read` | Mark notification as read |
+| POST | `/notifications/\{notifId\}/read` | Mark notification as read |
 | POST | `/notifications/mark-all-read` | Mark all notifications as read |
 
 **Key Features**:
@@ -421,10 +421,10 @@ Unified commenting system across all resources.
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | `/{resourceType}/{resourceId}/comments` | List comments on a resource |
-| POST | `/{resourceType}/{resourceId}/comments` | Add a comment to a resource |
-| PATCH | `/comments/{commentId}` | Edit a comment |
-| DELETE | `/comments/{commentId}` | Delete a comment |
+| GET | `/\{resourceType\}/\{resourceId\}/comments` | List comments on a resource |
+| POST | `/\{resourceType\}/\{resourceId\}/comments` | Add a comment to a resource |
+| PATCH | `/comments/\{commentId\}` | Edit a comment |
+| DELETE | `/comments/\{commentId\}` | Delete a comment |
 
 **Key Features**:
 - Comments on cases, documents, clients, appointments, time entries
@@ -719,7 +719,7 @@ interface TimeEntry {
 
 ### 5.2 Database Schema Reference
 
-**Complete ERD**: See [database.dbml](/database.dbml) for full schema with 23 slices and 100+ tables.
+**Complete ERD**: See [Database Schema Documentation](/docs/architecture/database-schema) for full schema with 23 slices and 100+ tables.
 
 Key schema slices:
 - **AUTH**: Users, roles, sessions
@@ -841,12 +841,12 @@ All API errors follow this structure:
 
 | Layer | TTL | Keys |
 |-------|-----|------|
-| **User permissions** | 5 min | `perm:{userId}:{action}:{resourceType}:{resourceId}` |
-| **User profile** | 15 min | `user:{userId}` |
-| **Case details** | 10 min | `case:{caseId}` |
-| **Client details** | 10 min | `client:{clientId}` |
-| **Firm settings** | 30 min | `firm:{firmId}:settings` |
-| **Session data** | 24 hrs | `session:{sessionId}` |
+| **User permissions** | 5 min | `perm:\{userId\}:\{action\}:\{resourceType\}:\{resourceId\}` |
+| **User profile** | 15 min | `user:\{userId\}` |
+| **Case details** | 10 min | `case:\{caseId\}` |
+| **Client details** | 10 min | `client:\{clientId\}` |
+| **Firm settings** | 30 min | `firm:\{firmId\}:settings` |
+| **Session data** | 24 hrs | `session:\{sessionId\}` |
 
 #### Cache Invalidation
 
@@ -927,7 +927,7 @@ X-RateLimit-Reset: 1698765432
 #### 8.2.1 GDPR (General Data Protection Regulation)
 
 - **Right to Access**: GET /me endpoint provides user data export
-- **Right to Erasure**: DELETE /users/{userId} (soft delete with retention policy)
+- **Right to Erasure**: DELETE /users/\{userId\} (soft delete with retention policy)
 - **Right to Portability**: Data export in JSON format
 - **Data Minimization**: Only collect necessary fields
 - **Consent Management**: Cookie consent banner, email preferences
@@ -1105,7 +1105,7 @@ For law firms handling health-related cases:
 - [Deployment Architecture](/docs/c4-models/backstage-api-architecture#deployment-architecture) - AWS infrastructure
 
 ### Data & Schema
-- [Database Schema](/database.dbml) - Complete ERD with 23 slices and 100+ tables
+- [Database Schema](/docs/architecture/database-schema) - Complete ERD with 23 slices and 100+ tables
 - [API Spec Mapping](/docs/specifications/api-spec-mapping) - Feature to endpoint mapping
 
 ### Getting Started

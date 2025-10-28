@@ -230,4 +230,4 @@ When the database schema changes:
 
 - [Admin API Reference](/docs/admin-api/law-firm-admin-provisioning-api-logto-managed-rbac)
 - [User API Reference](/docs/user-api/law-firm-user-portal-api)
-- [RBAC & Permissions](/docs/specifications/index)
+- [RBAC & Permissions](/docs/specifications/)

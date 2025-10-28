@@ -64,7 +64,7 @@ const FeatureList: FeatureItem[] = [
         and implementing support access patterns in your legal applications.
       </>
     ),
-    link: '/docs/speckit-guide',
+    link: '/docs/specifications/',
   },
   {
     title: 'Best Practices',

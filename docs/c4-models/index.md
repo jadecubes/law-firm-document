@@ -119,7 +119,7 @@ Platform-wide overview diagrams:
 - [User API Technical Specification](/docs/specifications/user-api-specification) - User API deep-dive
 
 ### Data & Schema
-- [Database Schema](/database.dbml) - Complete ERD with 23 slices, 100+ tables
+- [Database Schema](/docs/architecture/database-schema) - Complete ERD with 23 slices, 100+ tables
 
 ### Getting Started
 - [Introduction](/docs/intro) - Overview and getting started

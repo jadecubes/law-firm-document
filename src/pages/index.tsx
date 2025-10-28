@@ -22,14 +22,9 @@ function HomepageHeader() {
         </p>
         <div className={styles.buttons}>
           <Link
-            className={clsx('button button--lg', styles.buttonHeroPrimary)}
+            className={clsx('button button--primary button--lg', styles.buttonHeroPrimary)}
             to="/docs/intro">
             Get Started
-          </Link>
-          <Link
-            className={clsx('button button--lg', styles.buttonHeroSecondary)}
-            to="/docs/admin-api/law-firm-admin-provisioning-api-logto-managed-rbac">
-            View API Docs
           </Link>
         </div>
       </div>
