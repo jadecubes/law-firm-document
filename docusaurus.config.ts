@@ -91,7 +91,7 @@ const config: Config = {
               groupPathsBy: "tag",
             },
           } satisfies OpenApiPlugin.Options,
-        } satisfies OpenApiPlugin.Options,
+        },
       },
     ],
   ],
