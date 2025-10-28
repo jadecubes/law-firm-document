@@ -1096,21 +1096,20 @@ For law firms handling health-related cases:
 ## Related Documentation
 
 ### API Documentation
-- [Admin API OpenAPI Reference](/docs/admin-api/law-firm-admin-provisioning-api-logto-managed-rbac) - All 34 admin endpoints
-- [User API OpenAPI Reference](/docs/user-api/law-firm-user-portal-api) - All 37 user endpoints
+- [Admin API OpenAPI Reference](/docs/backstage/apis/admin/law-firm-admin-provisioning-api-logto-managed-rbac) - All 34 admin endpoints
+- [User API OpenAPI Reference](/docs/backstage/apis/user/law-firm-user-portal-api) - All 37 user endpoints
 
 ### Architecture Documentation
-- [Backstage API C4 Models](/docs/c4-models/backstage-api-architecture) - Complete architecture diagrams
-- [System Context](/docs/c4-models/system-context) - High-level system landscape
-- [Deployment Architecture](/docs/c4-models/backstage-api-architecture#deployment-architecture) - AWS infrastructure
+- [Backstage API C4 Models](/docs/backstage/c4-models/backstage-api-architecture) - Complete architecture diagrams
+- [System Context](/docs/backstage/c4-models/system-context) - High-level system landscape
+- [Deployment Architecture](/docs/backstage/c4-models/backstage-api-architecture#deployment-architecture) - AWS infrastructure
 
 ### Data & Schema
 - [Database Schema](/docs/architecture/database-schema) - Complete ERD with 23 slices and 100+ tables
-- [API Spec Mapping](/docs/specifications/api-spec-mapping) - Feature to endpoint mapping
 
 ### Getting Started
 - [Introduction](/docs/intro) - System overview
-- [C4 Architecture Models](/docs/c4-models/) - Architecture documentation
+- [C4 Architecture Models](/docs/backstage/c4-models/) - Architecture documentation
 
 ---
 

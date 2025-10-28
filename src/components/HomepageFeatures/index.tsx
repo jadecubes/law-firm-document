@@ -20,7 +20,7 @@ const FeatureList: FeatureItem[] = [
         and tenant configuration endpoints with interactive testing capabilities.
       </>
     ),
-    link: '/docs/admin-api/law-firm-admin-provisioning-api-logto-managed-rbac',
+    link: '/docs/backstage/apis/admin/law-firm-admin-provisioning-api-logto-managed-rbac',
   },
   {
     title: 'Technical Specifications',
@@ -31,7 +31,7 @@ const FeatureList: FeatureItem[] = [
         law firm tenant management, user provisioning, and access control workflows.
       </>
     ),
-    link: '/docs/specifications/',
+    link: '/docs/backstage/specifications/',
   },
   {
     title: 'Architecture Diagrams',
@@ -42,7 +42,7 @@ const FeatureList: FeatureItem[] = [
         and deployment patterns for the legal practice management platform.
       </>
     ),
-    link: '/docs/c4-models/system-context',
+    link: '/docs/backstage/c4-models/system-context',
   },
   {
     title: 'Security & RBAC',
@@ -53,7 +53,7 @@ const FeatureList: FeatureItem[] = [
         resource access management, and professional credential verification.
       </>
     ),
-    link: '/docs/specifications/api-spec-mapping',
+    link: '/docs/backstage/specifications/backstage-api-specification',
   },
   {
     title: 'Integration Guides',
@@ -64,7 +64,7 @@ const FeatureList: FeatureItem[] = [
         and implementing support access patterns in your legal applications.
       </>
     ),
-    link: '/docs/specifications/',
+    link: '/docs/backstage/specifications/',
   },
   {
     title: 'Best Practices',
