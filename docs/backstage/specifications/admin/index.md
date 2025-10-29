@@ -2,7 +2,7 @@
 sidebar_position: 1
 ---
 
-# Feature Specifications
+# Admin API Specifications
 
 Detailed API specifications for the Law Firm Admin Provisioning API system.
 

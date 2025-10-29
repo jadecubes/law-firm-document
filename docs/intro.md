@@ -87,19 +87,19 @@ The system exposes two main API surfaces:
 
 **Backstage APIs** - Unified backend serving both administrative and user-facing operations:
 
-1. **Admin API** (34 endpoints)
+1. **Admin API** (37 endpoints)
    - Law firm provisioning and configuration
    - User management and access control
    - System-wide settings and support access
    - Advanced access grants and capabilities
 
-2. **User API** (37 endpoints)
+2. **User API** (41 endpoints)
    - Cases, clients, and matter management
    - Document upload, versioning, and sharing
    - Time tracking and billing operations
    - Appointments, notifications, and collaboration
 
-**Total**: **71 endpoints** serving 10,000+ concurrent users across multiple law firms.
+**Total**: **78 endpoints** currently implemented, with 80+ additional endpoints planned for partner management, financial operations, and HR features.
 
 ---
 
@@ -181,40 +181,38 @@ The system supports all practice areas including:
 If you're building integrations or extending the platform:
 
 1. **Explore the APIs**
-   - [Admin API Documentation](/docs/admin-api/law-firm-admin-provisioning-api-logto-managed-rbac) - 34 administrative endpoints
-   - [User API Documentation](/docs/user-api/law-firm-user-portal-api) - 37 user-facing endpoints
+   - [Admin API Documentation](/docs/backstage/apis/admin/law-firm-admin-provisioning-api-logto-managed-rbac) - 37 administrative endpoints
+   - [User API Documentation](/docs/backstage/apis/user/law-firm-user-portal-api) - 41 user-facing endpoints
 
 2. **Review Technical Specifications**
-   - [Backstage API Technical Spec](/docs/specifications/backstage-api-specification) - Complete unified specification
+   - [Backstage API Technical Spec](/docs/backstage/specifications/backstage-api-specification) - Complete unified specification
    - [Database Schema](/docs/architecture/database-schema) - Complete ERD with 100+ tables
 
 3. **Understand the Architecture**
-   - [C4 Architecture Models](/docs/c4-models/) - System context, containers, components
-   - [Security Architecture](/docs/c4-models/backstage-api-architecture#security-architecture) - Defense in depth
+   - [C4 Architecture Models](/docs/backstage/c4-models/) - System context, containers, components
+   - [Security Architecture](/docs/backstage/c4-models/backstage-api-architecture#security-architecture) - Defense in depth
 
 ### For Product Managers
 
 If you're evaluating the platform or planning implementations:
 
-1. **Feature Overview**
-   - [API Specification Mapping](/docs/specifications/api-spec-mapping) - Features to endpoints mapping
-   - [User API Specification](/docs/specifications/user-api-specification) - Detailed feature descriptions
-
-2. **Integration Capabilities**
-   - [External Integrations](/docs/specifications/backstage-api-specification#10-integration-points) - Third-party systems
-   - [Webhook Events](/docs/specifications/backstage-api-specification#103-webhooks-outbound) - Real-time notifications
+1. **API Documentation**
+   - [Backstage API Technical Specification](/docs/backstage/specifications/backstage-api-specification) - Complete unified spec
+   - [Admin API Reference](/docs/backstage/apis/admin/law-firm-admin-provisioning-api-logto-managed-rbac) - Interactive API docs
+   - [User API Reference](/docs/backstage/apis/user/law-firm-user-portal-api) - Interactive API docs
 
 ### For Architects
 
 If you're designing system integrations or infrastructure:
 
 1. **Architecture Documentation**
-   - [Backstage API Architecture](/docs/c4-models/backstage-api-architecture) - Complete C4 models
-   - [Deployment Architecture](/docs/c4-models/backstage-api-architecture#deployment-architecture) - AWS multi-AZ setup
+   - [Backstage API Architecture](/docs/backstage/c4-models/backstage-api-architecture) - Complete C4 models
+   - [Deployment Architecture](/docs/backstage/c4-models/backstage-api-architecture#deployment-architecture) - AWS multi-AZ setup
 
 2. **Data Models**
    - [Database Schema](/docs/architecture/database-schema) - 23 slices, 100+ tables
-   - [Data Flow Diagrams](/docs/c4-models/backstage-api-architecture#component-diagram) - Request/response flows
+   - [Component Architecture](/docs/backstage/c4-models/backstage-api-architecture#level-3-component-diagram) - API component structure
+   - [Data Flow Diagrams](/docs/backstage/c4-models/backstage-api-architecture#data-flow-diagrams) - Request/response flows
 
 ---
 
@@ -311,11 +309,11 @@ If you're designing system integrations or infrastructure:
 
 Ready to dive in? Here's how to get started:
 
-1. **Explore the APIs**: Browse the [Admin API](/docs/admin-api/law-firm-admin-provisioning-api-logto-managed-rbac) and [User API](/docs/user-api/law-firm-user-portal-api) documentation
+1. **Explore the APIs**: Browse the [Admin API](/docs/backstage/apis/admin/law-firm-admin-provisioning-api-logto-managed-rbac) and [User API](/docs/backstage/apis/user/law-firm-user-portal-api) documentation
 
-2. **Review the Architecture**: Understand the [system architecture](/docs/c4-models/backstage-api-architecture) and [database design](/docs/architecture/database-schema)
+2. **Review the Architecture**: Understand the [system architecture](/docs/backstage/c4-models/backstage-api-architecture) and [database design](/docs/architecture/database-schema)
 
-3. **Read the Specifications**: Deep dive into the [technical specifications](/docs/specifications/) for implementation details
+3. **Read the Specifications**: Deep dive into the [technical specifications](/docs/backstage/specifications/) for implementation details
 
 4. **Try the Sandbox**: Access our sandbox environment to test integrations
 

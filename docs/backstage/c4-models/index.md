@@ -110,20 +110,18 @@ Platform-wide overview diagrams:
 ## 🔗 Related Documentation
 
 ### API Documentation
-- [Backstage API Reference](/docs/admin-api/law-firm-admin-provisioning-api-logto-managed-rbac) - Unified Admin + User API docs
-  - [Admin API](/docs/admin-api/law-firm-admin-provisioning-api-logto-managed-rbac) - 34 administrative endpoints
-  - [User API](/docs/user-api/law-firm-user-portal-api) - 37 user-facing endpoints
+- [Backstage API Reference](/docs/backstage/apis/admin/law-firm-admin-provisioning-api-logto-managed-rbac) - Unified Admin + User API docs
+  - [Admin API](/docs/backstage/apis/admin/law-firm-admin-provisioning-api-logto-managed-rbac) - 34 administrative endpoints
+  - [User API](/docs/backstage/apis/user/law-firm-user-portal-api) - 37 user-facing endpoints
 
 ### Technical Specifications
-- [Backstage API Technical Specification](/docs/specifications/backstage-api-specification) - Complete unified spec
-- [User API Technical Specification](/docs/specifications/user-api-specification) - User API deep-dive
+- [Backstage API Technical Specification](/docs/backstage/specifications/backstage-api-specification) - Complete unified spec
 
 ### Data & Schema
 - [Database Schema](/docs/architecture/database-schema) - Complete ERD with 23 slices, 100+ tables
 
 ### Getting Started
 - [Introduction](/docs/intro) - Overview and getting started
-- [API Specification Mapping](/docs/specifications/api-spec-mapping) - Feature to endpoint mapping
 
 ## 📝 Diagram Format
 

@@ -228,6 +228,6 @@ When the database schema changes:
 
 ## Related Documentation
 
-- [Admin API Reference](/docs/admin-api/law-firm-admin-provisioning-api-logto-managed-rbac)
-- [User API Reference](/docs/user-api/law-firm-user-portal-api)
-- [RBAC & Permissions](/docs/specifications/)
+- [Admin API Reference](/docs/backstage/apis/admin/law-firm-admin-provisioning-api-logto-managed-rbac)
+- [User API Reference](/docs/backstage/apis/user/law-firm-user-portal-api)
+- [RBAC & Permissions](/docs/backstage/specifications/)

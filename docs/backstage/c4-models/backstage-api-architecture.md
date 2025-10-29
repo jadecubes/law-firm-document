@@ -1016,20 +1016,20 @@ graph TB
 ## Related Documentation
 
 ### API Documentation
-- [Admin API Reference](/docs/admin-api/law-firm-admin-provisioning-api-logto-managed-rbac) - All 34 admin endpoints
-- [User API Reference](/docs/user-api/law-firm-user-portal-api) - All 37 user endpoints
+- [Admin API Reference](/docs/backstage/apis/admin/law-firm-admin-provisioning-api-logto-managed-rbac) - All 34 admin endpoints
+- [User API Reference](/docs/backstage/apis/user/law-firm-user-portal-api) - All 37 user endpoints
 
 ### Technical Specifications
-- [User API Technical Specification](/docs/specifications/user-api-specification) - Complete technical spec
+- [Backstage API Technical Specification](/docs/backstage/specifications/backstage-api-specification) - Complete unified spec
 - [Database Schema](/docs/architecture/database-schema) - Complete ERD with 23 slices
 
 ### Architecture Documentation
-- [System Context](/docs/c4-models/system-context) - Overall system landscape
-- [Container Diagram](/docs/c4-models/container-diagram) - Platform container structure
+- [System Context](/docs/backstage/c4-models/system-context) - Overall system landscape
+- [Container Diagram](/docs/backstage/c4-models/container-diagram) - Platform container structure
 
 ### Getting Started
 - [Introduction](/docs/intro) - System overview
-- [Backstage Specifications](/docs/specifications/) - Technical specifications
+- [Backstage Specifications](/docs/backstage/specifications/) - Technical specifications
 
 ---
 

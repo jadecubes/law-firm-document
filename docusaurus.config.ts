@@ -79,19 +79,19 @@ const config: Config = {
         config: {
           adminApi: {
             specPath: "openapi/admin-api.yaml",
-            outputDir: "docs/admin-api",
+            outputDir: "docs/backstage/apis/admin",
             sidebarOptions: {
               groupPathsBy: "tag",
             },
           } satisfies OpenApiPlugin.Options,
           userApi: {
             specPath: "openapi/user-apis.yaml",
-            outputDir: "docs/user-api",
+            outputDir: "docs/backstage/apis/user",
             sidebarOptions: {
               groupPathsBy: "tag",
             },
           } satisfies OpenApiPlugin.Options,
-        } satisfies OpenApiPlugin.Options,
+        },
       },
     ],
   ],
@@ -106,7 +106,9 @@ const config: Config = {
     // Replace with your project's social card
     image: 'img/docusaurus-social-card.jpg',
     colorMode: {
-      respectPrefersColorScheme: true,
+      defaultMode: 'light',
+      disableSwitch: false,
+      respectPrefersColorScheme: false,
     },
     navbar: {
       title: 'LawFirm Docs',
@@ -150,7 +152,7 @@ const config: Config = {
             },
             {
               label: 'API Reference',
-              to: '/docs/admin-api/law-firm-admin-provisioning-api-logto-managed-rbac',
+              to: '/docs/backstage/apis/admin/law-firm-admin-provisioning-api-logto-managed-rbac',
             },
           ],
         },
@@ -159,15 +161,15 @@ const config: Config = {
           items: [
             {
               label: 'System Context',
-              to: '/docs/c4-models/system-context',
+              to: '/docs/backstage/c4-models/system-context',
             },
             {
               label: 'Container Diagram',
-              to: '/docs/c4-models/container-diagram',
+              to: '/docs/backstage/c4-models/container-diagram',
             },
             {
               label: 'Component Diagram',
-              to: '/docs/c4-models/component-diagram',
+              to: '/docs/backstage/c4-models/component-diagram',
             },
           ],
         },
@@ -175,12 +177,12 @@ const config: Config = {
           title: 'Resources',
           items: [
             {
-              label: 'Specifications',
-              to: '/docs/specifications/',
+              label: 'Technical Specifications',
+              to: '/docs/backstage/specifications/',
             },
             {
-              label: 'API Spec Mapping',
-              to: '/docs/specifications/api-spec-mapping',
+              label: 'Database Schema',
+              to: '/docs/architecture/database-schema',
             },
           ],
         },
