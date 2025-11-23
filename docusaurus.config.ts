@@ -118,6 +118,11 @@ const config: Config = {
       },
       items: [
         {
+          href: 'https://dbdocs.io/debra321/law-firm',
+          label: 'ER Diagram',
+          position: 'left',
+        },
+        {
           type: 'docSidebar',
           sidebarId: 'specsSidebar',
           position: 'left',
