@@ -85,16 +85,6 @@ law-firm-doc/
 1. Create a new `.md` file in `docs/c4-models/`
 2. Add Mermaid code blocks with C4 syntax:
 
-```markdown
-\`\`\`mermaid
-C4Context
-    title My System Context
-    Person(user, "User", "Description")
-    System(system, "System", "Description")
-    Rel(user, system, "Uses")
-\`\`\`
-```
-
 Supported C4 diagram types:
 - `C4Context` - System context
 - `C4Container` - Container view
