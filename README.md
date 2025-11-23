@@ -17,13 +17,7 @@ A comprehensive documentation site built with Docusaurus featuring C4 architectu
 - Entity-relationship diagrams
 - Test scenarios
 
-### 3. SpecKit AI-Driven Specifications
-- GitHub SpecKit integration
-- AI-assisted specification creation
-- Automated planning and task generation
-- Specs automatically appear in Docusaurus
-
-### 4. Admin API Documentation
+### 3. Admin API Documentation
 - Auto-generated from OpenAPI 3.1 specs
 - Interactive API playground for admin endpoints
 - Complete RBAC and provisioning API
